@@ -1,0 +1,61 @@
+<div class="full chat container">
+ <header>
+  <a href="/messages" class="inbox ion-chevron-left"> Inbox</a>
+  {{#each r.users}}<label>{{name}}</label>{{/each}}
+ </header>
+  <ul id="chat">
+{{#each r.history}}
+    <li {{#if user.avatar }}{{else}}class="me"{{/if}}>
+      <time>{{ ago _id }}</time>
+      {{#if user.avatar }}<img src="{{ user.avatar }}" alt="{{ user.name }}">{{/if}}
+      <div>{{ markup text}}</div>
+    </li>
+{{/each}}
+  </ul> 
+  <form id="messageForm">
+    <fieldset>
+      <input type="hidden" id="chatId" value="{{r._id}}" />
+      <input type="hidden" id="postId" value="{{r.postId}}" />
+      <textarea id="text" placeholder="type message ..."></textarea>
+      <a class="ion-android-send btn" href="#"></a>
+    </fieldset>
+  </form>
+</div>
+
+<script
+  src="http://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+<script>
+// Attach a submit handler to the form
+function scrollBottom() {
+  $('#chat').scrollTop($('#chat')[0].scrollHeight - $('#chat')[0].clientHeight);
+}
+
+$(function() {
+  scrollBottom();
+
+  $("#messageForm .btn").click(function(event) { 
+    event.preventDefault();
+
+    // Stop form from submitting normally
+   
+    // Get some values from elements on the page:
+    var $form = $("#messageForm"),
+      text = $form.find("#text").val();
+    var data = { text: text }
+    if ($form.find("#chatId").val())
+      data.chatId = $form.find("#chatId").val()
+    if ($form.find("#postId").val()) 
+      data.postId = $form.find("#postId").val()
+
+    var posting = $.post("/api/chats/message", data).done(function( data ) {
+      $("#chat").append('<li class="me"><time>just now</time><div>'
+        +text+'</div></li>');
+      scrollBottom();
+    })
+      
+    $form.find("#text").val('')
+  })
+});
+</script>

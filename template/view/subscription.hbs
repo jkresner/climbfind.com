@@ -1,0 +1,72 @@
+<div class="full subscription container">
+
+ <header>
+  <a href="/account" class="account cancel"> Cancel</a>
+  <label>{{r.place.name}}</label>  
+ </header>
+
+  <img src="{{r.place.logo}}" />
+<br />
+<form>
+  <fieldset>
+  <div class="form-group">
+    <label for="beat">Notifications</label>
+    <select id="beat" class="form-control">
+      <option value="instant">As people post</option>
+      <option value="weekly">Grouped Weekly</option>
+      <option value="off">Off</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <select id="email" class="form-control">
+      <option value="on">On</option>
+      <option value="off" {{#if r.email}}{{else}}selected{{/if}}>Off</option>
+    </select>
+  </div>  
+  <div class="form-group">
+    <label for="push">Push (coming soon)</label>
+    <select id="push" class="form-control">
+      <option value="on">On</option>
+      <option value="off" {{#if r.push}}{{else}}selected{{/if}}>Off</option>
+    </select>
+  </div>    
+  
+  <a class="submit btn btn-default">Save</a>
+
+    </fieldset>
+  </form>
+
+
+</div>
+
+<script
+  src="http://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+$(function() {
+  $('#beat').val('{{r.beat}}')
+  var data = { _id: '{{r._id}}' }
+  
+  function submit() {
+    data.email = $('#email').val()
+    data.push = $('#push').val()
+    data.beat = $('#beat').val()
+    
+    $.ajax({
+      type: 'PUT',
+      url: "/api/subscriptions/"+data._id,
+      data: data,
+      dataType: 'json',
+      success: function(r) {
+        window.location = '/account'
+      }
+    });
+  }
+
+  $('a.submit').click(submit)
+
+});
+</script>

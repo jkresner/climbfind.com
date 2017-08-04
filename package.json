@@ -1,0 +1,22 @@
+{
+  "name": "climbfind.com",
+  "description": "Find climbing partners",
+  "version": "0.0.1",
+  "private": true,
+  "author": "jkresner & dioptre",
+  "engines": {
+    "node": "8.1.4",
+    "npm": "5.2.0"
+  },
+  "scripts": {
+    "setup": "npm install",
+    "start": "node ./server/index.js",
+    "test-server": "coffee test/server/index.coffee"
+  },
+  "dependencies": {
+    "honeycombjs": "0.9.0"
+  },
+  "devDependencies": {
+    "screamjs": "0.7.0"
+  }
+}

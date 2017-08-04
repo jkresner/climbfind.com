@@ -1,0 +1,54 @@
+<div id="settings" class="container">
+
+  <div id="notify">
+
+{{r.me.email}}
+
+<img class="usr" src="{{r.me.avatar}}" />
+
+<h4>Notifications</h4>
+{{#if r.subscriptions}} 
+<ul id="subs">{{#each r.subscriptions}}
+  <li>
+    <a href="/subscriptions/{{_id}}">
+      <img src="{{place.avatar}}" />
+      <h4>{{place.shortName}}</h4>
+      <div>{{beat}}</div>
+      <i class="glyphicon glyphicon-envelope {{email}}" aria-hidden="true"></i>
+      <i class="glyphicon glyphicon-phone {{push}}" aria-hidden="true"></i>
+    </a>
+  </li>
+{{/each}}</ul>
+{{else}}
+<p>After you post to a location, you can configure your notification settings here.</p>
+{{/if}}
+  </div>
+
+  <div class="feed">
+  <h4>Posts by you</h4>
+  <ul id="feed">
+    {{#each r.posts}}{{> postTile this}}{{/each}}
+  </ul>
+  </div>
+
+
+</div>
+
+
+{{!-- <h2>Account</h2>
+
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">Pic</label>
+    <div class="col-sm-10">
+      <input type="url" class="form-control" id="url3" placeholder="url">
+    </div>
+  </div>
+</form>
+ --}}

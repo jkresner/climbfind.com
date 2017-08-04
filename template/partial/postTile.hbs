@@ -1,0 +1,24 @@
+<li>
+  <a href="{{#if me}}#{{else}}/reply/{{_id}}{{/if}}">    
+    {{#if me}}{{else}}<i class="ion-chatboxes"> </i>{{/if}}
+    <img class="usr" src="{{user.avatar}}" alt="{{user.name}}" />
+    <h3>{{ first user.name}}</h3>    
+    <h4><time>{{ date time }}</time> <span>@</span> {{place.shortName}}</h4>
+    <div>{{{markup message}}}</div>
+    <footer>
+      <div>
+        {{#if me}}
+        {{else}}
+        <i class="glyphicon glyphicon-comment"></i>
+        <span> Reply </span>
+        {{/if}}
+      </div>
+
+      <ul>{{#each climbing }}
+        <li><img src="/climb-{{climb this}}.png" /></li>{{/each}}
+      </ul>
+
+      {{#if place.logo}}<img class="place" src="{{place.logo}}" alt="{{place.name}}" />{{/if}}
+    </footer>      
+  </a>      
+</li>

@@ -1,0 +1,72 @@
+{
+  "about":                     "package.json:name,version,author,bugs,repository",
+  "auth": {
+    "appKey":                  "cf",
+    "loginUrl":                "/login",
+    "oauth": {
+      "github":                "{{undefine}}",
+      "facebook": {
+        "signup":              true,
+        "login":               true,
+        "short":               "fb",
+        "profileFields":       ["id","displayName","name","gender","profileUrl","emails","picture.width(480).height(480)"],
+        "scope":               ["email","public_profile"],
+        "clientID":            "{{required}}",
+        "clientSecret":        "{{required}}"
+      }
+    },
+    "wrappers":               false
+  },
+  "comm": {
+    "mode":                    "stub",
+    "transports":              ["ses"]
+  },
+  "http": {
+    "port":                   3336,
+    "static": {
+      "dirs":                 "template/static",
+      "favicon":              { "root": "template/static" }
+    }
+  },
+  "middleware": {
+    "session": {
+      "authdData":            "_id name avatar",
+      "store":                 { "collection": "sessions" }
+    },
+    "forbid": {
+      "adm":                  "597e2f52755541797ea3d8b7"
+    }
+  },
+  "model": {
+    "cache": {
+      "on":                   true,
+      "require":              "templates:templates,places:places"
+    }
+  },
+  "log": {
+    "appKey":                  "cf",
+    "errors": {
+      "mail":                  { "to": "jk@climbfind.com", "sender": "ERR <contact@climbfind.com>" }
+    }
+  },
+  "templates": {
+    "dirs": {
+      "helpers":               "template/helper",
+      "partials":              "template/partial",
+      "views":                 "template/view"
+    }
+  },
+  "wrappers": {
+    "dirs":                    "wrappers",
+    "ses": {
+      "accessKeyId":           "{{required}}",
+      "secretAccessKey":       "{{required}}"
+    },
+    "places": {
+      "key":                   "{{required}}"
+    },
+    "facebook": {
+
+    }
+  }
+}

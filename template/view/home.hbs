@@ -1,0 +1,92 @@
+<div id="home" class="container">
+
+  {{#if authenticated}}
+  {{else}}
+  <div id="welcome">
+    <h1>Find rock climbing partners</h1>
+    <p class="lead">Post and browse <em>partner calls</em>. Get instant or weekly partner notifications.</p>
+    <a class="fb-login-button ion-social-facebook" href="/auth/facebook/callback">
+      <span>Login with facebook</span>
+    </a>
+  </div>
+  {{/if}}
+
+
+  {{#if authenticated}}
+  {{else}}
+<section id="places">
+  <div>
+
+    <a href="/climbing-partners?pid=59816cc8e4a22e93f12550da"
+        title="Earth Treks Baltimore Climbing Partners">
+        <img src="https://i.imgur.com/Pfr82YI.png" />
+      </a>  
+
+    <a href="/climbing-partners?pid=597e2073dba1187878dcbb50"
+        title="Alien Rock Indoor Climbing Partners">
+        <img src="https://i.imgur.com/5U2i9E3.png" />
+      </a>  
+
+    <a href="/climbing-partners?pid=597e2074dba1187878dcbc24"
+        title="Brooklyn Boulders Rock Climbing Partners">
+        <img src="https://i.imgur.com/61ljivf.png" />
+      </a>
+
+    <a href="/climbing-partners?pid=597e2073dba1187878dcbaf0"
+        title="Planet Granite Rock Climbing Partners">
+        <img src="https://i.imgur.com/lSZ0VfZ.png" />
+      </a>
+
+    <a href="/climbing-partners?pid=597e2073dba1187878dcbac4"
+        title="Repoint Climbing Centre Birmingham Climbing Partners">
+        <img src="https://i.imgur.com/H9kwiSw.png" />
+      </a>   
+
+    <a href="/climbing-partners?pid=597e2073dba1187878dcbb4c"
+        title="True North Climbing Toronto Climbing Partners">
+        <img src="https://i.imgur.com/KRmr8dp.png" />
+      </a>
+
+    <a href="/climbing-partners?pid=597e2074dba1187878dcbc16"
+        title="The Arch London Bouldering Partners">
+        <img src="https://i.imgur.com/NcVGrBw.png" />
+      </a>        
+
+   <a href="/climbing-partners?pid=597e2073dba1187878dcbb70"
+        title="The Spot Boulder Climbing Partners">
+        <img src="https://i.imgur.com/PSBi2fD.png" />
+      </a>        
+
+
+    <a href="/climbing-partners?pid=597e2073dba1187878dcbb20"
+        title="Mission Cliffs Rock Climbing Partners">
+        <img style="padding-bottom:0px;padding-top:0px" src="https://touchstoneclimbing.com/mission-cliffs/wp-content/uploads/sites/12/2014/11/MC-Large.svg" />
+      </a>
+
+      <a href="/climbing-partners?pid=597e2074dba1187878dcbc1c"
+        title="The Castle London Rock Climbing Partners">
+        <img src="https://i.imgur.com/ezuPUeE.png" />
+      </a>
+
+      <a href="/climbing-partners?pid=59816cc8e4a22e93f12550b4"
+        title="The Climbing Academy Bristol Climbing Partners">
+        <img src="https://i.imgur.com/wKrZYuL.png" />
+      </a>
+  
+
+  </div>
+</section>
+  {{/if}}
+
+<div class="feed">
+  {{#if feed.onlyme}}
+    <h3>Looks like you're the fist here...</h3>
+    <p>Hooorah! You'll also be the first notified of the next person looking for partners at your gym!</p>
+  {{/if}}
+
+  <ul id="feed">
+    {{#each r }}{{> postTile this}}{{/each}}
+  </ul>
+</div>
+
+</div>
