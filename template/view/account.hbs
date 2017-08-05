@@ -2,15 +2,22 @@
 
   <div id="notify">
 
-{{r.me.email}}
-
 <img class="usr" src="{{r.me.avatar}}" />
 
 <h4>Notifications</h4>
-{{#if r.subscriptions}} 
-<ul id="subs">{{#each r.subscriptions}}
+
+<ul>
+  <li>{{#with r.settings.notify.messages}}
+    <img src="/climb-partner-96.png" class="cf-ico" />
+    <h4>Messages</h4>
+    <div>Instant</div>
+    <i class="glyphicon glyphicon-envelope {{email}}" aria-hidden="true"></i>
+    <i class="glyphicon glyphicon-phone {{push}}" aria-hidden="true"></i>
+    {{/with}}
+  </li>
+{{#each r.subscriptions}}
   <li>
-    <a href="/subscriptions/{{_id}}">
+    <a href="/notifications/{{_id}}">
       <img src="{{place.avatar}}" />
       <h4>{{place.shortName}}</h4>
       <div>{{beat}}</div>
@@ -18,8 +25,9 @@
       <i class="glyphicon glyphicon-phone {{push}}" aria-hidden="true"></i>
     </a>
   </li>
-{{/each}}</ul>
-{{else}}
+{{/each}}
+</ul>
+{{#if r.subscriptions}}{{else}}
 <p>After you post to a location, you can configure your notification settings here.</p>
 {{/if}}
   </div>

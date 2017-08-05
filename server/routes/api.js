@@ -3,12 +3,16 @@ module.exports = (app, mw) => {
 
   app.API('places', { baseUrl:'/api/mod/places' })
     .params('place')
-    .uses('authd adm')
+    .uses('adm')
     .get({ listPlace:            '',
            getPlace:             'place'               })
     .put({ updatePlace:          'place body'          })
-      //      approvePlace:      'place body'          })
     .delete({ deletePlace:       'place'               })
+
+
+  app.API('mod')
+    .uses('adm')
+    .get({ goals:                '',                   })
 
 
   app.API('posts')

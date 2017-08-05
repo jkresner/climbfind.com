@@ -32,22 +32,16 @@ module.exports = (DAL, Data, DRY) => ({
 
       DAL.Post.create(data, (e,r) => {
         if (e) return cb(e)
-
-        cb(e, assign(r, {place,user}))
+        assign(r, {place,user})
+        cb(e, r)
         var q = { userId: user._id, placeId: place._id }
         DAL.Subscription.getByQuery(q, (e2, sub) => {
+          DRY.settings.getSet(user._id, {tz:data.tz})
           if (!e2 && !sub)
             DAL.Subscription.create(assign({meta:data.meta},q))
         })
 
-        // var comms = [
-          // { type:'post:instant', scheduled: moment().utc() },
-          // { type:'post:daily', scheduled: localDayStart.add(9, 'hour') },
-          // { type:'post:weekly',  },
-        // ]
-        // DAL.Comm.create({type:'post'
-//
-        // })
+        TRACK('post', this, r)
       })
     })
   },

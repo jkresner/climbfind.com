@@ -1,7 +1,7 @@
 <div id="home" class="container">
 
-  {{#if authenticated}}
-  {{else}}
+{{#if authenticated}}
+{{else}}
   <div id="welcome">
     <h1>Find rock climbing partners</h1>
     <p class="lead">Post and browse <em>partner calls</em>. Get instant or weekly partner notifications.</p>
@@ -9,11 +9,10 @@
       <span>Login with facebook</span>
     </a>
   </div>
-  {{/if}}
+{{/if}}
 
 
-  {{#if authenticated}}
-  {{else}}
+{{#if feed.nosubscriptions}}
 <section id="places">
   <div>
 
@@ -58,7 +57,7 @@
       </a>        
 
 
-    <a href="/climbing-partners?pid=597e2073dba1187878dcbb20"
+    <a href="/climbing-partners?pid=597e2073dba1187878dcbb70dcbb20"
         title="Mission Cliffs Rock Climbing Partners">
         <img style="padding-bottom:0px;padding-top:0px" src="https://touchstoneclimbing.com/mission-cliffs/wp-content/uploads/sites/12/2014/11/MC-Large.svg" />
       </a>
@@ -76,13 +75,21 @@
 
   </div>
 </section>
-  {{/if}}
+{{/if}}
 
 <div class="feed">
-  {{#if feed.onlyme}}
-    <h3>Looks like you're the fist here...</h3>
-    <p>Hooorah! You'll also be the first notified of the next person looking for partners at your gym!</p>
-  {{/if}}
+
+{{#if feed.nosubscriptions}}
+  <h3>Where you are looking for partners?</h3>
+  <p>Post your first partner call to
+     setup your personalized partners feed.
+  </p>  
+{{/if}}
+{{#if feed.onlyme}}
+    <h3>Looks like you're the first here...</h3>
+    <p>Hooorah!</p>
+    <p>You'll be the first notified of the next person looking for a partner at your gym!</p>
+{{/if}}
 
   <ul id="feed">
     {{#each r }}{{> postTile this}}{{/each}}

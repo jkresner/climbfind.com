@@ -15,6 +15,7 @@
         "clientSecret":        "{{required}}"
       }
     },
+    "user":                   { "settings": true },
     "wrappers":               false
   },
   "comm": {
@@ -45,6 +46,15 @@
   },
   "log": {
     "appKey":                  "cf",
+    "analytics": {
+      "on":                    true,
+      "ga":                    { "web": "UA-XXXXYYYY-N" },
+      "model": {
+        "collections":         { "event": "Event", "view": "View", "issue": "Issue" },
+        "mongoUrl":            "mongodb://localhost/cf_test",
+        "enums":               false
+      }
+    },
     "errors": {
       "mail":                  { "to": "jk@climbfind.com", "sender": "ERR <contact@climbfind.com>" }
     }
@@ -64,9 +74,6 @@
     },
     "places": {
       "key":                   "{{required}}"
-    },
-    "facebook": {
-
     }
   }
 }

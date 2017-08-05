@@ -41,7 +41,8 @@
     </div>          
     <div class="message form-group">  
       <label for="message">Message</label>             
-      <textarea id="message" placeholder="What times and difficulty and partner preferences do you want to share?"></textarea>
+      <img src="{{session.avatar}}" class="usr" />
+      <textarea id="message" placeholder="What times, difficulty and partner preferences can you to share?"></textarea>
       {{!-- <span class="help-block">Up to 256 characters</span> --}}
     </div>
     </fieldset>
@@ -90,11 +91,11 @@ $(function() {
     $('.btn-group input').attr('checked', false)
     if (place) {
       $('.places select').hide()  
-      $('form .logo').html('<img src='+place.logo+'/>').show()
+      $('form .logo').html('<img src="'+place.logo+'" />').show()
       $('.btn-group label').each(function() {
         $(this).toggle(place.climbing.indexOf($(this).find('input')[0].id)>-1) })
+      $places.addClass('done')
     }
-    $places.addClass('done')
     return !$climbing.toggle(!!data.placeId)    
   })
 

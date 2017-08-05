@@ -13,9 +13,14 @@ asSchema({
   meta:           { type: Meta },
   deleted:        { type: Touch },
 
+  comm: {
+    notify:       { type: Id, ref: 'Comm', sparse },
+    weekly:       { type: [{type:Id, ref: 'Comm'}], required: false }
+  },
+
   tz: {
     id:           { type: String, required },
     utc_offset:   { type: Number, required }
-  },
+  }
 
 })

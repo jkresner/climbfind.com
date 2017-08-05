@@ -5,7 +5,7 @@
   <label>{{r.place.name}}</label>  
  </header>
 
-  <img src="{{r.place.logo}}" />
+  <img class="logo" src="{{r.place.logo}}" />
 <br />
 <form>
   <fieldset>
@@ -17,18 +17,33 @@
       <option value="off">Off</option>
     </select>
   </div>
+
+  <div class="form-group">
+    <label for="indoor">Indoor</label>
+    <select id="indoor" class="form-control">
+      <option value="on">On</option>
+      <option value="off">Off</option>
+    </select>
+  </div>  
+  <div class="form-group">
+    <label for="outdoor">Outdoor</label>
+    <select id="outdoor" class="form-control">
+      <option value="on">On</option>
+      <option value="off">Off</option>
+    </select>
+  </div>    
   <div class="form-group">
     <label for="email">Email</label>
     <select id="email" class="form-control">
       <option value="on">On</option>
-      <option value="off" {{#if r.email}}{{else}}selected{{/if}}>Off</option>
+      <option value="off">Off</option>
     </select>
   </div>  
   <div class="form-group">
     <label for="push">Push (coming soon)</label>
     <select id="push" class="form-control">
       <option value="on">On</option>
-      <option value="off" {{#if r.push}}{{else}}selected{{/if}}>Off</option>
+      <option value="off">Off</option>
     </select>
   </div>    
   
@@ -47,11 +62,17 @@
 <script type="text/javascript">
 
 $(function() {
-  $('#beat').val('{{r.beat}}')
-  var data = { _id: '{{r._id}}' }
+  var data = {{{ JSON r }}}
+  $('#beat').val(data.beat)
+  $('#email').val(data.email)
+  $('#push').val(data.push)
+  $('#indoor').val(data.indoor)
+  $('#outdoor').val(data.outdoor)
   
   function submit() {
     data.email = $('#email').val()
+    data.indoor = $('#indoor').val()
+    data.outdoor = $('#outdoor').val()
     data.push = $('#push').val()
     data.beat = $('#beat').val()
     

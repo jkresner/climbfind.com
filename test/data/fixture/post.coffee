@@ -24,9 +24,20 @@ module.exports =
     day:      3
     message:  "I'm looking to team up with a competent, confident, trad climber to lots of routes outdoors from May. Also happy to climb in other states."                     
 
-
   wkend:
     type:     'indoor'
     climbing: ['boulder','tr']        
     day:      2
     message:  "TR partner this weekend, Fri-Sun? My current partner is on marriage leave. Text 240.393.7276 or send me a message thanks!"    
+
+  comp:
+    type:     'indoor'
+    climbing: ['boulder']        
+    day:      5
+    message:  "Bouldering comp this week, would love to team up with someone to work through all the problems and share beta!"        
+
+  comeback:
+    type:     'indoor'
+    climbing: ['tr']        
+    day:      6
+    message:  "Haven't climbed for 5 years, but excited to get back into it! Perhaps start slow with some Top Rope. Down to climb with all."            

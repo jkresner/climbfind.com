@@ -1,4 +1,4 @@
-module.exports = ({Chat}, {Query,Opts,Project}, DRY) => ({
+module.exports = ({Chat,Post}, {Query,Opts,Project}, DRY) => ({
 
 
   validate(user, chat, text, post) {
@@ -16,26 +16,39 @@ module.exports = ({Chat}, {Query,Opts,Project}, DRY) => ({
   exec(chat, text, post, done) {
     var me = this.user
 
-    var meta = DRY.touchMeta((chat||{}).meta, 'send', me)
+    var meta = DRY.touchMeta((chat||{}).meta, 'message', me)
     var users = (chat||{}).users || [post.user, me]
     users.forEach(u => u.unread = !_.idsEqual(u._id,me._id))
     var history = (chat||{}).history || []
     var msg = { text, userId: me._id }
 
-    if (post) {
-      var existing = _.find(history, m => _.idsEqual(m.postId||'',post._id))
-      if (!existing)
-        history.unshift({ text:post.message, userId:post.user._id, postId:post._id })
+    var cb = (e,r) => {
+      done(e,{me,chat:r})
+      TRACK('chat.message', this, chat)
     }
 
+    if (post) {
+      var existing = _.find(history, m => _.idsEqual(m.postId||'', post._id))
+      if (!existing) {
+        history.unshift({ text:post.message, userId:post.user._id, postId:post._id })
+        TRACK('post.reply', this, post)
+        Post.updateSet(post._id, { meta: DRY.touchMeta(post.meta, 'reply', me) }, DRY.noop)
+      }
+    }
+
+
+
     history.unshift(msg)
-
-    var cb = (e,r) => done(e,{me,chat:r})
-
+    var data = { users, history, meta }
     if (chat)
-      Chat.updateSet(chat._id, { users, history, meta }, cb)
-    else
-      Chat.create({users, history, meta }, cb)
+      return Chat.updateSet(chat._id, data, cb)
+
+    Chat.getByQuery(Query.pair(post.user, me), Opts.chat, (e, r) => {
+      if (r)
+        Chat.updateSet(r._id, data, cb)
+      else
+        Chat.create(data, cb)
+    })
   },
 
 

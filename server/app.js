@@ -9,6 +9,7 @@ module.exports = function({config,done}) {
 
     app.honey.wire({model})
        .merge(Honey.Auth)
+       .track()
        .inflate(config.model.cache)
        .chain(config.middleware, config.routes)
        .run()

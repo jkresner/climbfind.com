@@ -43,7 +43,9 @@ body > header + * {          padding-top:42px }
  background:#f0f3f4; 
 }
 
-#home #welcome { background:white }
+#home #welcome {             background:white;
+                             margin:0;
+                             padding:20px 0 }
 #home h1  {                  color:#232323; }
 #home p  {                   padding:12px 0 12px 0;                             
                              max-width:94%;
@@ -114,6 +116,7 @@ body > header + * {          padding-top:42px }
                              display:block;
                              background:none;                             
                              position:relative;
+                             overflow:hidden;
                              text-align:left; }
 
 #feed .ion-chatboxes {       position:absolute;
@@ -179,7 +182,7 @@ body > header + * {          padding-top:42px }
                              font-weight:normal; 
                              line-height:18px;
                              font-size:14px }
-#feed li a > div {  margin:8px 0 46px 0;overflow:hidden; }
+#feed li a > div {  margin:10px 0 46px 0;overflow:hidden; }
 #feed ul {                   margin:8px auto 0 auto;
                              display:inline-block;
                              // position:absolute;
@@ -191,23 +194,26 @@ body > header + * {          padding-top:42px }
                              height:26px;
                              opacity:0.6 }
 #feed img.place {            position:absolute;
-                             right:0px;bottom:2px;
+                             right:0px;bottom:5px;
                              opacity:0.1;
                              border-radius:5px;
                              max-height:32px;
                              max-width:33%;
                               }
 #feed p {                    color:#222;
-                             padding:0px 4px 4px 4px;
+                             padding:0px 0px 4px 0px;
                              text-align:justify;
                              font-size:14px }
 #feed footer {    
     position:absolute;
     text-align:center;
-    bottom:3px;
+    background:white;
+    bottom:0;
     left:8px;
     right:8px;
-    height:41px;
+    height:44px;
+    z-index:1;
+    padding-bottom:3px;
     border-top:1px solid #fcf8f9
 }
 #feed footer div {           position:absolute;left:5px;}
@@ -283,23 +289,31 @@ body > footer a.active {     color:white; }
                              background:#f9f2f4;
                              margin:auto;
                              border-bottom:solid 1px #c8d6d3; }
-#notify h4 { margin:10px 0 0 0;padding:0;font-size:0.9em }                              
+#notify h4 { margin:10px 0 0 0;padding:0;font-size:0.9em;height:22px }                              
 #notify .usr {             width:54px;height:54px;margin-top:18px }
-#subs {                      padding:12px 4px; }
-#subs img       { max-width:50%; }
-#subs li       {
+#notify ul {        display:inline-block;padding:12px 0px; }
+#notify ul img       { max-width:50%;max-height:48px }
+#notify ul img.cf-ico {      width:44px;
+                             height:44px;                             
+                             display:inline-block;
+                             border:solid 3px black;
+                             border-left:solid 8px black;
+                             border-radius:6px;
+                             margin:2px
+                         }
+#notify ul li       {
     background:white;
     padding:4px; 
     max-width:32%;
     width:110px;
     border-radius:5px;
     border:solid 2px #d3d3d3 }
-#subs li i.off      {  opacity:0.3;color:gray  }
-#subs h4 { font-size:0.75em;color:#151821;margin:4px 1px 1px 1px }    
-#subs div { font-size:0.75em;display:block;width:100%;
+#notify ul li i.off      {  opacity:0.3;color:gray  }
+#notify ul h4 { font-size:0.75em;color:#151821;margin:4px 1px 1px 1px }    
+#notify ul div { font-size:0.75em;display:block;width:100%;
     font-weight:bold;text-transform:uppercase;margin:6px 1px 1px 1px;
                              color:#ff5f2e }    
-#subs .icon    {             width:16px;
+#notify ul .icon    {             width:16px;
     height:16px;
     display:inline-block; }
 
@@ -449,6 +463,7 @@ body > footer a.active {     color:white; }
                              font-size:1.1em; 
                              color:black;                            
                              border:none!important;
+                             outline:none!important;
                              display:block; }                                                   
 .chat textarea:focus + .btn {  background:#ff5f2e; }     
 .chat .btn {                 position:absolute;
@@ -524,34 +539,32 @@ body > footer a.active {     color:white; }
                                margin:15px auto 0px auto 
                            }
 .post .climbing {       }
-.post .message {     
-    // padding:10px 0px;
-    background:white;
-    // position:absolute;
-    //                            height:30%;
-    //                            margin:0;
-    //                            bottom:0%;
-    //                            left:0;
-    //                            right:0; 
-}
+.post .message {             background:white;
+                             position:relative; }
+.post .message .usr {        width:74px;
+                             height:74px;
+                             position:absolute;
+                             top:15px;
+                             z-index:3;
+                             border:none;
+                             padding:0;
+                             border-radius:0;
+                             border-bottom-left-radius:10px;
+                             border-bottom-right-radius:10px }
+
 .post form select.form-control  { width:94%;font-size:17px;    
                                margin:18px auto }
 .post form textarea          { 
     border:none;
+    outline: none !important;
     border-top:solid 1px #E6F7F4;
     width:94%;
     resize:none;
     min-height:800px;
     margin:0 auto;
-    padding:20px;
+    padding:20px 20px 20px 90px;
     color:black;                            
  }
- // .post .message-group span { 
- //    font-size:0.9em;
- //    position:absolute;
- //    right:1%;left:1%;bottom:0px;
- // }
-
 
 .post .climbing label  { width:28%;
                                max-width:90px;
@@ -628,4 +641,7 @@ body > footer a.active {     color:white; }
 
 .subscription form {
     max-width:640px;margin:10px auto;
+}
+.subscription img.logo {
+    max-width:200px
 }

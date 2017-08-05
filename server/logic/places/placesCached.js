@@ -12,7 +12,7 @@ module.exports = ({Place}, Data, DRY) => ({
             _.select(hash.indoor[id], '_id name')))
 
 
-      cb(null, hash)
+      cb(null, hash, r.length)
     })
   }
 
