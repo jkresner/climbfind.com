@@ -24,7 +24,7 @@ var message = asSchema({
 return asSchema({
   users:           { type: [userRef], required },
   history:         { type: [message], required },
-  meta:            { type: Meta }
+  log:             { type: Meta }
 })
 
 

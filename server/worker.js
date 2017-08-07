@@ -4,39 +4,45 @@ var configure      = require('honeycombjs').Configure
 var config         = configure(__dirname, env, true)
 
 
-function ready(e) {
+function ready(e)   {
   console.log(`app  worker ${e ? 'init.fail' : 'started'}`, e||'')
 
-  function posts_weekly() {
-    $log(moment().format("HH:mm:ss"), 'posts_weekly'.green)
+  var jobs = {}
+  var queueInterval = (name, ms) => {
+    jobs[name] = {
+      work: function () {
+        var start = moment()
+        $log(moment().format("HH:mm:ss"), name.gray)
+        honey.logic.comm[name].exec((e,r) => {
+          var end = moment()
+          var ts = `${end.format("HH:mm:ss")} ${end.diff(start)}ms\t`
+          if (e) {
+            $log(ts, `${name} error`.red, e.message)
+            clearInterval(jobs[name].interval)
+          } else if (r)
+            $log(ts, `${name} success`.white, JSON.stringify(r))
+        })
+      }
+    }
+    jobs[name].interval = setInterval(jobs[name].work, ms)
   }
 
-  function posts_notify() {
-    var start = moment()
-    $log(start.format("HH:mm:ss"), 'start   posts_notify'.yellow)
-    honey.logic.comm.posts_notify.exec((e,r) => {
-      var end = moment()
-      var ts = `${end.format("HH:mm:ss")} ${end.diff(start)}ms\t`
-      if (e) $log(ts, 'posts_notify error'.red, e.message)
-      else if (r) $log(ts, 'posts_notify success'.cyan, r.meta.lastTouch.action)
-      else $log(ts, 'posts_notify nowork'.gray)
-    })
-  }
+  queueInterval('user_signup', 5000)
+  queueInterval('chat_message', 15000)
+  queueInterval('post_notify', 20000)
+  // queueInterval('posts_weekly', 5000)
 
-  function chats_message() {
-    var start = moment()
-    $log(start.format("HH:mm:ss"), 'start   chats_message'.yellow)
-    honey.logic.comm.chats_message.exec((e,r) => {
-      var end = moment()
-      var ts = `${end.format("HH:mm:ss")} ${end.diff(start)}ms\t`
-      if (e) $log(ts, 'chats_message error'.red, e.message)
-      else if (r) $log(ts, 'chats_message success'.cyan, r.meta.lastTouch.action)
-      else $log(ts, 'chats_message nowork'.gray)
-    })
-  }
 
-  setInterval(posts_notify, 15000)
-  setInterval(chats_message, 6000)
+  // function posts_weekly() {
+  //   $log(moment().format("HH:mm:ss"), 'posts_weekly'.green)
+  // }
+
+
+
+  // var job = {}
+  // job.welcome = setInterval(auth_signup, 3000)
+  // // setInterval(posts_notify, 15000)
+  // // setInterval(chats_message, 6000)
 }
 
 const Honey  = require('honeycombjs')

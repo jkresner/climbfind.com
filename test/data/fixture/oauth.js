@@ -7,7 +7,7 @@ module.exports = {
     first_name: 'Jonathon',
     gender: 'male',
     link: 'https://www.facebook.com/app_scoped_user_id/859305405104/',
-    email: 'jk@jk.com',
+    email: 'jkresner@gmail.com',
     picture: { 
       data: { 
         is_silhouette: false,

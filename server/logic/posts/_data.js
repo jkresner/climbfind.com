@@ -6,7 +6,6 @@ const Views = {
 
 const Query = {
   existing: d => _.select(d, '_id time userId placeId'),
-  notify:       { 'comm.notify': { $exists: false } },
   list: subs => ({ $or:
     subs.map(s=>({ placeId:s.placeId,
       type: { $in: ['indoor','outdoor','official'].filter(t => s[t]) }
@@ -18,13 +17,13 @@ const Query = {
 const Opts = {
   existing: { select: 'userId placeId time' },
 
-  item: { select: `_id time type climbing message userId placeId meta`,
+  item: { select: `_id time type climbing message userId placeId log`,
           join: { placeId: 'name shortName logo avatar',
                   userId: '_id name photos' } },
 
-  comm: { select: `_id time type tz climbing message userId placeId comm meta`,
-          sort: { _id: 1 },
-          join: { userId: '_id name photos' } },
+  param: { select: '_id userId placeId message log',
+          join: { placeId: '_id name',
+                  userId: '_id name photos' } },
 
   list: { sort: { time: 1, _id: -1 },
           select: `_id time type climbing message userId placeId`,
@@ -46,12 +45,8 @@ const Projections = ({select,util},{chain,view}) => ({
   localDay: d => {
     d.day = moment.tz(d.time, d.tz.id).format('DD MMM')
     delete d.time
+    // $log('posts.project.localDay'.yellow, d)
     return d
-  },
-
-  comm: d => {
-    var post = chain(d, 'user', 'place', 'localDay', view.item)
-    return { post }
   },
 
   param: d => chain(d, 'user'),

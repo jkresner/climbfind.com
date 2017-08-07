@@ -24,7 +24,7 @@ module.exports = (DAL, Data, DRY) => ({
 
   exec(original, update, cb) {
     var ups = {
-      meta: DRY.touchMeta(original.meta, 'update', this.user),
+      log: DRY.logAct(original, 'update', this.user),
       beat: update.beat,
       indoor: update.indoor == "on",
       outdoor: update.outdoor == "on",

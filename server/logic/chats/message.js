@@ -15,40 +15,35 @@ module.exports = ({Chat,Post}, {Query,Opts,Project}, DRY) => ({
 
   exec(chat, text, post, done) {
     var me = this.user
-
-    var meta = DRY.touchMeta((chat||{}).meta, 'message', me)
-    var users = (chat||{}).users || [post.user, me]
-    users.forEach(u => u.unread = !_.idsEqual(u._id,me._id))
-    var history = (chat||{}).history || []
     var msg = { text, userId: me._id }
 
     var cb = (e,r) => {
       done(e,{me,chat:r})
-      TRACK('chat.message', this, chat)
+      TRACK('chat.message', this, r)
     }
 
-    if (post) {
-      var existing = _.find(history, m => _.idsEqual(m.postId||'', post._id))
-      if (!existing) {
-        history.unshift({ text:post.message, userId:post.user._id, postId:post._id })
-        TRACK('post.reply', this, post)
-        Post.updateSet(post._id, { meta: DRY.touchMeta(post.meta, 'reply', me) }, DRY.noop)
+    var save = r => {
+      r = r || chat
+      var log = DRY.logAct(r, 'message', me)
+      var users = (r||{}).users || [post.user, me]
+      users.forEach(u => u.unread = !_.idsEqual(u._id,me._id))
+      var history = (r||{}).history || []
+      if (post) {
+        var reply = _.find(history, m => _.idsEqual(m.postId||'', post._id))
+        if (!reply) {
+          history.unshift({ text:post.message, userId:post.user._id, postId:post._id })
+          Post.updateSet(post._id, { log: DRY.logAct(post, 'reply', me) }, DRY.noop)
+          TRACK('post.reply', this, post)
+        }
       }
+      history.unshift(msg)
+
+      if (chat) Chat.updateSet(r._id, { users, history, log }, cb)
+      else Chat.create({ users, history, log }, cb)
     }
 
-
-
-    history.unshift(msg)
-    var data = { users, history, meta }
-    if (chat)
-      return Chat.updateSet(chat._id, data, cb)
-
-    Chat.getByQuery(Query.pair(post.user, me), Opts.chat, (e, r) => {
-      if (r)
-        Chat.updateSet(r._id, data, cb)
-      else
-        Chat.create(data, cb)
-    })
+    chat ? save()
+         : Chat.getByQuery(Query.pair(post.user, me), (e,r)=>e?cb(e):save(r))
   },
 
 

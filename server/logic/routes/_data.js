@@ -7,17 +7,24 @@ const Query = {
 const Opts = {
 }
 
-const Projections = ({},{chain}) => ({
+const Projections = ({select},{chain}) => ({
 
-  chats_message: c => ({
-    chat: {
-      ses: `${config.http.host}/messages/${c._id}?message=${c.history[0]._id}&comm=chats_message:ses`
+  user_welcome: ({user}) => ({
+    post: {
+      ses: `${config.http.host}/partner-call?comm=auth_signup:ses`
     }
   }),
 
-  posts_notify: p => ({
+
+  chat_message: ({chat,message}) => ({
+    chat: {
+      ses: `${config.http.host}/messages/${chat._id}?message=${message._id}&comm=chats_message:ses`
+    }
+  }),
+
+  post_notify: ({post}) => ({
     reply: {
-      ses: `${config.http.host}/reply/${p._id}?comm=posts_notify:ses`
+      ses: `${config.http.host}/reply/${post._id}?comm=posts_notify:ses`
     }
   })
 

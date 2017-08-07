@@ -11,7 +11,7 @@ module.exports = {
             "first_name" : "Jonathon",
             "gender" : "male",
             "link" : "https://www.facebook.com/app_scoped_user_id/859305405104/",
-            "email" : "jkresner@gmail.com.com",
+            "email" : "jkresner@gmail.com",
             "picture" : {
                 "data" : {
                     "url" : "https://scontent.xx.fbcdn.net/v/t31.0-1/c124.0.480.480/p480x480/1292368_639194289544_253203027_o.jpg?oh=15f31406e3d07facbaacc361482ab1ac&oe=5A383BC6",
@@ -25,8 +25,8 @@ module.exports = {
             }
         }
     },
-    "meta" : {
-        "activity" : [ 
+    "log" : {
+        "history" : [ 
             {
                 "action" : "signup",
                 "_id" : ObjectId("597e2f52755541797ea3d8b8"),
@@ -36,7 +36,7 @@ module.exports = {
                 }
             }, 
         ],
-        "lastTouch" : {
+        "last" : {
             "action" : "signup",
                 "_id" : ObjectId("597e2f52755541797ea3d8b8"),
                 "by" : {

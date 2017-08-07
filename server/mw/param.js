@@ -8,7 +8,3 @@ module.exports = (app, mw) =>
       project:    honey.projector[`${name}s`].Project.param,
       queryOpts:  honey.projector[`${name}s`].Opts.item
     })
-
-
-// { select: '_id userId message meta',
-// join: { userId: '_id name photos' } }

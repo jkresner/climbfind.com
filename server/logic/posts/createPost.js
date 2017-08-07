@@ -21,7 +21,7 @@ module.exports = (DAL, Data, DRY) => ({
     var localDayStart = moment.tz(place.geo.tz).startOf('day')
     data.userId = user._id
     data.placeId = place._id
-    data.meta = DRY.touchMeta(null, 'create', user)
+    data.log = DRY.logAct(null, 'create', user)
     data.time = localDayStart.utc().add(data.day,'day').toDate()
     data.tz = { id: place.geo.tz, utc_offset:
       moment.tz.zone('America/Los_Angeles').offset(localDayStart) }
@@ -38,7 +38,7 @@ module.exports = (DAL, Data, DRY) => ({
         DAL.Subscription.getByQuery(q, (e2, sub) => {
           DRY.settings.getSet(user._id, {tz:data.tz})
           if (!e2 && !sub)
-            DAL.Subscription.create(assign({meta:data.meta},q))
+            DAL.Subscription.create(assign({log:data.log},q))
         })
 
         TRACK('post', this, r)

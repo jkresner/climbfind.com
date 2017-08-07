@@ -5,11 +5,7 @@ module.exports = (app, mw) =>
     dest: 'body.post',
     project: d => {
       var r = honey.projector.posts.Project.item(d)
-      return assign(r, {meta:d.meta})
+      return assign(r, {log:d.log})
     },
-    queryOpts: { select: '_id userId placeId message meta',
-                 join: {
-                  userId: '_id name photos',
-                  placeId: '_id name',
-                } }
+    queryOpts: honey.projector.posts.Opts.param
   })

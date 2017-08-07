@@ -1,10 +1,10 @@
 module.exports = (DAL) => ({
 
+
   sys: {
 
-    touchMeta: (meta, action) =>
-      honey.logic.DRY.touchMeta(meta, action,
-        { _id: honey.model.DAL.User.toId("514825fa2a26ea0200000017"), name:'sys' })
+    logAct: (on, action) => honey.logic.DRY.logAct(on, action,
+      { _id: DAL.User.toId("514825fa2a26ea0200000017"), name:'sys' })
 
   },
 
@@ -23,5 +23,6 @@ module.exports = (DAL) => ({
     }
 
   }
+
 
 })

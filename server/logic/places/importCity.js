@@ -20,7 +20,7 @@ module.exports = ({Place}, Data, DRY) => ({
  //    )).then(r => $log('Promise.all.done', r) )
 
 
-  var touch = (meta, action) => honey.logic.DRY.sys.touchMeta(meta, action)
+  // var touch = (log, action) => honey.logic.DRY.sys.logAct(log, action)
   var {Place} = honey.model.DAL
 
 
@@ -47,7 +47,7 @@ module.exports = ({Place}, Data, DRY) => ({
                },
                raw: r2,
                linked: [city._id],
-               meta: touch(null, 'create')
+               log: touch(null, 'create')
             }, resject(res, rej))
           })
         })
@@ -71,9 +71,9 @@ module.exports = ({Place}, Data, DRY) => ({
                     lng: r0.geometry.location.lng
                   },
                   raw: r0,
-                  meta: touch(null, 'create')
+                  log: touch(null, 'create')
                 }
-        p.approved = touch(p.meta, 'approve').lastTouch
+        p.approved = touch(p, 'approve').last
         $log('Place[area].create', p.raw)
         Place.create(p, (e1, r1) => {
           if (e1) return cb(e1)

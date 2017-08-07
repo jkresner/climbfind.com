@@ -7,9 +7,9 @@ module.exports = ({Place}, Data, DRY) => ({
 
 
   exec(place, cb) {
-    var meta = DRY.touchMeta(place.meta, 'delete', this.user)
-    var deleted = meta.lastTouch
-    Place.updateSet(place._id, {meta,deleted}, Data.Opts.delete, cb)
+    var log = DRY.logAct(place, 'delete', this.user)
+    var deleted = log.last
+    Place.updateSet(place._id, {log,deleted}, Data.Opts.delete, cb)
   }
 
 

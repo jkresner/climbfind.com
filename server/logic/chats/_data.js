@@ -5,8 +5,6 @@ const Views = {
 
 
 const Query = {
-  notify: {   'history.0.commId': { $exists: false },
-              'history.0.postId': { $exists: false }  },
   inbox: (me) => ({'users._id': me._id }),
   group: (users) => ({ $and: user.map(u=>({'users._id': u._id})) }),
   pair: (you, me) => ({ $and: [{'users._id': you._id},
@@ -15,22 +13,11 @@ const Query = {
 
 
 const Opts = {
-  comm: { sort: { 'history.0._id': 1 },
-          join: { 'users._id': 'settings emails' } },
   inbox: { select: '_id users history' }
 }
 
 
 const Projections = ({select,util,id},{chain,view}) => ({
-
-  notify: d =>
-    d.users.filter(u => !_.idsEqual(u._id, d.history[0].user._id))
-           .map(u => assign(chain(u, 'auth.comm'),
-              { by: chain(u.settings, 'settings.defaults').notify.messages })),
-
-  comm: d => ({ chat: { _id: d._id }, message: assign(
-    d.history[0], {user:_.find(d.users,u=>_.idsEqual(u._id,d.history[0].userId))}
-  ) }),
 
 
   user: u =>
@@ -66,7 +53,6 @@ const Projections = ({select,util,id},{chain,view}) => ({
       'history': [t.history[0]]
     })).forEach(c => c.title = c.with[0].name)
 
-    $log('inbox'.yellow, d.chats)
     var r = chain(d.chats, 'history', 'last', view.inbox)
     r.sort()
     r.filter(c => _.idsEqual(c.last.user._id, d.me._id))

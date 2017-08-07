@@ -28,7 +28,7 @@ module.exports = ({Post,Subscription,Comm}, {Query,Opts,Project}, DRY) => ({
     //     $log('notify.comm.create'.blue, comm)
     //     Comm.create(comm, (e4, notify) => {
     //       if (e4) return cb(e4)
-    //       var ups = { meta: DRY.sys.touchMeta(post.meta, `notify:${Object.keys(comm.sent).length}`), 'comm.notify': notify._id }
+    //       var ups = { log: DRY.sys.logAct(post, `notify:${Object.keys(comm.sent).length}`), 'comm.notify': notify._id }
     //       Post.updateSet(post._id, ups,
     //         (e5, r5) => cb(e5, e5 ? null : assign(r5,{comm:{notify}}), raw)
     //       )

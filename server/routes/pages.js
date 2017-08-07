@@ -16,7 +16,7 @@ module.exports = (app, mw) =>
     .use(mw.$.setReturnTo)
     .use(mw.$.authd)
 
-    .get('/climbing-partners', mw.$.page('post'))
+    .get('/partner-call', mw.$.page('post'))
     .get('/reply/:post', mw.$.param('post'), mw.$.logic('chats.readPost'), mw.$.page('chat'))
     .get('/messages/:chat', mw.$.param('chat'), mw.$.logic('chats.read'), mw.$.page('chat'))
     .get('/messages', mw.$.logic('chats.getInbox'), mw.$.page('inbox'))

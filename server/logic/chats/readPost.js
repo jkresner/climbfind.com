@@ -11,9 +11,9 @@ module.exports = ({Chat,Post}, {Query,Opts,Project}, DRY) => ({
     var me = this.user
     var you = post.user
 
-    var viewed = _.find(post.meta.activity, t => t.action == 'view' && _.idsEqual(me._id, t.by._id))
+    var viewed = _.find(post.log.history, t => t.action == 'view' && _.idsEqual(me._id, t.by._id))
     if (!viewed)
-      Post.updateSet(post._id, { meta: DRY.touchMeta(post.meta, 'view', me) }, DRY.noop)
+      Post.updateSet(post._id, { log: DRY.logAct(post, 'view', me) }, DRY.noop)
 
     Chat.getByQuery(Query.pair(you,me), Opts.chat, (e, r) => {
       if (e) return cb(e)

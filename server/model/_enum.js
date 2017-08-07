@@ -11,7 +11,7 @@ module.exports = {
   CLIMBING: ['boulder','ice','lead','summit','tr','trad','water'],
 
   COMM: {
-    TYPE: ['chats_message', 'posts_notify', 'posts_weekly', 'auth_signup']
+    TYPE: ['chat_message', 'post_notify', 'post_weekly', 'user_welcome']
   },
 
   POST: {

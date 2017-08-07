@@ -48,7 +48,7 @@ return asSchema({
 
   raw:             googleRaw,
 
-  meta:            { type: Meta },
+  log:             { type: Meta },
   approved:        { type: Touch },
   deleted:         { type: Touch },
 

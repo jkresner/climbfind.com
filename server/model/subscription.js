@@ -17,7 +17,8 @@ asSchema({
   //   token:        { type: String }
   // },
 
-  meta:           { type: Meta }
+  log:            { type: Meta }
 
 })
+
 

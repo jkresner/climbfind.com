@@ -9,16 +9,16 @@ module.exports = (DAL, Data, DRY) => ({
     for (var id of placeIds)
       hash[id] = assign(_.select(cache.places.indoor[id], '_id shortName'), {posts: []})
 
-    DAL.Post.getManyByQuery({}, {select:'_id userId placeId meta.activity.action'}, (e0, posts) => {
+    DAL.Post.getManyByQuery({}, {select:'_id userId placeId log.history.action'}, (e0, posts) => {
       for (var p of posts) {
         var pStats = {
           create: moment(honey.util.BsonId.toDate(p._id)).format('MM.DD'),
           notify: 0,
-          view: p.meta.activity.filter(t => t.action == 'view').length,
-          reply: p.meta.activity.filter(t => t.action == 'reply').length
+          view: p.log.history.filter(t => t.action == 'view').length,
+          reply: p.log.history.filter(t => t.action == 'reply').length
         }
 
-        p.meta.activity
+        p.log.history
          .filter(t => t.action.indexOf('notify:') == 0)
          .map(t => parseInt(t.action.split('notify:')[1]))
          .forEach( n => pStats.notify = pStats.notify + n)

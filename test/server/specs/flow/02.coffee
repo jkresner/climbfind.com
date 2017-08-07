@@ -33,7 +33,7 @@ admin = (cb) ->
           expect(r3.name).to.equal(place.name)
           expect(r3.shortName).to.equal(place.shortName)
           expect(r3.location.timeZoneId).to.equal("Australia/Sydney")          
-          expect(r3.meta.lastTouch.action).to.equal('create')          
+          expect(r3.log.last.action).to.equal('create')          
           ups.ownerId = s2._id
           PUT "/mod/places/#{r3._id}", ups, (r4) ->               
             expect(r4).eqId(r3)

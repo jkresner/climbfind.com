@@ -31,8 +31,8 @@ module.exports = (DAL, Data, DRY) => ({
 
   exec(ups, cb) {
     var me = this._id
-    // DAL.User.getById(me._id, {select: '_id meta'}, (e, r) => {
-      // meta: DRY.touchMeta(original.meta, 'update', this.user),
+    // DAL.User.getById(me._id, {select: '_id log'}, (e, r) => {
+      // log: DRY.logAct(r, 'update.setting', this.user),
     // }
     var {messages,weekly} = ups.notifications
     ups.notifications.messages.email = messages.email == "on"

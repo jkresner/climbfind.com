@@ -3,19 +3,19 @@ module.exports = {
   signup_mail: {
     "_id": ObjectId("5984a08da3bb5ac600000001"),
     "type" : "mail",
-    "key" : "signup:ses",
+    "key" : "user_welcome:ses",
     "description" : "Welcome new user",
     "part": {
       "from": "Climbfind <contact@climbfind.com>",
-      "subject": "Find and share your passion",
-      "text": "Hi {{to.first}}, \n\nWelcome to Climbfind. Look forward to you making enjoying lots of new climbing connections and experiences.\n\nJK \nClimbfind Founder"
+      "subject": "Welcome to Climbfind",
+      "text": "- - -\n\n**Congrats on your Climbfind account!** \n\nLife changing climbing connections and experiences are right round the corner. Thousands of climbers like yourself have met and partnered up through Climbfind since 2008. We even know of a few who got married!\n\n##### Let's get things started:\n\n### [Post a Partner Call]({{url.post.ses}})\nPost to places where you want to meet folks so Climbfind can learn your preferences and starts personalizing your feed and recommendations.\n\n Belay on!\n\n J.K.  \nClimbfind Founder"
     }
   },
 
   chats_message_mail: {
     "_id": ObjectId("5984a08da3bb5ac600000002"),
     "type" : "mail",
-    "key" : "chats_message:ses",
+    "key" : "chat_message:ses",
     "description" : "Notify user of new message",
     "part" : {
       "from": "Climbfind <contact@climbfind.com>",
@@ -27,7 +27,7 @@ module.exports = {
   post_notify_mail: {
     "_id": ObjectId("5984a08da3bb5ac600000003"),
     "type" : "mail",
-    "key" : "posts_notify:ses",
+    "key" : "post_notify:ses",
     "description" : "Notify user of a new partner post",
     "part": {
       "from": "Climbfind <contact@climbfind.com>",
@@ -39,7 +39,7 @@ module.exports = {
   post_weekly_mail: {
     "_id": ObjectId("5984a08da3bb5ac600000004"),
     "type" : "mail",
-    "key" : "posts_weekly:ses",
+    "key" : "post_weekly:ses",
     "description" : "Summary of new partner post matching users subscriptions",
     "part": {
       "from": "Climbfind <contact@climbfind.com>",      

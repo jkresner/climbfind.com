@@ -18,7 +18,7 @@ asSchema({
     // id:           { type: String, required },
     // utc_offset:   { type: Number, required }
   },
-  scheduled:      { type: Date, required },
+  scheduled:      { type: Date },
   sent:           {},
     // to:           [{type: Id, ref: 'Subscription'  }],
     // {

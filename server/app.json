@@ -55,6 +55,7 @@
         "enums":               false
       }
     },
+    "comm":                    true,
     "errors": {
       "mail":                  { "to": "jk@climbfind.com", "sender": "ERR <contact@climbfind.com>" }
     }
@@ -70,7 +71,8 @@
     "dirs":                    "wrappers",
     "ses": {
       "accessKeyId":           "{{required}}",
-      "secretAccessKey":       "{{required}}"
+      "secretAccessKey":       "{{required}}",
+      "region":                "us-west-2"
     },
     "places": {
       "key":                   "{{required}}"

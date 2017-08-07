@@ -17,7 +17,7 @@ module.exports = ({Place}, Data, DRY) => ({
 
 
   exec(data, place, cb) {
-    // data.meta = DRY.touchMeta(null, 'create', this.user)
+    // DRY.logAct(place, 'approve', this.user)
     // Place.create(data, cb)
   }
 

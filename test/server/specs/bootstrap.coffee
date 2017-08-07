@@ -3,6 +3,7 @@ post = null
 ag = null
 gk = null
 jk = null
+kk = null
 
 expectPostCopy = (post, msg) ->
   expect(msg._id).eqId(post._id)
@@ -12,10 +13,10 @@ expectPostCopy = (post, msg) ->
 expectMeta = (model, id, actions) ->  
   actions = actions.split(' ')
   DB.docById model, id, (r) ->
-    {activity} = r.meta
-    expect(activity.length, "#{model}[#{id}] activity.length[#{activity.length}] != #{actions}").to.equal(actions.length)
+    {history} = r.log
+    expect(history.length, "#{model}[#{id}] history.length[#{history.length}] != #{actions}").to.equal(actions.length)
     for idx in [0..actions.length-1]
-      expect(activity[idx].action, "#{model}[#{id}] activity[#{idx}] != #{actions[idx]}").to.equal(actions[idx])
+      expect(history[idx].action, "#{model}[#{id}] history[#{idx}] != #{actions[idx]}").to.equal(actions[idx])
 
 
 module.exports = ->
@@ -23,20 +24,24 @@ module.exports = ->
   # before (done) ->
 
   IT "clear collections", ->
-    DB.removeDocs 'Post', {}, ->
-      DB.removeDocs 'Subscription', {}, ->
-        DB.removeDocs 'COMM', {}, ->        
-          DB.removeDocs 'Route', {}, ->                
-            DB.removeDocs 'Chat', {}, ->
-              DB.removeDocs 'User', {}, ->
-                DB.ensureDocs 'User', [FIXTURE.users.jk], -> 
-                  DONE()
+    # honey.model.Place.collection.update({}, {$rename:{meta:'log'}}, {multi:true})
+    # honey.model.Place.collection.update({}, {$rename:{'log.activity':'log.history'}}, {multi:true})
+    # .update({}, {$rename:{'log.lastTouch':'log.last'}}, {multi:true})
+    DB.removeDocs 'Session', {}, ->
+      DB.removeDocs 'Event', {}, ->
+        DB.removeDocs 'Post', {}, ->
+          DB.removeDocs 'Subscription', {}, ->
+            DB.removeDocs 'Comm', {}, ->        
+              DB.removeDocs 'Route', {}, ->                
+                DB.removeDocs 'Chat', {}, ->
+                  DB.removeDocs 'User', {}, ->
+                    DB.ensureDocs 'User', [FIXTURE.users.jk], -> 
+                      DONE()
 
   
   IT.skip "places", ->    
     sys = _id:ObjectId("514825fa2a26ea0200000017"), name:'sys.bootstrap'
-    touch = (meta, action) => 
-    Place = honey.model.DAL.Place
+    {Place} = honey.model.DAL
     approve = (key) -> (res, rej) -> 
       p = FIXTURE.places[key]
       Place.getById p._id, (e0, r0) ->
@@ -45,8 +50,8 @@ module.exports = ->
           $log("#{r0._id} #{'already approved'.yellow}\t #{r0.name}")
           res(r0)
         else          
-          data.meta = honey.logic.DRY.touchMeta(r0.meta, 'approve', sys)
-          data.approved = data.meta.lastTouch
+          data.log = honey.logic.DRY.logAct(r0, 'approve', sys)
+          data.approved = data.log.last
           Place.updateSet p._id, data, (e,r) => 
             $log("#{r0._id} #{'update approved.r\t'.green} #{r.name} (#{data.shortName})")
             if e? then rej(e) else res(r)
@@ -82,12 +87,13 @@ module.exports = ->
         data.climbing = ['lead']
         POST "/posts/#{spot._id}", data, { status: 403 }, (e2) ->                  
           expect(e2.message).inc('lead climbing not available @ The Spot')        
-          POST "/posts/#{sicg._id}", FIXTURE.uniq('post.squamish.message'), (p1) ->                    
+          POST "/posts/#{sicg._id}", FIXTURE.uniq('post.squamish.message'), (p1) ->                                
             DONE()
 
 
   IT "Customize double subscription", ->        
-    LOGIN 'jk', (s) ->        
+    LOGIN 'jk', (s) ->   
+      jk = s     
       expect(s.avatar).to.exist
       POST "/posts/#{pgsf._id}", FIXTURE.uniq('post.comeback.message'), (p) ->  
         expectMeta('Post', p._id, 'create')
@@ -144,6 +150,34 @@ module.exports = ->
             DONE()
 
 
+  IT "COMM.user_welcome notify emails", ->
+    DB.docsByQuery 'User', {}, (users) -> 
+      expect(users.length).equal(6)
+    honey.logic.comm.user_welcome.exec (e, c, r, raw) ->
+      expect(e).to.be.null
+      expect(c._id).bsonId()
+      expect(c.type).to.equal('user_welcome')
+      expect(c.data.user._id).eqId(r._id)
+      expect(c.templates.length).to.equal(1)            
+      expect(c.templates[0].key).to.equal('user_welcome:ses')
+      expect(c.templates[0].type).to.equal('mail')                 
+      expect(c.retry).to.be.undefined
+      expect(Object.keys(c.sent).length).to.equal(1)
+      expect(c.sent[jk._id][0].to).inc(jk.name)
+      expect(r.log.comm['welcome']).to.exist
+      expect(r.log.last.action).to.equal('sys.welcome')
+      expect(raw[0]).inc('Congrats on your Climbfind account')
+      honey.logic.comm.user_welcome.exec (e2, c2, r2, raw2) ->
+        expect(e2).to.be.null
+        expect(c2._id).bsonId()
+        expect(_.idsEqual(c._id,c2._id) is false).to.be.true
+        expect(c2.templates.length).to.equal(1)         
+        expect(Object.keys(c2.sent).length).to.equal(1)
+        expect(c2.sent[kk._id][0].to).inc(kk.name)
+        expect(r2.log.comm['welcome']).to.exist
+        DONE()
+
+
   IT "reply one", ->
     LOGIN 'ag', (sAg) ->            
       ag = sAg
@@ -198,45 +232,43 @@ module.exports = ->
               DONE()
 
 
-  IT.skip "Instant post notify emails", ->
-    honey.logic.comm.posts_notify.exec (e, r, raw) ->
-      {meta,comm} = r
-      expect(meta.lastTouch.action).to.equal("notify:2")
-      {notify} = r.comm
-      expect(notify._id).bsonId()
-      expect(notify.type).to.equal('posts_notify')
-      expect(notify.data.post._id).eqId(r._id)
-      expect(notify.tz.id).to.equal(r.tz.id)
-      expect(notify.tz.utc_offset).to.equal(r.tz.utc_offset)      
-      expect(notify.templates.length).to.equal(1)            
-      expect(notify.templates[0].key).to.equal('posts_notify:ses')
-      expect(notify.templates[0].type).to.equal('mail')                 
-      expect(notify.retry).to.be.undefined
-      expect(Object.keys(notify.sent).length).to.equal(2)
-      sent = Object.values(notify.sent)
+  IT "Instant post notify emails", ->
+    honey.logic.comm.post_notify.exec (e, comm, r, raw) ->
+      expect(e).to.be.null
+      expect(r.log.last.action).to.equal("notify:2")
+      expect(comm._id).bsonId()
+      expect(comm.type).to.equal('post_notify')
+      expect(comm.data.post._id).eqId(r._id)
+      expect(comm.tz.id).to.equal(r.tz.id)
+      expect(comm.tz.utc_offset).to.equal(r.tz.utc_offset)      
+      expect(comm.templates.length).to.equal(1)            
+      expect(comm.templates[0].key).to.equal('post_notify:ses')
+      expect(comm.templates[0].type).to.equal('mail')                 
+      expect(comm.retry).to.be.undefined
+      expect(Object.keys(comm.sent).length).to.equal(2)
+      sent = Object.values(comm.sent)
       expect(sent[0][0].to).inc(gk.name)
       expect(sent[1][0].to).inc(ag.name)
       expect(raw.length).to.equal(2)
       expect(raw[0]).inc(['Hi Andy,',"](http://localhost:4444/reply/#{r._id}?comm=posts_notify:ses)"])
       expect(raw[1]).inc(['Hi Genie,',"](http://localhost:4444/reply/#{r._id}?comm=posts_notify:ses)"])
       # $log(raw[0], raw[1])
-      honey.logic.comm.posts_notify.exec (e2, r2, raw2) ->      
-        expect(_.idsEqual(r._id,r2._id) is false).to.be.true
-        notify2 = r2.comm.notify
+      honey.logic.comm.post_notify.exec (e2, comm2, r2, raw2) ->      
+        expect(_.idsEqual(r._id, r2._id) is false).to.be.true
+        notify2 = comm2
         expect(notify2).to.exist
         expect(notify2.data.post._id).eqId(r2._id)
-        expect(notify2.type).to.equal('posts_notify')        
+        expect(notify2.type).to.equal('post_notify')        
         expect(notify2.retry).to.be.undefined
         expect(notify2.sent).to.be.undefined
         expect(notify2.templates).to.be.undefined        
         expect(notify2.tz).to.be.undefined
-        honey.logic.comm.posts_notify.exec (e3, r3, raw3) ->              
-          expect(_.idsEqual(r._id,r3._id) is false).to.be.true          
-          notify3 = r3.comm.notify
-          expect(notify3.type).to.equal('posts_notify')        
-          expect(notify3.retry).to.be.undefined
-          expect(Object.keys(notify3.sent).length).to.equal(1)
-          expect(Object.values(notify3.sent)[0][0].to).inc(gk.name)
+        honey.logic.comm.post_notify.exec (e3, comm3, r3, raw3) ->              
+          expect(_.idsEqual(r._id,r3._id) is false).to.be.true                    
+          expect(comm3.type).to.equal('post_notify')        
+          expect(comm3.retry).to.be.undefined
+          expect(Object.keys(comm3.sent).length).to.equal(1)
+          expect(comm3.sent[gk._id][0].to).inc(gk.name)
           expect(raw3[0]).inc(['Hi Genie,',"](http://localhost:4444/reply/#{r3._id}?comm=posts_notify:ses)"])       
           DONE()
 
@@ -309,17 +341,16 @@ module.exports = ->
                   DONE()       
 
   
-  IT.skip "Chat message notify emails", ->
-    honey.logic.comm.chats_message.exec (e, r, raw) ->
-      {meta,history} = r
-      expect(meta.lastTouch.action).to.equal("notify:1")      
-      {comm} = history[0]
+  IT "Chat message notify emails", ->
+    honey.logic.comm.chat_message.exec (e, comm, r, raw) ->
+      expect(r.log.last.action).to.equal("notify:1")      
+      expect(r.history[0].commId).eqId(comm._id)
       expect(comm._id).bsonId()
-      expect(comm.type).to.equal('chats_message')
+      expect(comm.type).to.equal('chat_message')
       expect(comm.data.chat._id).eqId(r._id)
       expect(comm.tz).to.be.undefined
       expect(comm.templates.length).to.equal(1)            
-      expect(comm.templates[0].key).to.equal('chats_message:ses')
+      expect(comm.templates[0].key).to.equal('chat_message:ses')
       expect(comm.templates[0].type).to.equal('mail')                 
       expect(comm.retry).to.be.undefined
       expect(Object.keys(comm.sent).length).to.equal(1)
@@ -330,19 +361,18 @@ module.exports = ->
         "](http://localhost:4444/messages/#{r._id}?message=#{r.history[0]._id}&amp;comm=chats_message:ses)"
         # "](http://localhost:4444/messages/#{r._id}?message=#{r.history[0]._id}&comm=chats_message:ses)"
         ])
-      honey.logic.comm.chats_message.exec (e2, r2, raw2) ->      
+      honey.logic.comm.chat_message.exec (e2, comm2, r2, raw2) ->      
         expect(_.idsEqual(r._id,r2._id) is false).to.be.true
-        comm2 = r2.history[0].comm
         expect(comm2).to.exist
         expect(comm2.data.chat._id).eqId(r2._id)
-        expect(comm2.type).to.equal('chats_message')        
+        expect(comm2.type).to.equal('chat_message')        
         expect(comm2.retry).to.be.undefined
         expect(Object.keys(comm2.sent).length).to.equal(1)
         sent2 = Object.values(comm2.sent)
         expect(sent2[0][0].to).inc(jk.name)
-        expect(comm2.templates[0].key).to.equal('chats_message:ses')    
-        honey.logic.comm.posts_notify.exec (e3, r3, raw3) ->              
-        DONE()
+        expect(comm2.templates[0].key).to.equal('chat_message:ses')    
+        honey.logic.comm.chat_message.exec (e3, r3, raw3) ->              
+          DONE()
 
 
 

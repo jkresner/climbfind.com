@@ -42,7 +42,7 @@ coffee test/server/index.coffee
   linked         [object]
   geo            object  
   raw            object  
-  meta           object
+  log            object
   approved       object
   deleted        object
 }

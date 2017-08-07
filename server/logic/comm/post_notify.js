@@ -1,0 +1,56 @@
+module.exports = ({Post,Subscription,Comm}, {Query,Opts,Project}, DRY) => ({
+
+
+  exec(done) {
+    var type = 'post_notify'
+    var retry = [], raw = [], data = {}, sent = {}, post = null, doc = null;
+
+    var opts = { toUsers: {} }
+    opts.toUser = {
+      ses: u => u.by.email,
+      push: u => u.by.push,
+      cb: (e, r) => !e ? raw.push(r.text)
+         : retry.push({ e:e.message, key:r.key, to:r.to._id }) }
+
+    opts.toUsers.cb = (e, r) => {
+      if (e && (!r || r.length == 0)) return done(e)
+
+      r.forEach(m => sent[m.to._id] = (sent[m.to._id]||[])
+        .concat([{ key:m.key, subId: m.to.by._id, msgId: m.messageId, to: m.messageTo }]))
+
+      if (r.length == 0)
+        doc = { type, data:{post:{_id:post._id}} }
+      else {
+        doc = Project.doc(type, data)
+        assign(doc, {sent,tz:post.tz,scheduled: Project.scheduled(post._id)})
+      }
+
+      if (retry.length > 0)
+        assign(doc, {retry})
+
+      Comm.create(doc, (e, comm) => {
+        if (e) return done(e)
+        var log = DRY.sys.logAct(post, `notify:${r.length}`)
+        log.comm = assign(log.comm||{}, {notify:comm._id})
+        Post.updateSet(post._id, {log}, (e5, r5) => done(e5, comm, r5, raw))
+      })
+    }
+
+
+    Post.getByQuery(Query[type], Opts[type], (e, r) => {
+      if (e || !r) return done(e, r)
+      post = r
+      data = Project.data(type, r)
+      Subscription.getManyByQuery(Query[`${type}_subs`](r),
+        Opts[`${type}_subs`], (e, subs) =>
+
+          e ? done(e)
+            : COMM.toUsers(Project.sub_to(subs), opts.toUsers.cb)
+                  .by({ses:1}, opts.toUser)
+                  .send(type, data))
+
+    })
+  },
+
+
+})
