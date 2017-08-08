@@ -5,7 +5,7 @@ var project = {
     req.locals.feed = {}
     if (posts.length > 0)
       req.locals.feed.onlyme = posts.filter(p=>!p.me).length == 0
-    else if (posts.length == 0 || !req.user)
+    if (posts.length == 0 || !req.user)
       req.locals.feed.nosubscriptions = true
   },
   chat: (req, getter) => {

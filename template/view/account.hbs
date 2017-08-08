@@ -7,15 +7,15 @@
 <h4>Notifications</h4>
 
 <ul>
-  <li>{{#with r.settings.notify.messages}}
+{{!--   <li>{{#with r.settings.notify.messages}}
     <img src="/climb-partner-96.png" class="cf-ico" />
     <h4>Messages</h4>
     <div>Instant</div>
     <i class="glyphicon glyphicon-envelope {{email}}" aria-hidden="true"></i>
     <i class="glyphicon glyphicon-phone {{push}}" aria-hidden="true"></i>
     {{/with}}
-  </li>
-{{#each r.subscriptions}}
+  </li>--}}
+{{#each r.subscriptions}} 
   <li>
     <a href="/notifications/{{_id}}">
       <img src="{{place.avatar}}" />

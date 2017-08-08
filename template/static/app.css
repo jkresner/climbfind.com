@@ -241,7 +241,7 @@ body > header + * {          padding-top:42px }
 body > footer {              display:block;
                              z-index:5;
                              height:50px;
-                             background:black; }
+                             background:#3b3b3b; }
 body > footer > ul {         height:50px;margin:0;padding:0;vertical-align:top }
 body > footer ul li {        height:50px;
                              margin:0;

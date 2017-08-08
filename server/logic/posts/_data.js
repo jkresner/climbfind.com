@@ -1,5 +1,5 @@
 const Views = {
-  item:      '_id type climbing time message user._id user.name user.avatar place._id place.name place.shortName place.avatar place.logo',
+  item:      '_id type climbing time tz message user._id user.name user.avatar place._id place.name place.shortName place.avatar place.logo',
   list:      '_id type climbing time message user._id user.name user.avatar place._id place.name place.shortName place.logo',
 }
 
