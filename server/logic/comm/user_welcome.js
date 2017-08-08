@@ -3,18 +3,20 @@ module.exports = (DAL, {Project,Query,Opts}, DRY) => ({
 
   exec(done) {
     var type = 'user_welcome'
+    var doc = Project.doc(type)
     var raw = []
 
     DAL.User.getByQuery(Query[type], Opts[type], (e, r) => {
       if (e || !r) return done(e, r)
 
-      var data = Project.data(type, r)
+      var data = Project[type](r)
+      data.url = Project.url({type, data, _sid:doc._sid})
 
       COMM.toUser(Project.to(r)).by({ses:1}).send(type, data, (e1, m) => {
         if (e) return done(e)
 
-        var doc = Project.doc(type, data, m)
         doc.sent[m.to._id] = [{ key:m.key, msgId: m.messageId, to: m.messageTo }]
+        assign(doc, {data})
         raw.push()
 
         DAL.Comm.create(doc, (e2, comm) => {

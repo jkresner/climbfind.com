@@ -1,9 +1,10 @@
   module.exports = ({ Id, Enum, Location, Meta, Touch },
-  { asSchema, required, lowercase, sparse }) =>
+  { asSchema, required, lowercase, sparse, unique, index }) =>
 
 
 asSchema({
 
+  _sid:           { type: String, unique, index },
   type:           { type: String, enum: Enum.COMM.TYPE },
 
   templates:      {},
@@ -23,9 +24,9 @@ asSchema({
     // to:           [{type: Id, ref: 'Subscription'  }],
     // {
     //   [{
-    //      key    [{ type: String, required }],
-    //      msgId: [{ type: String, required }],
-    //      opens:  []
+    //      key      [{ type: String, required }],
+    //      msgId:   [{ type: String, required }],
+    //      ct:      []
     //   }]
   retry:          {}
   // [{

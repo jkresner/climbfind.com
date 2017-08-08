@@ -17,11 +17,11 @@ const Query = {
 const Opts = {
   existing: { select: 'userId placeId time' },
 
-  item: { select: `_id time type climbing message userId placeId log`,
+  item: { select: `_id time type climbing message userId placeId tz log`,
           join: { placeId: 'name shortName logo avatar',
                   userId: '_id name photos' } },
 
-  param: { select: '_id userId placeId message log',
+  param: { select: '_id userId placeId message tz log',
           join: { placeId: '_id name',
                   userId: '_id name photos' } },
 

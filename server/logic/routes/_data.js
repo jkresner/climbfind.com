@@ -9,22 +9,32 @@ const Opts = {
 
 const Projections = ({select},{chain}) => ({
 
-  user_welcome: ({user}) => ({
+  user_welcome: ({_sid, user}) => ({
     post: {
-      ses: `${config.http.host}/partner-call?comm=auth_signup:ses`
+      to: `/partner-call`,
+      ses: `${config.http.host}/ses/post/${_sid}`
     }
   }),
 
-
-  chat_message: ({chat,message}) => ({
+  chat_message: ({_sid,chat,message}) => ({
     chat: {
-      ses: `${config.http.host}/messages/${chat._id}?message=${message._id}&comm=chats_message:ses`
+      to: `/messages/${chat._id}`,
+      ses: `${config.http.host}/ses/chat/${_sid}`
+    },
+    settings: {
+      to: `/account`,
+      ses: `${config.http.host}/ses/settings/${_sid}`
     }
   }),
 
-  post_notify: ({post}) => ({
+  post_notify: ({_sid, post}) => ({
     reply: {
-      ses: `${config.http.host}/reply/${post._id}?comm=posts_notify:ses`
+      to: `/reply/${post._id}`,
+      ses: `${config.http.host}/ses/reply/${_sid}`
+    },
+    settings: {
+      to: `/account`,
+      ses: `${config.http.host}/ses/settings/${_sid}`
     }
   })
 

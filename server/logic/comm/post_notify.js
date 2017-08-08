@@ -3,11 +3,12 @@ module.exports = ({Post,Subscription,Comm}, {Query,Opts,Project}, DRY) => ({
 
   exec(done) {
     var type = 'post_notify'
-    var retry = [], raw = [], data = {}, sent = {}, post = null, doc = null;
+    var retry = [], raw = [], data = {}, sent = {}, post = null;
+    var doc = Project.doc(type)
 
     var opts = { toUsers: {} }
     opts.toUser = {
-      ses: u => u.by.email,
+      ses: u => u.by.ses,
       push: u => u.by.push,
       cb: (e, r) => !e ? raw.push(r.text)
          : retry.push({ e:e.message, key:r.key, to:r.to._id }) }
@@ -20,10 +21,9 @@ module.exports = ({Post,Subscription,Comm}, {Query,Opts,Project}, DRY) => ({
 
       if (r.length == 0)
         doc = { type, data:{post:{_id:post._id}} }
-      else {
-        doc = Project.doc(type, data)
-        assign(doc, {sent,tz:post.tz,scheduled: Project.scheduled(post._id)})
-      }
+      else
+        assign(doc, {data,sent,tz:post.tz,scheduled: Project.scheduled(post._id)})
+
 
       if (retry.length > 0)
         assign(doc, {retry})
@@ -40,7 +40,8 @@ module.exports = ({Post,Subscription,Comm}, {Query,Opts,Project}, DRY) => ({
     Post.getByQuery(Query[type], Opts[type], (e, r) => {
       if (e || !r) return done(e, r)
       post = r
-      data = Project.data(type, r)
+      data = Project[type](r)
+      data.url = Project.url({type,data,_sid:doc._sid})
       Subscription.getManyByQuery(Query[`${type}_subs`](r),
         Opts[`${type}_subs`], (e, subs) =>
 

@@ -10,13 +10,13 @@ asSchema({
   placeId:        { type: Id, ref: 'Place', required },
   message:        { type: String, required },
 
-  meta:           { type: Meta },
+  log:            { type: Meta },
   deleted:        { type: Touch },
 
-  comm: {
-    notify:       { type: Id, ref: 'Comm', sparse },
-    weekly:       { type: [{type:Id, ref: 'Comm'}], required: false }
-  },
+  // comm: {
+    // notify:       { type: Id, ref: 'Comm', sparse },
+    // weekly:       { type: [{type:Id, ref: 'Comm'}], required: false }
+  // },
 
   tz: {
     id:           { type: String, required },

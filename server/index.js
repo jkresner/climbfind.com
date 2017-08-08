@@ -5,8 +5,7 @@ var config         = configure(__dirname, env, true)
 
 
 function done(e, r) {
-  e ? console.log(`>> App init fail`, e)
-    : console.log(`>> Listening on port ${config.http.port}`)
+  console.log(`app  web ${e ? 'init.fail' : 'started'}`, e||'')
 }
 
 

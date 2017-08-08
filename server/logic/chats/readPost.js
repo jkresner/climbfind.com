@@ -18,7 +18,8 @@ module.exports = ({Chat,Post}, {Query,Opts,Project}, DRY) => ({
     Chat.getByQuery(Query.pair(you,me), Opts.chat, (e, r) => {
       if (e) return cb(e)
 
-      var msg = { text: post.message, userId: post.user._id, postId: post._id }
+      var text = `##### Partner Call for **${moment.tz(post.time, post.tz.id).format('DD MMM')} @ ${post.place.name}**\n\n${post.message}`
+      var msg = { text, userId: post.user._id, postId: post._id }
 
       if (!r)
         r = { users: [me,you], history: [msg] }

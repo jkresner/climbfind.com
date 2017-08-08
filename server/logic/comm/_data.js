@@ -28,21 +28,31 @@ const Opts = {
           join: { 'users._id': 'settings emails' } },
 }
 
-const Projections = ({select,util},{chain,view}) => ({
+const Projections = ({select,util,id},{chain,view}) => ({
 
 
-  doc: (type, data) => {
-    var doc = chain({type,data,sent:{}}, 'templates')
+  doc: type => {
+    var _id = id.new()
+    var _sid = util.BsonId.toCompare(_id).toString(36)
+    var doc = chain({_id,_sid,type,sent:{}},'templates')
+    doc.transports = {}
+    for (var template of doc.templates) {
+      var transport = template.key.split(':')[1]
+      doc.transports[transport] = 1
+    }
     return doc
   },
 
-
-  data: (type, d) => {
-    var r = chain(d, type)
-    r.url = chain(r, `routes.${type}`)
-    return r
+  url: ({_sid,data,type}) => {
+    // var r = assign(chain(d, type))
+    // $log('Project.url', type, _sid, d)
+    // var url =
+    // for (var name in url)
+      // r.url[name] = assign(url[name]||{},
+        // { [transport]:`${config.http.host}/${transport}/${name}/${_sid}`})
+    // }
+    return chain(assign({_sid}, data), `routes.${type}`)
   },
-
 
   scheduled: id =>
     util.BsonId.toDate(id),
@@ -70,17 +80,19 @@ const Projections = ({select,util},{chain,view}) => ({
 
 
   to: u =>
-    chain(u, 'auth.comm'),
+    assign(chain(u, 'auth.comm'), { by: { ses: 1 } }),
 
 
   sub_to: s =>
-    assign(chain(s.user, 'auth.comm'), { by: select(s, '_id email push')}),
+    assign(chain(s.user, 'auth.comm'),
+      { by: { _id: s._id, ses: s.email, push: s.push } }),
 
 
   chat_to: d =>
-    d.users.filter(u => !_.idsEqual(u._id, d.history[0].user._id))
-           .map(u => assign(chain(u, 'auth.comm'), {
-             by: chain(u.settings, 'settings.defaults').notify.messages }) ),
+    d.users.filter(u => !_.idsEqual(u._id, d.history[0].userId))
+      .map(u => assign(chain(u, 'auth.comm'), {
+        by: _.select(chain(u.settings, 'settings.defaults').notify.messages, 'email push') }))
+      .map(u => assign(u, {by: { ses: u.by.email, push: u.by.push }})),
 
 
   user_welcome: d =>
@@ -92,8 +104,10 @@ const Projections = ({select,util},{chain,view}) => ({
     return { post }
   },
 
-  chat_message: d => ({ chat: { _id: d._id }, message: assign(
-    d.history[0], {user:_.find(d.users,u=>_.idsEqual(u._id,d.history[0].userId))}
+  chat_message: d => ({
+    chat: { _id: d._id },
+    message: assign(d.history[0],
+      {user: select(_.find(d.users,u=>_.idsEqual(u._id,d.history[0].userId)),'_id name avatar')}
   ) }),
 
 })

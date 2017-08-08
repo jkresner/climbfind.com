@@ -7,7 +7,7 @@ kk = null
 
 expectPostCopy = (post, msg) ->
   expect(msg._id).eqId(post._id)
-  expect(msg.text).to.equal(post.message)
+  expect(msg.text).to.inc(post.message)
   expect(msg.user.name).to.equal(post.user.name)
   # expect(msg.user.avatar).to.equal(post.user.avatar)
 expectMeta = (model, id, actions) ->  
@@ -166,7 +166,9 @@ module.exports = ->
       expect(c.sent[jk._id][0].to).inc(jk.name)
       expect(r.log.comm['welcome']).to.exist
       expect(r.log.last.action).to.equal('sys.welcome')
-      expect(raw[0]).inc('Congrats on your Climbfind account')
+      expect(raw[0]).inc([
+        "Congrats on your Climbfind account"
+        "/ses/post/#{c._sid}"])
       honey.logic.comm.user_welcome.exec (e2, c2, r2, raw2) ->
         expect(e2).to.be.null
         expect(c2._id).bsonId()
@@ -232,7 +234,7 @@ module.exports = ->
               DONE()
 
 
-  IT "Instant post notify emails", ->
+  IT "COMM post_notify emails", ->
     honey.logic.comm.post_notify.exec (e, comm, r, raw) ->
       expect(e).to.be.null
       expect(r.log.last.action).to.equal("notify:2")
@@ -250,8 +252,8 @@ module.exports = ->
       expect(sent[0][0].to).inc(gk.name)
       expect(sent[1][0].to).inc(ag.name)
       expect(raw.length).to.equal(2)
-      expect(raw[0]).inc(['Hi Andy,',"](http://localhost:4444/reply/#{r._id}?comm=posts_notify:ses)"])
-      expect(raw[1]).inc(['Hi Genie,',"](http://localhost:4444/reply/#{r._id}?comm=posts_notify:ses)"])
+      expect(raw[0]).inc(['Hi Andy,',"](http://localhost:4444/ses/reply/#{comm._sid})"])
+      expect(raw[1]).inc(['Hi Genie,',"](http://localhost:4444/ses/reply/#{comm._sid})"])
       # $log(raw[0], raw[1])
       honey.logic.comm.post_notify.exec (e2, comm2, r2, raw2) ->      
         expect(_.idsEqual(r._id, r2._id) is false).to.be.true
@@ -269,7 +271,7 @@ module.exports = ->
           expect(comm3.retry).to.be.undefined
           expect(Object.keys(comm3.sent).length).to.equal(1)
           expect(comm3.sent[gk._id][0].to).inc(gk.name)
-          expect(raw3[0]).inc(['Hi Genie,',"](http://localhost:4444/reply/#{r3._id}?comm=posts_notify:ses)"])       
+          expect(raw3[0]).inc(['Hi Genie,',"](http://localhost:4444/ses/reply/#{comm3._sid})"])       
           DONE()
 
 
@@ -341,7 +343,7 @@ module.exports = ->
                   DONE()       
 
   
-  IT "Chat message notify emails", ->
+  IT "COMM chat_message emails", ->
     honey.logic.comm.chat_message.exec (e, comm, r, raw) ->
       expect(r.log.last.action).to.equal("notify:1")      
       expect(r.history[0].commId).eqId(comm._id)
@@ -357,8 +359,10 @@ module.exports = ->
       sent = Object.values(comm.sent)
       expect(sent[0][0].to).inc(jk.name)
       expect(raw.length).to.equal(1)
-      expect(raw[0]).inc(['Hi Jonathon,',"message from Kevin",        
-        "](http://localhost:4444/messages/#{r._id}?message=#{r.history[0]._id}&amp;comm=chats_message:ses)"
+      expect(raw[0]).inc(['Jonathon,',"from Kevin",        
+        "message](http://localhost:4444/ses/chat/#{comm._sid})"
+        "settings](http://localhost:4444/ses/settings/#{comm._sid})"
+        # "](http://localhost:4444/messages/#{r._id}?message=#{r.history[0]._id}&amp;comm=chats_message:ses)"
         # "](http://localhost:4444/messages/#{r._id}?message=#{r.history[0]._id}&comm=chats_message:ses)"
         ])
       honey.logic.comm.chat_message.exec (e2, comm2, r2, raw2) ->      
@@ -372,7 +376,16 @@ module.exports = ->
         expect(sent2[0][0].to).inc(jk.name)
         expect(comm2.templates[0].key).to.equal('chat_message:ses')    
         honey.logic.comm.chat_message.exec (e3, r3, raw3) ->              
-          DONE()
+          LOGIN "jk", (s) ->
+            PAGE "/ses/settings/#{comm._sid}", { status: 302 }, (txt) ->
+              expect(txt).inc("Redirecting to /account")
+              DB.docById 'Comm', comm._id, (cDB) ->
+                expect(cDB.sent[jk._id][0].to).inc(jk.name)
+                expect(cDB.sent[jk._id][0].ct).to.exist
+                expect(cDB.sent[jk._id][0].ct[0]._id).bsonId()
+                expect(cDB.sent[jk._id][0].ct[0].link).to.equal('settings')
+                DONE()
+            
 
 
 
