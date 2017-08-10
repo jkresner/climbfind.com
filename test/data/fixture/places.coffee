@@ -1,4 +1,22 @@
 module.exports = 
+    
+  chang: 
+    _id: ObjectId("597e2073dba1187878dcbb3e")
+    climbing: ['tr','boulder','lead']
+    type: 'indoor'    
+    name: 'Cliffhanger Climbing Gym Vancouver'
+    shortName: "Cliffhanger Vancouver"
+    logo: "https://i.imgur.com/GHD70zW.png"    
+    avatar: "https://i.imgur.com/3ieS2Dn.png"      
+
+  torca: 
+    _id: ObjectId("597e2073dba1187878dcbb92")
+    climbing: ['tr','boulder','lead']
+    type: 'indoor'    
+    name: "Toronto Climbing Academy"
+    shortName: "Toronto Climbing Academy"
+    logo: "https://i.imgur.com/XXYM43w.png"    
+    avatar: "https://i.imgur.com/XXYM43w.png"      
 
   arch: 
     _id: ObjectId("597e2074dba1187878dcbc16")
@@ -6,7 +24,7 @@ module.exports =
     type: 'indoor'    
     name: 'The Arch Climbing Wall'
     shortName: "The Arch"
-    logo: "http://i.imgur.com/RUNa7jU.png"    
+    logo: "https://i.imgur.com/RUNa7jU.png"    
     avatar: "https://i.imgur.com/RUNa7jU.png"      
 
   me: 
@@ -15,7 +33,7 @@ module.exports =
     type: 'indoor'    
     name: 'Mile End Climbing Wall'
     shortName: "Mile End"
-    logo: "http://i.imgur.com/ekExxO7.png"    
+    logo: "https://i.imgur.com/ekExxO7.png"    
     avatar: "https://i.imgur.com/ekExxO7.png"       
 
   ww:
@@ -24,7 +42,7 @@ module.exports =
     type: 'indoor'    
     name: 'Westway Climbing'
     shortName: "The Westway"
-    logo: "http://i.imgur.com/MeQdJl1.png"    
+    logo: "https://i.imgur.com/MeQdJl1.png"    
     avatar: "https://i.imgur.com/MeQdJl1.png"       
 
   tca:
@@ -33,16 +51,16 @@ module.exports =
     type: 'indoor'    
     name: "TCA Bouldering & Climbing Bristol"
     shortName: "TCA Bristol"
-    logo: "http://i.imgur.com/Gy202ik.png"    
+    logo: "https://i.imgur.com/Gy202ik.png"    
     avatar: "https://i.imgur.com/38Ty1m0.png"    
 
   rpntb:
     _id: ObjectId("59816cc8e4a22e93f12550c0")
     climbing: ['tr','boulder','lead']
     type: 'indoor'    
-    name: "Repoint Bristol Climbing Centre"
-    shortName: "Repoint Bristol"
-    logo: "http://i.imgur.com/MlqmnSb.png"    
+    name: "Redpoint Bristol Climbing Centre"
+    shortName: "Redpoint Bristol"
+    logo: "https://i.imgur.com/MlqmnSb.png"    
     avatar: "https://i.imgur.com/FOFcSd4.png"       
 
   etrkcc:
@@ -51,7 +69,7 @@ module.exports =
     type: 'indoor'    
     name: "Earth Treks Crystal City"
     shortName: "Earth Treks Crystal City"
-    logo: "http://i.imgur.com/OinhOTF.png"    
+    logo: "https://i.imgur.com/OinhOTF.png"    
     avatar: "https://i.imgur.com/OinhOTF.png"         
 
   etrkt:
@@ -60,7 +78,7 @@ module.exports =
     type: 'indoor'    
     name: "Earth Treks Timonium"
     shortName: "Earth Treks Timonium"
-    logo: "http://i.imgur.com/OinhOTF.png"    
+    logo: "https://i.imgur.com/OinhOTF.png"    
     avatar: "https://i.imgur.com/OinhOTF.png"         
 
   etrkr:
@@ -69,7 +87,7 @@ module.exports =
     type: 'indoor'    
     name: "Earth Treks Rockville"
     shortName: "Earth Treks Rockville"
-    logo: "http://i.imgur.com/OinhOTF.png"    
+    logo: "https://i.imgur.com/OinhOTF.png"    
     avatar: "https://i.imgur.com/OinhOTF.png"         
 
   etcol:
@@ -78,7 +96,7 @@ module.exports =
     type: 'indoor'    
     name: "Earth Treks Columbia"
     shortName: "Earth Treks Columbia"
-    logo: "http://i.imgur.com/OinhOTF.png"    
+    logo: "https://i.imgur.com/OinhOTF.png"    
     avatar: "https://i.imgur.com/OinhOTF.png"       
 
   move:
@@ -87,7 +105,7 @@ module.exports =
     type: 'indoor'    
     name: "Movement Climbing & Fitness"
     shortName: "Movement"
-    logo: "http://i.imgur.com/m7Qxku4.png"    
+    logo: "https://i.imgur.com/m7Qxku4.png"    
     avatar: "https://i.imgur.com/Z2lYhpq.jpg"    
 
   tnth:
@@ -96,16 +114,16 @@ module.exports =
     type: 'indoor'    
     name: "True North Climbing Center"
     shortName: "True North"
-    logo: "http://i.imgur.com/KRmr8dp.png"    
+    logo: "https://i.imgur.com/KRmr8dp.png"    
     avatar: "https://i.imgur.com/KRmr8dp.png"    
 
   rpoint:
     _id: ObjectId("597e2073dba1187878dcbac4")
     climbing: ['tr','boulder','lead']
     type: 'indoor'    
-    name: "Repoint Climbing Centre Birmingham"
-    shortName: "Repoint Birmingham"
-    logo: "http://i.imgur.com/b1R6y0B.png"    
+    name: "Redpoint Climbing Centre Birmingham"
+    shortName: "Redpoint Birmingham"
+    logo: "https://i.imgur.com/b1R6y0B.png"    
     avatar: "https://i.imgur.com/1qiaSHr.png"    
 
   alienr:
@@ -114,7 +132,7 @@ module.exports =
     type: 'indoor'    
     name: "Alien Rock Indoor Climbing"
     shortName: "Alien Rock"
-    logo: "http://i.imgur.com/GZll3eo.jpg"    
+    logo: "https://i.imgur.com/GZll3eo.jpg"    
     avatar: "https://i.imgur.com/5U2i9E3.png"    
 
   castle:

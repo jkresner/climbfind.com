@@ -27,5 +27,16 @@ module.exports = (app, mw) =>
       if (view == "account") project.posts(req, 'r.posts')
       if (view == "chat") project.chat(req, 'r')
 
+      if (view == "love" || view == "home")
+        req.locals.htmlHead = {
+          // ogType: ''
+          ogTitle: 'Climbfind climbing partner community',
+          ogDescription: 'Find climbing partners at your local climbing gym and weekend climbing & hiking trips outdoors',
+          ogImage: 'https://www.climbfind.com/img/og2x.png',
+          ogUrl: 'https://www.climbfind.com/',
+          canonical: 'https://www.climbfind.com/'
+        }
+
       return mw.res.page(view, { layout:'layout', view })(req, res, next)
     }
+
