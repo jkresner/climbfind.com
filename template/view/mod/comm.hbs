@@ -1,0 +1,64 @@
+<style type="text/css">
+ul { padding:4px;background:#d3f3f3 }
+ul li { background:white;font-size:10px;text-align:center;width:130px;margin:2px 1px;vertical-align:top }
+ul label { display:block;font-weight:normal;letter-spacing:-0.4px;margin-bottom:1px; }
+.success { color:green; }
+time { font-size:9px;color:black; }
+b { font-family:courier }
+</style>
+
+
+{{#with r.stats}}
+<div>
+<h3>Stats ({{comm}})</h3>
+Users: {{users}}, CT: {{ct}}
+</div>
+{{/with}}
+
+
+{{#with r.comms.user_welcome}}
+<h2>User welcome ({{this.length}})</h2>
+<ul>
+{{#each this}}
+  <li><time>{{day}}</time>
+{{#if retry}}<label class="label label-danger">{{{ JSON retry }}} retry</label>{{/if}}
+{{#each sent}}
+    {{#if ct}}<label class="success">{{{to}}}</label><div>{{{ct}}}</div>
+    {{else}}<label>{{{to}}}</label>{{/if}}
+{{/each}}
+  </li>
+{{/each}}  
+</ul>
+{{/with}}
+
+
+{{#with r.comms.chat_message}}
+<h2>Chat message ({{this.length}})</h2>
+<ul>
+{{#each this}}
+  <li><time>{{day}}</time>
+{{#if retry}}<label class="label label-danger">{{{ JSON retry }}} retry</label>{{/if}}
+{{#each sent}}
+    {{#if ct}}<label class="success">{{{to}}}</label><div>{{{ct}}}</div>
+    {{else}}<label>{{{to}}}</label>{{/if}}
+{{/each}}
+  </li>
+{{/each}}  
+</ul>
+{{/with}}
+
+
+{{#with r.comms.post_notify}}
+<h2>Post notify ({{this.length}})</h2>
+<ul>
+{{#each this}}
+  <li><time>{{day}}</time>
+{{#if retry}}<label class="label label-danger">{{{ JSON retry }}} retry</label>{{/if}}
+{{#each sent}}
+    {{#if ct}}<label class="success">{{{to}}}</label><div>{{{ct}}}</div>
+    {{else}}<label>{{{to}}}</label>{{/if}}
+{{/each}}
+  </li>
+{{/each}}  
+</ul>
+{{/with}}

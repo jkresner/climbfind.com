@@ -1,10 +1,20 @@
+var mute = new RegExp(honey.cfg('log.errors.mute'))
+
 module.exports = (app, mw) =>
 
   mw.res.error({
     render: { view: 'error', layout:false, about: config.about },
-    verbose: process.env.LOG_VERBOSE || honey.cfg('log.it.verbose'),
+    verbose: !!(process.env.LOG_VERBOSE || honey.cfg('log.verbose')),
     quiet: /prod/i.test(config.env),
+    renderCustom: function(e, req, res) {
+      if (mute.test(e.message))
+        return res.status(200).send('')
+
+      return false
+    },
     onError: function(req, e) {
+      if (mute.test(e.message)) return
+
       try {
         var msg = e.message.replace(/ /g,'').replace('contact@climbfind.com','')
         var name = e.status || (msg.length > 24 ? msg.substring(0,24) : msg)

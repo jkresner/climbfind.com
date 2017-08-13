@@ -1,6 +1,6 @@
 const Views = {
   item:      '_id type climbing time tz message user._id user.name user.avatar place._id place.name place.shortName place.avatar place.logo',
-  list:      '_id type climbing time message user._id user.name user.avatar place._id place.name place.shortName place.logo',
+  list:      '_id type climbing time tz day message user._id user.name user.avatar place._id place.name place.shortName place.logo',
 }
 
 
@@ -26,7 +26,7 @@ const Opts = {
                   userId: '_id name photos' } },
 
   list: { sort: { time: 1, _id: -1 },
-          select: `_id time type climbing message userId placeId`,
+          select: `_id time tz.id type climbing message userId placeId`,
           join: { placeId: 'name shortName logo avatar' , userId: '_id name photos' },
           limit: 25 }
 }
@@ -43,9 +43,8 @@ const Projections = ({select,util},{chain,view}) => ({
   },
 
   localDay: d => {
-    d.day = moment.tz(d.time, d.tz.id).format('DD MMM')
+    d.day = moment.tz(d.time, d.tz.id).format('ddd DD MMM')
     delete d.time
-    // $log('posts.project.localDay'.yellow, d)
     return d
   },
 
@@ -60,12 +59,12 @@ const Projections = ({select,util},{chain,view}) => ({
 
 
   list: d => {
-    var posts = chain(d.posts, 'unix', 'user', view.list)
+    var posts = chain(d.posts, 'unix', 'user')
     var now = moment().startOf('day').unix()
-    var past = posts.filter(p => p.time < now)
     var upcoming = posts.filter(p => p.time >= now)
+    var past = posts.filter(p => p.time < now)
     past.reverse()
-    return _.union(upcoming, past)
+    return view.list(_.union(upcoming, past))
   },
 
 

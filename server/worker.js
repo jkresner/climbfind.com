@@ -16,10 +16,10 @@ function ready(e)   {
           var end = moment()
           var ts = `${end.format("HH:mm:ss")} ${end.diff(start)}ms\t`
           if (e) {
-            $log(ts, `${name} error`.red, e.message)
+            console.error(`${ts} ${name} error`.red, e.message)
             clearInterval(jobs[name].interval)
           } else if (comm)
-            $log(ts, `${name} success`.white, JSON.stringify(comm.sent))
+            console.log(ts, `${name} sent`.white, comm.sent ? Object.keys(comm.sent).length : 0)
         })
       }
     }

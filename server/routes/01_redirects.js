@@ -1,13 +1,18 @@
-module.exports = (app, mw) =>
+module.exports = (app, mw, {redirects}) =>
 
+  !redirects.on ? 0 : honey
 
-  honey.Router('redirects', {type: 'html'})
+    .Router('redirects', {type: 'html'})
 
     .get(['/images/*',
-          '/thumb.ashx'],
+          '/mobile',
+          '/opinion*',
+          '/page-not-found.htm',
+          '/moderator-dashboard',
+          '/thumb.ashx*'],
       (req, res, next) => res.status(410).send(''))
 
-    .get('/ico/apple-icon-*',
+    .get('/ico/*',
       (req, res, next) => res.redirect(301, req.originalUrl.replace('\/ico','')))
 
     .get('/apple-touch-*',
@@ -40,6 +45,7 @@ module.exports = (app, mw) =>
           '/new-partner-call/*',
           '/outdoor-climbing-*',
           '/partners-rss-feed/*',
+          '/places',
           '/places/indoor-rock-climbing-gyms/*',
           '/places/outdoor-rock-climbing/*',
           '/rock-climbing-*',

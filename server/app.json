@@ -15,38 +15,18 @@
         "clientSecret":        "{{required}}"
       }
     },
-    "user":                   { "settings": true },
-    "wrappers":               false
+    "user":                    { "settings": true },
+    "wrappers":                false
   },
   "comm": {
     "mode":                    "stub",
     "transports":              ["ses"]
   },
   "http": {
-    "port":                   3336,
+    "port":                    3336,
     "static": {
-      "dirs":                 "template/static",
-      "favicon":              { "root": "template/static" }
-    }
-  },
-  "middleware": {
-    "ctx": {
-      "ud": {
-        "ban":                 "AhrefsBot|BuckyOHare|Buzzbot|CCBot|cf-news|coccoc|cognitiveseo|CloudFlare-Always|datasift.com|dataprovider.com|Domain Re-Animator|DotBot|EmailMarketingRobot|Feedly|Genieo|GrapeshotCrawler|GurujiBot|HaosouSpider|Hubspotistellabot|linkdexbot|ltx71|Mediatoolkitbot|MegaIndex|MetaURI|MJ12bot|Nutch|oai-finder|OpenLinkProfiler|panscient.com|Pingdom|Priceonomics|QuerySeekerSpider|R6_CommentReader|rogerbot|scraper|Screaming Frog|ScoutJet|Searchmetrics|SemrushBot|Sentinurl|SeznamBot|Sgrunt|ShowyouBot|SMTBot|Sogou|Turnitin|uk_lddc_bot|WPScan|YisouSpider"
-      }
-    },
-    "session": {
-      "authdData":            "_id name avatar",
-      "store":                 { "collection": "sessions" }
-    },
-    "forbid": {
-      "adm":                  "597e2f52755541797ea3d8b7"
-    }
-  },
-  "model": {
-    "cache": {
-      "on":                   true,
-      "require":              "templates:templates,places:places"
+      "dirs":                  "template/static",
+      "favicon":               { "root": "template/static" }
     }
   },
   "log": {
@@ -62,14 +42,39 @@
     },
     "comm":                    true,
     "errors": {
-      "mail":                  { "to": "jk@climbfind.com", "sender": "ERR <contact@climbfind.com>" }
+      "mail":                  { "to": "jk@climbfind.com", "sender": "ERR <contact@climbfind.com>" },
+      "mute":                  "Failed to decode param"
     }
+  },
+  "middleware": {
+    "ctx": {
+      "ud": {
+        "ban":                 "AhrefsBot|BuckyOHare|Buzzbot|CCBot|cf-news|coccoc|cognitiveseo|CloudFlare-Always|datasift.com|dataprovider.com|Domain Re-Animator|DotBot|EmailMarketingRobot|Feedly|Genieo|GrapeshotCrawler|GurujiBot|HaosouSpider|Hubspotistellabot|linkdexbot|ltx71|Mediatoolkitbot|MegaIndex|MetaURI|MJ12bot|Nutch|oai-finder|OpenLinkProfiler|panscient.com|Pingdom|Priceonomics|QuerySeekerSpider|R6_CommentReader|rogerbot|scraper|Screaming Frog|ScoutJet|Searchmetrics|SemrushBot|Sentinurl|SeznamBot|Sgrunt|ShowyouBot|SMTBot|Sogou|Turnitin|uk_lddc_bot|WPScan|YisouSpider"
+      }
+    },
+    "session": {
+      "authdData":             "_id name avatar",
+      "store":                 { "collection": "sessions" }
+    },
+    "forbid": {
+      "adm":                   "597e2f52755541797ea3d8b7"
+    }
+  },
+  "model": {
+    "cache": {
+      "on":                    true,
+      "require":               "templates:templates,places:places"
+    }
+  },
+  "routes": {
+    "mod":                     { "on": true },
+    "redirects":               { "on": true }
   },
   "templates": {
     "dirs": {
       "helpers":               "template/helper",
       "partials":              "template/partial",
-      "views":                 "template/view"
+      "views":                 "template/view,template/view/mod"
     }
   },
   "wrappers": {

@@ -1,0 +1,26 @@
+<style type="text/css">
+body { background:#d3d3d3;color:black;font-size:12px; }
+pre, code { font-size:12px;margin:0;padding:0!important; }
+code { margin-bottom:6px }
+section { float:left;width:640px;margin:10px;padding:10px;background:white; }
+hr { border-top:solid 1px gray;margin-top:15px; }
+h3 { border:none;font-weight:bold }
+h5 { font-size:12px;font-weight:bold;margin:10px 0;padding:0 }
+a { color:#15c; }
+</style>
+
+
+
+{{#each r}}
+<div>
+<h3>{{key}}</h3>
+<section>
+  <code>{{part.subject}}</code>
+  <pre>{{{part.text}}}</pre>
+</section>
+<section>
+  <code>{{rendered.subject}}</code>
+  <div>{{{rendered.html}}}</div>
+</section>
+</div>
+{{/each}}

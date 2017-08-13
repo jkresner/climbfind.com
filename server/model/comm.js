@@ -4,7 +4,7 @@
 
 asSchema({
 
-  _sid:           { type: String, unique, index },
+  _sid:           { type: String, unique, index, sparse },
   type:           { type: String, enum: Enum.COMM.TYPE },
 
   templates:      {},

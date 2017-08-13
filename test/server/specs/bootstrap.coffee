@@ -167,7 +167,7 @@ module.exports = ->
       expect(r.log.comm['welcome']).to.exist
       expect(r.log.last.action).to.equal('sys.welcome')
       expect(raw[0]).inc([
-        "Congrats on your Climbfind account"
+        "Congrats"
         "/ses/post/#{c._sid}"])
       honey.logic.comm.user_welcome.exec (e2, c2, r2, raw2) ->
         expect(e2).to.be.null

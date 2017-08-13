@@ -12,6 +12,7 @@ module.exports = (app, mw) =>
     .use(mw.$.noindex)
 
     .get('/login', mw.$.page('login'))
+    .get(/\/legal\/(terms-of-service|privacy-policy)/, mw.$.page('legal'))
 
     .use(mw.$.setReturnTo)
     .use(mw.$.authd)

@@ -1,14 +1,19 @@
-<div class="full subscription container">
+<div class="full subscription">
 
  <header>
   <a href="/account" class="account cancel"> Cancel</a>
-  <label>{{r.place.name}}</label>  
+  <label>Settings</label>  
+  <a class="submit">Save</a>
  </header>
 
-  <img class="logo" src="{{r.place.logo}}" />
-<br />
 <form>
   <fieldset>
+
+{{#if r.place.logo}}
+  <img class="logo" src="{{r.place.logo}}" />
+{{else}}
+  <h3>{{r.place.name}}</h3>
+{{/if}}
   <div class="form-group">
     <label for="beat">Notifications</label>
     <select id="beat" class="form-control">
@@ -17,7 +22,7 @@
       <option value="off">Off</option>
     </select>
   </div>
-
+  <br />
   <div class="form-group">
     <label for="indoor">Indoor</label>
     <select id="indoor" class="form-control">
@@ -26,7 +31,7 @@
     </select>
   </div>  
   <div class="form-group">
-    <label for="outdoor">Outdoor</label>
+    <label for="outdoor">Outdoor <span>(trips)</spam></label>
     <select id="outdoor" class="form-control">
       <option value="on">On</option>
       <option value="off">Off</option>
@@ -38,20 +43,25 @@
       <option value="on">On</option>
       <option value="off">Off</option>
     </select>
-  </div>  
+  </div> 
+  <br /> 
   <div class="form-group">
-    <label for="push">Push (coming soon)</label>
+    <label for="push">Push <span>(coming soon)</span></label>
     <select id="push" class="form-control">
       <option value="on">On</option>
       <option value="off">Off</option>
     </select>
   </div>    
+  <div class="form-group">
+    <label for="fb">Facebook <span>(coming soon)</span></label>
+    <select id="fb" class="form-control">
+      <option value="on">On</option>
+      <option value="off">Off</option>
+    </select>
+  </div>      
   
-  <a class="submit btn btn-default">Save</a>
-
     </fieldset>
   </form>
-
 
 </div>
 

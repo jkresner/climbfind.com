@@ -2,8 +2,7 @@
 
   <div id="notify">
 
-<img class="usr" src="{{r.me.avatar}}" />
-
+  <img class="usr" src="{{r.me.avatar}}" />
 <h4>Notifications</h4>
 
 <ul>
@@ -20,9 +19,8 @@
     <a href="/notifications/{{_id}}">
       <img src="{{place.avatar}}" />
       <h4>{{place.shortName}}</h4>
-      <div>{{beat}}</div>
-      <i class="glyphicon glyphicon-envelope {{email}}" aria-hidden="true"></i>
-      <i class="glyphicon glyphicon-phone {{push}}" aria-hidden="true"></i>
+      <div><label class="label label-{{beat}}">{{beat}}</label></div>
+      <i class="glyphicon glyphicon-phone {{push}}" aria-hidden="true"></i><i class="glyphicon glyphicon-envelope {{email}}" aria-hidden="true"></i><i class="ion-social-facebook off" aria-hidden="true"></i>
     </a>
   </li>
 {{/each}}
@@ -34,8 +32,14 @@
 
   <div class="feed">
   <h4>Posts by you</h4>
-  <ul id="feed">
-    {{#each r.posts}}{{> postTile this}}{{/each}}
+  <ul id="myposts">
+{{#each r.posts}}
+    <li>
+      <h4>{{ date this }} @ {{place.name}}</h4>
+      <div>{{{markup message}}}</div>
+      {{#if place.logo}}<img class="place" src="{{place.logo}}" alt="{{place.name}}" />{{/if}}
+    </li>
+{{/each}}
   </ul>
   </div>
 

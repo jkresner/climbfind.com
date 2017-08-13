@@ -1,0 +1,20 @@
+<style type="text/css">
+ul { padding:20px;background:#d3f3f3 }
+ul img { max-width:100px;display:block;margin:2px auto; }
+ul li { background:white;font-size:11px;text-align:center;width:120px;margin:1px; }
+ul label { display:block; }
+</style>
+
+{{#each r.stats}}
+<ul>
+  {{#each this}}
+  <li>
+    <a href="{{fb}}" target="_blank">
+      <time>{{signup}}</time>
+      <img src="{{avatar}}" />
+      <label>{{name}}</label>  {{!-- {{gender}} | --}}
+    </a>
+  </li>
+  {{/each}}
+</ul>
+{{/each}}

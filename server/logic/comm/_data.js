@@ -106,9 +106,10 @@ const Projections = ({select,util,id},{chain,view}) => ({
 
   chat_message: d => ({
     chat: { _id: d._id },
-    message: assign(d.history[0],
-      {user: select(_.find(d.users,u=>_.idsEqual(u._id,d.history[0].userId)),'_id name avatar')}
-  ) }),
+    message: {
+      text: d.history[0].text,
+      user: select(_.find(d.users,u=>_.idsEqual(u._id,d.history[0].userId)), 'name avatar') }
+  }),
 
 })
 

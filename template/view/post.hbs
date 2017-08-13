@@ -3,48 +3,48 @@
  <header>
   <a href="/" class="cancel"> Cancel</a>
   <label>Partner Call</label>
-  <a class="submit disabled" disabled>Create</a>
+  <a class="submit disabled" style="display:none">Submit</a>          
  </header>
 
   <form>
     <fieldset>
-    
-    <div class="places form-group form-group-lg">
-      <label for="place">Where do you want to climb?</label>      
-      <select class="form-control" id="city">
-        {{{ postcity }}}
-      </select>
-      <select style="display:none" class="form-control" id="place" required>        
-      </select>        
-      <div class="logo"></div>
-    </div>
-    <div class="climbing form-group">   
-      <label for="climbing">Climbing</label>         
-      <div class="btn-group" data-toggle="buttons">
-        <label class="climb-tr btn btn-primary">
-          <input id="tr" type="checkbox" autocomplete="off" name="climbing"> 
-          <img src="/climb-toprope.png" />
-          Top rope
-        </label><label class="climb-lead btn btn-primary">
-          <img src="/climb-lead.png" />
-          <input id="lead" type="checkbox" autocomplete="off" name="climbing"> Lead climb
-        </label><label class="climb-boulder btn-primary">
-          <input id="boulder" type="checkbox" autocomplete="off" name="climbing"> 
-          <img src="/climb-boulder.png" />
-          Boulder
-        </label>
+      <div class="message form-group">  
+        <label for="message">Message</label>             
+        <img src="{{session.avatar}}" class="usr" />
+        <textarea id="message" placeholder="What times, difficulty or other partner preferences can you share?"></textarea>    
+        <i class="ion-location"></i>    
+        <i class="fa fa-calendar-o" aria-hidden="true"></i>
       </div>      
-    </div>  
-    <div class="days form-group">
-      <label for="day">Day</label>
-      {{ postdays }}
-    </div>          
-    <div class="message form-group">  
-      <label for="message">Message</label>             
-      <img src="{{session.avatar}}" class="usr" />
-      <textarea id="message" placeholder="What times, difficulty and partner preferences can you to share?"></textarea>
-      {{!-- <span class="help-block">Up to 256 characters</span> --}}
-    </div>
+      <div class="places form-group form-group-lg">
+        <label for="place">Where do you want to climb?</label>      
+        <select class="form-control" id="city">
+          {{{ postcity }}}
+        </select>
+        <select style="display:none" class="form-control" id="place" required>        
+        </select> 
+        <div class="logo"></div>                     
+      </div>
+      <div class="climbing form-group">   
+        <label for="climbing">Climbing</label>         
+        <div class="btn-group" data-toggle="buttons">
+          <label class="climb-tr btn btn-primary">
+            <input id="tr" type="checkbox" autocomplete="off" name="climbing"> 
+            <img src="/climb-toprope.png" />
+            Top rope
+          </label><label class="climb-lead btn btn-primary">
+            <img src="/climb-lead.png" />
+            <input id="lead" type="checkbox" autocomplete="off" name="climbing"> Lead climb
+          </label><label class="climb-boulder btn-primary">
+            <input id="boulder" type="checkbox" autocomplete="off" name="climbing"> 
+            <img src="/climb-boulder.png" />
+            Boulder
+          </label>
+        </div>      
+      </div>  
+      <div class="days form-group">        
+        <label for="day">Day</label>
+        {{ postdays }}
+      </div>          
     </fieldset>
   </form>
 
@@ -70,7 +70,9 @@ $(function() {
     $(".days li").removeClass('active')    
     data.day = parseInt($('#day').val($(this).addClass('active').data('day')).val())    
     $day.addClass('done')    
+    $('.fa-calendar-o').html(' &nbsp;<time>' + $(this).find('time').html()+ '</time>')
     $message.toggle(true)
+    $('a.submit').show()
     $('#message').focus()
     return false
   })
@@ -95,6 +97,7 @@ $(function() {
       $('.btn-group label').each(function() {
         $(this).toggle(place.climbing.indexOf($(this).find('input')[0].id)>-1) })
       $places.addClass('done')
+      $('.ion-location').html(' &nbsp;' + place.shortName)
     }
     return !$climbing.toggle(!!data.placeId)    
   })
@@ -133,11 +136,10 @@ $(function() {
       var placeId = q[1].split('&')[0]
       var place = placeData.indoor[placeId]
       if (place) {
-        // console.log('place', place)
         $("#city").val(place.linked[0]).change() 
         $("#place").val(place._id).change()
-        // $("#tr").click()
-        // $(".days li")[0].click()
+        $("#tr").click()
+        $(".days li")[0].click()
       }
     }
   }
