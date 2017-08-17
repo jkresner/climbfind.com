@@ -1,30 +1,26 @@
 SCREAM                       = require('screamjs')
+Honey                        = require('honeycombjs')
+path                         = require('path')
 
-test = auth:
-  login: { fnName: 'oauth', url: '/auth/test/login' }
 
 opts =
-  setup: (e) -> 
-    console.log('SCREAM.SETUP done', e)
+  setup:                     done: require('./setup')
   login:
-    clearSessions: true
-    test: test.auth.login
-    fn: (data, cb) ->
-      profile = FIXTURE.oauth[data.key||data]
-      token = _.get(profile,"tokens.cf.token") || "test"
-      config.test.auth.login.fn.call @, 'facebook', profile, {token}, cb
- 
-# // tracking                     = require('../../server/app.track')
-# // test = auth:
-# //   login:                     { fnName: 'loginAuthor', url: '/auth/test/login' }
+    session:                 null
+    accept:                  'application/json'
+    status:                  200
+    logic:                   'oauth'
+    url:                     '/auth/test/login'
+    handler: (data, cb) ->
+      profile = FIXTURE.oauth[data.key]
+      opts.login.fn.call @, 'facebook', profile, {token:'test'}, (e ,r) =>
+        if r? and !FIXTURE.users[data.key]
+          FIXTURE.users[data.key] = r
+        cb(e, r)
+
 
 SCREAM(opts).run (done) ->
-  appDir           = __dirname + '/../../server/'
-  configure        = require('honeycombjs').Configure
-  config           = configure(appDir, 'test', true)
-  config.test      = test
-  app              = require(appDir+'app.js')({config,done})
-
-#   config.test     = test
-#   if !process.env.LOG_APP_VERBOSE
-#     delete config.log.mw.forbid
+  appDir                     = path.join(__dirname, '/../../server')
+  config                     = Honey.Configure(appDir, 'test', true)
+  config.routes.auth.test    = { on:true, login: opts.login }
+  app                        = require(path.join(appDir,'app.js'))({config,done})

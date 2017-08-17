@@ -1,0 +1,2 @@
+#!/bin/sh
+nodemon ./server/index.js -w server -w template -e js,hbs --quiet

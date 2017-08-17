@@ -6,7 +6,7 @@ module.exports = (app, mw) =>
     .use(mw.$.session)
     .use(mw.$.trackVisit)
 
-    .get('/', mw.data.logic('posts','listPost'), mw.$.page('home'), mw.$.trackPage('home'))
+    .get('/', mw.$.logic('posts.listPost',{assign:'posts'}), mw.$.page('home'), mw.$.trackPage('home'))
     .get('/love', mw.$.page('love'))
 
     .use(mw.$.noindex)

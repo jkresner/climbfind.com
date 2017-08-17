@@ -1,0 +1,20 @@
+#!/bin/sh
+CYAN='\033[0;36m';
+NC='\033[0m'; # No Color
+CMD="${CYAN}CMD/setup: {NC}";
+
+printf "${CMD}CLEAN npm modules$ /node_modules\n"
+rm -rf node_modules
+
+printf "${CMD}INSTALL npm packages (could take a minute)${NC}\n"
+npm install;
+
+printf "${CMD}WIRE git hooks\n"
+rm -rf .git/hooks;
+mkdir .git/hooks;
+cd .git/hooks;
+ln -nsf ../../cmd/dev/git-hook/pre-push;
+cd ../../;
+
+printf "${CMD}TEST server specs\n"
+cmd/test;

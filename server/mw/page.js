@@ -1,6 +1,6 @@
 var project = {
   posts: (req, getter) => {
-    var posts = _.get(req.locals,getter)
+    var posts = _.get(req.locals, getter)
     posts.forEach(p => p.me = req.user ? _.idsEqual(p.user._id, req.user._id) : false)
     req.locals.feed = {}
     if (posts.length > 0)
@@ -23,7 +23,7 @@ module.exports = (app, mw) =>
   view =>
 
     function(req, res, next) {
-      if (view == "home") project.posts(req, 'r')
+      if (view == "home") project.posts(req, 'r.posts')
       if (view == "account") project.posts(req, 'r.posts')
       if (view == "chat") project.chat(req, 'r')
 

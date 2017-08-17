@@ -1,0 +1,2 @@
+#!/bin/sh
+coffee cmd/tool/$1/run.coffee $2 $3 $4 $5 $6

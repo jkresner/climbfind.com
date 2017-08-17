@@ -2,13 +2,13 @@
 
 ### Run it
 
-`npm run-script setup` install npm packages, other dependencies
+`cmd/dev/setup` install npm packages, other dependencies
 
-`npm start` with `/server/app.dev.env` config
+`cmd/dev/run` with `/server/app.dev.env` config
 
 ### Test it
 
-`npm run-script test-server` runs server api and batch worker tests
+`cmd/test` runs server api and batch worker tests
 
 coffee test/server/index.coffee
 

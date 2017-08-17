@@ -1,4 +1,4 @@
-<div class="full chat container">
+<div class="full chat">
  <header>
   <a href="/messages" class="inbox ion-chevron-left"> Inbox</a>
   {{#each r.users}}<label>{{name}}</label>{{/each}}
@@ -11,7 +11,7 @@
       <div>{{ markup text}}</div>
     </li>
 {{/each}}
-  </ul> 
+  </ul>
   <form id="messageForm">
     <fieldset>
       <input type="hidden" id="chatId" value="{{r._id}}" />
@@ -22,12 +22,11 @@
   </form>
 </div>
 
-<script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
 <script>
-// Attach a submit handler to the form
+
 function scrollBottom() {
   $('#chat').scrollTop($('#chat')[0].scrollHeight - $('#chat')[0].clientHeight);
 }
@@ -35,18 +34,16 @@ function scrollBottom() {
 $(function() {
   scrollBottom();
 
-  $("#messageForm .btn").click(function(event) { 
+  $("#messageForm .btn").click(function(event) {
     event.preventDefault();
 
-    // Stop form from submitting normally
-   
     // Get some values from elements on the page:
     var $form = $("#messageForm"),
       text = $form.find("#text").val();
     var data = { text: text }
     if ($form.find("#chatId").val())
       data.chatId = $form.find("#chatId").val()
-    if ($form.find("#postId").val()) 
+    if ($form.find("#postId").val())
       data.postId = $form.find("#postId").val()
 
     var posting = $.post("/api/chats/message", data).done(function( data ) {
@@ -54,7 +51,7 @@ $(function() {
         +text+'</div></li>');
       scrollBottom();
     })
-      
+
     $form.find("#text").val('')
   })
 });

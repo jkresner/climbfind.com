@@ -2,13 +2,13 @@ var cMap = { tr: 'Top rope', lead: 'Lead climb', boulder: 'Boulder'}
 
 module.exports = {
 
-  
+
   climb: style => style == 'tr' ? 'toprope' : style,
 
-  
+
   date: post => {
     var today = moment.tz(post.tz.id).startOf('day').unix()
-    if ((post.time >= today) || post.me) {      
+    if ((post.time >= today) || post.me) {
       var t = moment.unix(post.time).tz(post.tz.id)
       var climbing = ""
       for (var type of post.climbing) climbing += `<b>${cMap[type]}</b> or `
@@ -31,7 +31,7 @@ module.exports = {
   postcity: x => {
     var opts = Object.keys(cache.places.area)
       .filter(id => cache.places.area[id].linked.length > 0)
-      .map(id => 
+      .map(id =>
       `<option value="${id}">${cache.places.area[id].name}</option>`)
           .join('\n')
     // $log('postcity'.green, opts, cache.places.area)
@@ -47,11 +47,11 @@ module.exports = {
 
 
   postdays: x => {
-    var opts = [0,1,2,3,4,5,6].map(n => 
+    var opts = [0,1,2,3,4,5,6].map(n =>
       `<option value="${n}">${moment().add(n,'day').format('dddd, MMM Do')}</option>`)
           .join('\n')
-    var select = `<select class="form-control" id="day"><option value=" " selected>-- select day --</option>\n${opts}</select>`     
-    var items = [0,1,2,3,4,5,6].map(n => 
+    var select = `<select id="day" class="form-control"><option value=" " selected>-- select day --</option>\n${opts}</select>`
+    var items = [0,1,2,3,4,5,6].map(n =>
       `<li data-day='${n}'><time>${moment().add(n,'day').format('<b>ddd</b> Do MMM')}</time></li>`)
           .join('\n')
     return `<ul id="days">${items}</ul>${select}`

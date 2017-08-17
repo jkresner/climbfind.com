@@ -5,7 +5,7 @@ module.exports = (app, mw) =>
   mw.res.error({
     render: { view: 'error', layout:false, about: config.about },
     verbose: !!(process.env.LOG_VERBOSE || honey.cfg('log.verbose')),
-    quiet: /prod/i.test(config.env),
+    quiet: process.env.LOG_QUIET || /prod/i.test(config.env),
     renderCustom: function(e, req, res) {
       if (mute.test(e.message))
         return res.status(200).send('')

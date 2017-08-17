@@ -1,9 +1,10 @@
-var env            = process.env.ENV || 'dev'
-var configure      = require('honeycombjs').Configure
-var config         = configure(__dirname, env, true)
+const env          = process.env.ENV || 'dev'
+const Honey        = require('honeycombjs')
+let config         = Honey.Configure(__dirname, env, true)
 
 
 function ready(e)   {
+
   console.log(`app  worker ${e ? 'init.fail' : 'started'}`, e||'')
 
   var jobs = {}
@@ -33,14 +34,26 @@ function ready(e)   {
   // queueInterval('posts_weekly', 5000)
 }
 
-const Honey  = require('honeycombjs')
+
 const worker = Honey.Worker(config, ready)
 const model  = Honey.Model(config, ready)
+
+honeyAuthHack = {
+  name:           'honey.auth',
+  dir:            join(__dirname,'..','node_modules','honeycombjs','lib','auth'),
+  logic:          false,
+  model:          { opts: { excludes: ['org'] } },
+  middleware:     false,
+  routes:         false,
+  wrappers:       false
+}
+
+
 
 model.connect( () =>
 
   worker.honey.wire({model})
-              .merge(Honey.Auth)
+              .merge({mergeConfig: () => honeyAuthHack })
               .track()
               .inflate(config.model.cache)
               .run()

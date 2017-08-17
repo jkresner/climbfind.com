@@ -10,7 +10,7 @@
   <link rel="canonical" href="{{ canonical }}" />{{/if}}{{/with}}{{/if}}
   <link rel="stylesheet" href="/libs.css" />
   <link rel="stylesheet" href="/lib.css" />  
-  <link rel="stylesheet" href="/app2.css" />
+  <link rel="stylesheet" href="/app3.css" />
   <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -32,36 +32,17 @@
 </head>
 <body>
 
-  <header>
-    <a href="/" tile="Find rock climbing partners" target="_self"><i></i><span><b>Climb</b>find</span></a>
-  </header>
-
-  {{{body}}}
-
 {{#if authenticated}}
-    <footer>
-      <ul>
-        <li><a id="f-home" class="ion-ios-list" href="/" target="_self"></a></li><li><a id="f-inbox" class="ion-chatboxes" href="/messages" target="_self"></a></li><li><a id="f-post" class="ion-compose" href="/partner-call" target="_self"></a></li><li><a id="f-love" class="ion-heart" href="/love" target="_self"></a></li><li><a id="f-account" class="ion-person" href="/account" target="_self"></a></li>
-      </ul>
-    </footer>
-    <script type="text/javascript"> 
-      if (document.getElementById('f-{{view}}'))
-        document.getElementById('f-{{view}}').className += " active";      
-
-      if (window.location.hash && window.location.hash == '#_=_') {
-        if (window.history && history.pushState) {
-          window.history.pushState("", document.title, window.location.pathname+window.location.search);
-        } else {
-          var scroll = { top: document.body.scrollTop, left: document.body.scrollLeft };
-          window.location.hash = '';
-          document.body.scrollTop = scroll.top;
-          document.body.scrollLeft = scroll.left;
-        }
-      }
-    </script>
+  <nav>
+    <ul>
+      <li><a id="f-home" class="ion-ios-list" href="/" target="_self"></a></li><li><a id="f-inbox" class="ion-chatboxes" href="/messages" target="_self"></a></li><li><a id="f-post" class="ion-compose" href="/partner-call" target="_self"></a></li><li><a id="f-love" class="ion-heart" href="/love" target="_self"></a></li><li><a id="f-account" class="ion-person" href="/account" target="_self"></a></li>
+    </ul>
+  </nav>  
 {{/if}}
-{{#if @analytics }}
 
+{{{body}}}
+
+{{#if @analytics }}
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -71,10 +52,23 @@
   ga('create', '{{@analytics.ga.web}}', 'auto');
   ga('send', 'pageview');
 </script>
-
 {{/if}}
 
+<script type="text/javascript"> 
+  if (document.getElementById('f-{{view}}'))
+    document.getElementById('f-{{view}}').className += " active";      
 
+  if (window.location.hash && window.location.hash == '#_=_') {
+    if (window.history && history.pushState) {
+      window.history.pushState("", document.title, window.location.pathname+window.location.search);
+    } else {
+      var scroll = { top: document.body.scrollTop, left: document.body.scrollLeft };
+      window.location.hash = '';
+      document.body.scrollTop = scroll.top;
+      document.body.scrollLeft = scroll.left;
+    }
+  }
+</script>  
 
 </body>
 </html>

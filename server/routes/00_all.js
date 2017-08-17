@@ -4,7 +4,10 @@ module.exports = (app, mw) => {
 
     .use(mw.$.botBan)
 
-    .all('*.php',
+    .all([
+      '*.php',
+      '*wp-*',
+      ],
       (req, res, next) => res.status(200).send(''))
 
 }

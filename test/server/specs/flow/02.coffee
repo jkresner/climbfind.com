@@ -1,49 +1,36 @@
-pKey = FIXTURE.uniquify('places', 'sicg', 'name shortName')
-place = FIXTURE.places[pKey]
-# expect(place._id).to.be.undefined
+{jk_hello} = FIXTURE.post
+{micht} = FIXTURE.users
+FIXTURE.oauth.micht = micht.auth.fb
 
-ups = 
-  name: "New name ${pKey}"
-  shortName: "New name ${pKey}"          
-  location: { timeZoneId: "Melbourne/Australia" }
-  tokens: "Syd"
-
-anon = (cb) ->
-  GET '/mod/places', { status: 403 }, (e1, r1) ->  
-    cb()
-
-nonadmin = (cb) ->
-  LOGIN 'ag', (s1) ->
-    expect(s1._id).bsonIdStr()
-    expect(s1.name).starts('Andy')
-    GET '/mod/places', {status:403}, (e2) ->   
-      POST '/mod/places', place, {status:403}, (e3) ->     
-        LOGOUT cb
-
-admin = (cb) -> 
-  LOGIN 'jk', (s2) ->        
-    expect(s2.name).starts('Jon')
-    GET '/mod/places', (r1) ->   
-      expect(r1.length > 0).to.be.true
-      expect(r1[0]._id).bsonIdStr()
-      GET "/mod/places/#{r1[0]._id}", (r2) ->     
-        expect(r2).eqId(r1[0])
-        POST '/mod/places', place, (r3) -> 
-          expect(r3._id).bsonIdStr()
-          expect(r3.name).to.equal(place.name)
-          expect(r3.shortName).to.equal(place.shortName)
-          expect(r3.location.timeZoneId).to.equal("Australia/Sydney")          
-          expect(r3.log.last.action).to.equal('create')          
-          ups.ownerId = s2._id
-          PUT "/mod/places/#{r3._id}", ups, (r4) ->               
-            expect(r4).eqId(r3)
-            expect(r4.ownerId).eqId(s2._id)                  
-            expect(r4.location.timeZoneId).eqId("Melbourne/Australia")                              
-            DELETE "/mod/places/#{r3._id}", (r5) ->               
-              GET "/mod/places/#{r3._id}", (r6) ->    
-                expect(r6).eqId(r3)  
-                expect(r6.deleted).to.exist
-                cb()          
-
-anon(->nonadmin(->admin(DONE)))
-
+DB.removeDocs 'Chat', {'users._id':micht._id}, ->
+DB.ensureDocs 'User', [micht], (r) ->
+  PAGE '/', {}, (html) ->
+    expect(html).inc("<h1>Find rock climbing partners")
+    LOGIN 'micht', (session) ->
+      expect(session).eqId(micht)
+      PAGE "/messages", {}, (html2) ->
+        expect(html2).inc ["No messages yet"]
+        PAGE "/love", {}, (html3) ->
+          expect(html3).inc ["<a href='/reply/59841c9f4e4287a2b83bea2a'>Message JK</a>"]
+          PAGE "/reply/59841c9f4e4287a2b83bea2a", {}, (html4) ->
+            expect(html4).inc ["<p>Thanks for using Climbfind! </p>",
+                               "reply here if you have feedback"]
+            data = text: "hello love the site", postId: "59841c9f4e4287a2b83bea2a"
+            POST "/chats/message", data, (r1) ->
+              # DB.docById('Chat', r1._id, (r1DB) -> OI('r1DB', r1DB))
+              expect(r1._id).bsonIdStr()
+              expect(r1.users.length).to.equal(2)
+              expect(r1.history.length).to.equal(2)
+              GET '/chats/inbox', (r2) ->
+                expect(r2.length).to.equal(1)
+                expect(r2[0]).eqId(r1)
+                data.text = "Ohhh yeah it's really cool thanks"
+                POST "/chats/message", data, {}, (r3) ->
+                  # DB.docById('Chat', r3._id, (r3DB) -> OI('r3DB', r3DB))
+                  expect(r3).eqId(r1)
+                  expect(r3.users.length).to.equal(2)
+                  expect(r3.history.length).to.equal(3)
+                  GET '/chats/inbox', (r4) ->
+                    expect(r2.length).to.equal(1)
+                    expect(r4[0]).eqId(r1)
+                    DONE()

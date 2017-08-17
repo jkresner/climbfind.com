@@ -1,6 +1,6 @@
 module.exports = function() {
   
-  IT(`404 on /non-existing-page`, function() {
+  IT(`[404] /non-existing-page`, function() {
     var spy1 = STUB.spy(Wrappers.ses, 'sendGroup')
 
     PAGE('/non-existing-page', { status: 404 }, R0 => {

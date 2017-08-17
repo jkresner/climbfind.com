@@ -105,8 +105,18 @@ module.exports = {
     link: 'https://www.facebook.com/app_scoped_user_id/859322225104/',
     email: 'jsilhouette@hotmail.com',
     picture: { data: { is_silhouette: true } } 
-  } 
+  } ,
 
+  bk: {
+    "id" : "503753370",
+    "name" : "Benny Kong",
+    "last_name" : "Kong",
+    "first_name" : "Benny",
+    "gender" : "male",
+    "link" : "https://www.facebook.com/app_scoped_user_id/503753370/",
+    "email" : "bkkongman@yahoo.com",
+    "picture" : { "data" : { "width" : 480, "url" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p480x480/17499121_10154748932218371_2755853884919224902_n.jpg?oh=9cf6b57ba5238b2b980010bc3df1ffe2&oe=59EB6862", "is_silhouette" : false, "height" : 480 } },  
+  }
 
 }
 

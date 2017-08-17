@@ -1,0 +1,14 @@
+{
+  "mongo": {
+    "collections":        ["place"],
+    "url":                "mongodb://localhost/cf_test",
+    "seed": {
+      "without":             "FIXTURE.places.bb",
+      "timeout":             30000
+    }
+  },
+  "paths": {
+    "bson":               "../data/bson",
+    "fixtures":           "../data/fixture"
+  }
+}

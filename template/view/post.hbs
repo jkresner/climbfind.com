@@ -1,50 +1,50 @@
-<div class="full post container">
+<div class="full post">
 
  <header>
   <a href="/" class="cancel"> Cancel</a>
   <label>Partner Call</label>
-  <a class="submit disabled" style="display:none">Submit</a>          
+  <a class="submit disabled" style="display:none">Submit</a>
  </header>
 
   <form>
     <fieldset>
-      <div class="message form-group">  
-        <label for="message">Message</label>             
+      <div class="message form-group">
+        <label for="message">Message</label>
         <img src="{{session.avatar}}" class="usr" />
-        <textarea id="message" placeholder="What times, difficulty or other partner preferences can you share?"></textarea>    
-        <i class="ion-location"></i>    
+        <textarea id="message" placeholder="What times, difficulty or other partner preferences can you share?"></textarea>
+        <i class="ion-location"></i>
         <i class="fa fa-calendar-o" aria-hidden="true"></i>
-      </div>      
+      </div>
       <div class="places form-group form-group-lg">
-        <label for="place">Where do you want to climb?</label>      
+        <label for="place">Where do you want to climb?</label>
         <select class="form-control" id="city">
           {{{ postcity }}}
         </select>
-        <select style="display:none" class="form-control" id="place" required>        
-        </select> 
-        <div class="logo"></div>                     
+        <select style="display:none" class="form-control" id="place" required>
+        </select>
+        <div class="logo"></div>
       </div>
-      <div class="climbing form-group">   
-        <label for="climbing">Climbing</label>         
+      <div class="climbing form-group">
+        <label for="climbing">Climbing</label>
         <div class="btn-group" data-toggle="buttons">
           <label class="climb-tr btn btn-primary">
-            <input id="tr" type="checkbox" autocomplete="off" name="climbing"> 
+            <input id="tr" type="checkbox" autocomplete="off" name="climbing">
             <img src="/climb-toprope.png" />
             Top rope
           </label><label class="climb-lead btn btn-primary">
             <img src="/climb-lead.png" />
             <input id="lead" type="checkbox" autocomplete="off" name="climbing"> Lead climb
           </label><label class="climb-boulder btn-primary">
-            <input id="boulder" type="checkbox" autocomplete="off" name="climbing"> 
+            <input id="boulder" type="checkbox" autocomplete="off" name="climbing">
             <img src="/climb-boulder.png" />
             Boulder
           </label>
-        </div>      
-      </div>  
-      <div class="days form-group">        
+        </div>
+      </div>
+      <div class="days form-group">
         <label for="day">Day</label>
         {{ postdays }}
-      </div>          
+      </div>
     </fieldset>
   </form>
 
@@ -62,22 +62,22 @@ $(function() {
   var $places = $('.places')
   var $message = $('.message')
   var $climbing = $('.climbing')
-  var $day = $('.days')  
+  var $day = $('.days')
   var data = { type: 'indoor' }
   $places.toggle(true)
 
   $(".days li").click(function(e) {
-    $(".days li").removeClass('active')    
-    data.day = parseInt($('#day').val($(this).addClass('active').data('day')).val())    
-    $day.addClass('done')    
+    $(".days li").removeClass('active')
+    data.day = parseInt($('#day').val($(this).addClass('active').data('day')).val())
+    $day.addClass('done')
     $('.fa-calendar-o').html(' &nbsp;<time>' + $(this).find('time').html()+ '</time>')
     $message.toggle(true)
     $('a.submit').show()
     $('#message').focus()
     return false
   })
-  
-  $("#city").change(function(event) { 
+
+  $("#city").change(function(event) {
     var id = $("#city").val().trim()
     var city = placeData.area[id]
     var opts = '<option>-- select climbing gym --</option>'
@@ -85,21 +85,21 @@ $(function() {
         '<option value="'+p._id+'">'+p.name+'</option>' })
     $('#place').html(opts).toggle(!!city).change()
   })
-  
-  $("#place").change(function(event) { 
+
+  $("#place").change(function(event) {
     var id = $("#place").val().trim()
     var place = placeData.indoor[id]
     data.placeId = (place||{})._id
     $('.btn-group input').attr('checked', false)
     if (place) {
-      $('.places select').hide()  
+      $('.places select').hide()
       $('form .logo').html('<img src="'+place.logo+'" />').show()
       $('.btn-group label').each(function() {
         $(this).toggle(place.climbing.indexOf($(this).find('input')[0].id)>-1) })
       $places.addClass('done')
       $('.ion-location').html(' &nbsp;' + place.shortName)
     }
-    return !$climbing.toggle(!!data.placeId)    
+    return !$climbing.toggle(!!data.placeId)
   })
 
   $('.btn-group label').click(function(e) {
@@ -109,22 +109,22 @@ $(function() {
     $(this).toggleClass('active', !checked)
     data.climbing = $('.btn-group input:checked').map(function() { return this.id }).get()
     $climbing.addClass('done')
-    return !$day.toggle(data.climbing.length > 0)           
+    return !$day.toggle(data.climbing.length > 0)
   })
 
 
   function submit() {
     if ($('a.submit').hasClass('disabled')) return false
 
-    data.message = $("#message").val()                
+    data.message = $("#message").val()
     $.post("/api/posts/"+data.placeId, data).done(function(r) {
       window.location = '/account'
-    })     
+    })
   }
 
   $('a.submit').click(submit)
 
-  $("#message").keydown(function(event) { 
+  $("#message").keydown(function(event) {
     var msg = $("#message").val().trim()
     var show = msg.length > 10
     $('a.submit').toggleClass('disabled', !show)
@@ -136,10 +136,10 @@ $(function() {
       var placeId = q[1].split('&')[0]
       var place = placeData.indoor[placeId]
       if (place) {
-        $("#city").val(place.linked[0]).change() 
+        $("#city").val(place.linked[0]).change()
         $("#place").val(place._id).change()
-        $("#tr").click()
-        $(".days li")[0].click()
+        // $("#tr").click()
+        // $(".days li")[0].click()
       }
     }
   }

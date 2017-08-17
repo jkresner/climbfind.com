@@ -6,9 +6,9 @@ const Views = {
 
 const Query = {
   inbox: (me) => ({'users._id': me._id }),
-  group: (users) => ({ $and: user.map(u=>({'users._id': u._id})) }),
-  pair: (you, me) => ({ $and: [{'users._id': you._id},
-                               {'users._id': me._id }] })
+  group: (users) => ({ $and: users.map(u=>({'users._id':
+                        honey.model.DAL.User.toId(u._id) })) }),
+  pair: (you, me) => Query.group([you,me])
 }
 
 

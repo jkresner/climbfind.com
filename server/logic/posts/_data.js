@@ -21,7 +21,7 @@ const Opts = {
           join: { placeId: 'name shortName logo avatar',
                   userId: '_id name photos' } },
 
-  param: { select: '_id userId placeId message tz log',
+  param: { select: `_id time type climbing message userId placeId tz log`,
           join: { placeId: '_id name',
                   userId: '_id name photos' } },
 
@@ -51,7 +51,8 @@ const Projections = ({select,util},{chain,view}) => ({
   param: d => chain(d, 'user'),
 
   user: p => p.user.avatar ? p :
-    assign(p, { user: chain(p.user, 'auth.avatar') }),
+    // assign(p, { user: chain(p.user, 'auth.avatar') }),
+    assign(p, { user: assign(p.user, {avatar:p.user.photos[0].value}) }),
 
 
   unix: r => assign(r, { time: moment(r.time).unix() }),

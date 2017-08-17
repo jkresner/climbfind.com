@@ -5,9 +5,9 @@ var config         = configure(__dirname, env, true)
 config.http.port   = process.env.PORT || config.http.port
 
 
-function done(e, r) {
-  console.log(`app  web ${e ? 'init.fail' : 'started'}`, e||'')
-}
+var done = e => console.log(e
+  ? 'app  WEB failed: '.red + e.message
+  : 'app  WEB ready @ '.green + `${honey.cfg('http.host')}`)
 
 
 var app = require('./app.js')({config,done})

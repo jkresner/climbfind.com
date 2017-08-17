@@ -4,43 +4,47 @@ module.exports = (app, mw, {redirects}) =>
 
     .Router('redirects', {type: 'html'})
 
-    .get(['/images/*',
+
+    //-- 410 Gone
+    .get(['/certificate',
+          '/images/*',
           '/mobile',
+          '/moderator*',
           '/opinion*',
+          '/post/*',
           '/page-not-found.htm',
-          '/moderator-dashboard',
-          '/thumb.ashx*'],
-      (req, res, next) => res.status(410).send(''))
+          '/team',
+          '/thumb.ashx*'
+      ], (req, res) => res.status(410).type('text').send(''))
 
-    .get('/ico/*',
-      (req, res, next) => res.redirect(301, req.originalUrl.replace('\/ico','')))
 
-    .get('/apple-touch-*',
-      (req, res, next) => res.redirect(301, req.originalUrl.replace('touch-','')))
-
-    .get(['/apple-icon-120x120-precomposed.png',
-          '/apple-icon-152x152-precomposed.png'],
-      (req, res, next) => res.redirect(301, req.originalUrl.replace('-precomposed','')))
-
+    //-- 302 urls possibly one day might reuse
     .get(['/Climbing-Grade-Comparison-Chart-Converter',
           '/climbing-partners',
+          '/Glossary',
+          '/partners',
           '/search-for-rock-climbing-partners',
           '/world-climbing-map',
-          '/-world-rock-climbing',
-          '/world-rock-climbing'],
-      (req, res, next) => res.redirect('/'))
+           /world-rock-climbing/i
+      ], (req, res) => res.redirect('/'))
 
-    .get(['/climb/*',
+
+    //-- 301 -> homepage (for SEO)
+    .get(['/all-regular-climbers/*',
+          '/cffeed*',
+          '/climb/*',
           '/climbing-around/*',
           '/climber/*',
           '/climber-profile/*',
-          '/ClimberProfiles/Me',
+          '/climberprofiles/me',
+          '/clubs',
           '/indoor-climbing-*',
           '/Feature-Article/*',
           '/Media/Add/*',
           '/media/indoor-climbing-*',
           '/media/outdoor-climbing-*',
           '/media/rock-climbing-*',
+          '/my-partner-call-subscriptions',
           '/my-climbing-feed',
           '/new-partner-call/*',
           '/outdoor-climbing-*',
@@ -48,13 +52,18 @@ module.exports = (app, mw, {redirects}) =>
           '/places',
           '/places/indoor-rock-climbing-gyms/*',
           '/places/outdoor-rock-climbing/*',
-          '/rock-climbing-*',
-          '/team'],
-      (req, res, next) => res.redirect(301, '/'))
+          '/rock-climbing-*'
+      ], (req, res) => res.redirect(301, '/'))
+
+
+    //-- 301 Rewrites
+    .get('/ico/*', (req, res) => res.redirect(301, req.originalUrl.replace('\/ico','')))
+    .get('/apple-touch-*', (req, res) => res.redirect(301, req.originalUrl.replace('touch-','')))
+    .get(/^(\/apple-icon-).*(-precomposed\.png)$/, (req, res) => res.redirect(301, req.originalUrl.replace('-precomposed','')))
+    .get(/( |(%20))$/, (req, res) => res.redirect(301, req.originalUrl.replace(/( |(%20))*$/,'')))
 
     .use(mw.$.session)
-    .use(mw.$.noindex)
     .use(mw.$.authd)
 
     .get('/ses/:link/:comm', mw.$.logic('comm.logOpen'),
-      (req, res, next) => res.redirect(req.locals.r.url))
+      (req, res) => res.redirect(req.locals.r.url))

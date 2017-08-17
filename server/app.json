@@ -49,7 +49,8 @@
   "middleware": {
     "ctx": {
       "ud": {
-        "ban":                 "AhrefsBot|BuckyOHare|Buzzbot|CCBot|cf-news|coccoc|cognitiveseo|CloudFlare-Always|datasift.com|dataprovider.com|Domain Re-Animator|DotBot|EmailMarketingRobot|Feedly|Genieo|GrapeshotCrawler|GurujiBot|HaosouSpider|Hubspotistellabot|linkdexbot|ltx71|Mediatoolkitbot|MegaIndex|MetaURI|MJ12bot|Nutch|oai-finder|OpenLinkProfiler|panscient.com|Pingdom|Priceonomics|QuerySeekerSpider|R6_CommentReader|rogerbot|scraper|Screaming Frog|ScoutJet|Searchmetrics|SemrushBot|Sentinurl|SeznamBot|Sgrunt|ShowyouBot|SMTBot|Sogou|Turnitin|uk_lddc_bot|WPScan|YisouSpider"
+        "ban":                 "AhrefsBot|Baiduspider|BuckyOHare|Buzzbot|CCBot|cf-news|coccoc|cognitiveseo|CloudFlare-Always|datasift.com|dataprovider.com|Domain Re-Animator|DotBot|EmailMarketingRobot|Feedly|Genieo|GrapeshotCrawler|GurujiBot|HaosouSpider|Hubspotistellabot|linkdexbot|ltx71|Mediatoolkitbot|MegaIndex|MetaURI|MJ12bot|Nutch|oai-finder|OpenLinkProfiler|panscient.com|Pingdom|Priceonomics|QuerySeekerSpider|R6_CommentReader|rogerbot|scraper|Screaming Frog|ScoutJet|Searchmetrics|SemrushBot|Sentinurl|SeznamBot|Sgrunt|ShowyouBot|SMTBot|Sogou|Turnitin|uk_lddc_bot|WPScan|YisouSpider",
+        "libs":                "WinHttpRequest"
       }
     },
     "session": {

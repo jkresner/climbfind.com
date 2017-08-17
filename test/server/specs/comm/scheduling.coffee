@@ -1,27 +1,20 @@
  module.exports = ->
 
 
-  # before (done) ->
-  DESCRIBE "Posts_Notify", ->
-
-    it "Real-time post notify emails between 8am-1am"
+  it "post_notify emails between 8am-1am local times"
       # 1 on post create comm[post:instant]
       # 2 read comm for scheduled && !sent
       # 3 query instant subscription for placeId
 
-  
-  # DESCRIBE "SENDING", ->
 
-  it "Send 8:45am local time daily notify digest"  
+  it "post_daily 8:45am local time"  
     # 1 on post create comm[post:daily]
     # query realtime subscription for placeId
 
 
-  it "Send weekly notify digest"  
+  it "post_weekly 8am local time for users settings.post_weekly.day"  
     # 1 on post create comm[post:weekly]
     # need to know users most recent timeZoneId
-
-
 
 
   # 1. create queue/scheduled like data
@@ -35,3 +28,4 @@
 
   # 2. async check missing FKs on objs
   #   - If nothing sent still need empty comm docs     
+
