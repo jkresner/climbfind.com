@@ -31,7 +31,7 @@ module.exports = ({Chat,Post}, {Query,Opts,Project}, DRY) => ({
       if (post) {
         var reply = _.find(history, m => _.idsEqual(m.postId||'', post._id))
         if (!reply) {
-          var text = `##### Partner Call for **${moment.unix(post.time).tz(post.tz.id).format('DD MMM')} @ ${post.place.name}**\n\n${post.message}`
+          var text = `##### Partner Call for **${moment(post.time).tz(post.tz.id).format('DD MMM')} @ ${post.place.name}**\n\n${post.message}`
           history.unshift({ text, userId:post.user._id, postId:post._id })
           Post.updateSet(post._id, { log: DRY.logAct(post, 'reply', me) }, DRY.noop)
           TRACK('post.reply', this, post)

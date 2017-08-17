@@ -49,7 +49,7 @@ PAGE '/', {}, (html) ->
                                "<a href=\"/notifications/#{r2[0]._id}\">"
                                "<h4>#{pgsf.shortName}</h4>"]
             PAGE "/notifications/#{r2[0]._id}", {}, (html4) ->
-              expect(html4).inc ["<label>Settings</label> "
+              expect(html4).inc ["<label>Settings</label>"
                                  "<select id=\"beat\""]
 
               DONE()

@@ -1,11 +1,5 @@
 <div class="full subscription">
 
- <header>
-  <a href="/account" class="account cancel"> Cancel</a>
-  <label>Settings</label>  
-  <a class="submit">Save</a>
- </header>
-
 <form>
   <fieldset>
 
@@ -29,41 +23,49 @@
       <option value="on">On</option>
       <option value="off">Off</option>
     </select>
-  </div>  
+  </div>
   <div class="form-group form-group-lg">
     <label for="outdoor">Outdoor <span>(trips)</spam></label>
     <select id="outdoor" class="form-control">
       <option value="on">On</option>
       <option value="off">Off</option>
     </select>
-  </div>    
+  </div>
   <div class="form-group form-group-lg">
     <label for="email">Email</label>
     <select id="email" class="form-control">
       <option value="on">On</option>
       <option value="off">Off</option>
     </select>
-  </div> 
-  <br /> 
+  </div>
+  <br />
   <div class="form-group form-group-lg">
     <label for="push">Push <span>(coming soon)</span></label>
     <select id="push" class="form-control" disabled>
       <option value="on">On</option>
       <option value="off">Off</option>
     </select>
-  </div>    
+  </div>
   <div class="form-group form-group-lg">
     <label for="fb">Facebook <span>(coming soon)</span></label>
     <select id="fb" class="form-control" disabled>
       <option value="on">On</option>
       <option value="off">Off</option>
     </select>
-  </div>      
-  
+  </div>
+
     </fieldset>
   </form>
 
 </div>
+
+
+ <header>
+  <a href="/account" class="account cancel"> Cancel</a>
+  <label>Settings</label>
+  <a class="submit">Save</a>
+ </header>
+
 
 <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -78,14 +80,14 @@ $(function() {
   $('#push').val(data.push)
   $('#indoor').val(data.indoor)
   $('#outdoor').val(data.outdoor)
-  
+
   function submit() {
     data.email = $('#email').val()
     data.indoor = $('#indoor').val()
     data.outdoor = $('#outdoor').val()
     data.push = $('#push').val()
     data.beat = $('#beat').val()
-    
+
     $.ajax({
       type: 'PUT',
       url: "/api/subscriptions/"+data._id,

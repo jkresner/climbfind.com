@@ -1,8 +1,5 @@
 <div class="full chat">
- <header>
-  <a href="/messages" class="inbox ion-chevron-left"> Inbox</a>
-  {{#each r.users}}<label>{{name}}</label>{{/each}}
- </header>
+
   <ul id="chat">
 {{#each r.history}}
     <li {{#if user.avatar }}{{else}}class="me"{{/if}}>
@@ -21,6 +18,12 @@
     </fieldset>
   </form>
 </div>
+
+ <header>
+  <a href="/messages" class="inbox ion-chevron-left"> Inbox</a>
+  {{#each r.users}}<label>{{name}}</label>{{/each}}
+ </header>
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="

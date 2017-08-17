@@ -349,7 +349,7 @@ ul#myposts li time b {  font-size:13px;line-height;10px;font-family:courier;posi
                              margin:0 0 0 3% }
 #inbox h3 {                  right:105px;
                              margin:0;
-                             padding:2px 0;
+                             padding:1px 0 3px 0;
                              font-size:1.2em;
                              overflow:hidden; }
 #inbox p {                   padding:0;
@@ -366,14 +366,14 @@ ul#myposts li time b {  font-size:13px;line-height;10px;font-family:courier;posi
 #inbox li.unread p {         color:black; }
 #inbox li.unread time {      color:#7e7f7f; }
 
-.full {                      position:absolute;
-                             top:0;
+.full {                      position:fixed;
+                             top:50px;
                              bottom:0;
                              left:0;
                              right:0;
                              z-index:10;
                              background:white; }
-.full > header {             position:absolute;
+.full + header {             position:fixed;
                              top:0;
                              left:0;right:0;
                              padding:1px;
@@ -384,16 +384,17 @@ ul#myposts li time b {  font-size:13px;line-height;10px;font-family:courier;posi
                              background-image:linear-gradient(to bottom, white 25%, #fffdfa);
                              border-bottom:solid 1px #f9f2f4;
  }
-.full > header label {       margin:1px;font-size:1em;font-weight:normal; }
-.full > header > a.cancel,
-.full > header > a.inbox {   color:#f69c55;position:absolute;top:2px;left:3%;font-size:0.9em;width:55px }
-.full > header > a.submit {  color:#f69c55;position:absolute;top:2px;right:3%;font-size:0.9em;font-weight:bold }
+.full + header label {       margin:0px;font-size:1em;font-weight:normal;line-height:49px;height:50px }
+.full + header > a {         color:#f69c55;position:absolute;top:0px;font-size:0.95em;height:50px;line-height:50px;max-width:64px;padding:0 }
+.full + header > a.cancel,
+.full + header > a.inbox {   left:2%;text-align:left;margin:0 0 0 2.5% }
+.full + header > a.submit {  right:2%;font-weight:bold;text-align:right;margin:0 2.5% 0 0 }
 // .full > header > a.disabled { color:#c8d6d3;font-weight:normal; }
 
 #chat {                      width:100%;
                              position:absolute;
-                             top:50px;
-                             bottom:80px;
+                             top:2px;
+                             bottom:5.2em;
                              overflow-y:scroll;
                              padding:10px 0;
                              list-style:none }
@@ -436,7 +437,7 @@ ul#myposts li time b {  font-size:13px;line-height;10px;font-family:courier;posi
                              bottom:5px; }
 
 .chat form {                 position:absolute;
-                             bottom:10px;
+                             bottom:0.5em;
                              left:1.5%;
                              right:1.5%;
                              border:solid 1px #d3d3d3;
@@ -445,11 +446,11 @@ ul#myposts li time b {  font-size:13px;line-height;10px;font-family:courier;posi
             // position:relative;
                              // display:block;
                              // width:100%;
-                             padding:3px; }
+                             padding:6px 0.4% 4px 0.4%; }
 .chat textarea {             resize:none;
                              opacity:0.8;
                              width:100%;
-                             padding:4px 33px 4px 8px;
+                             padding:1px 33px 4px 8px;
                              font-size:16px;
                              line-height:1.45em;
                              color:black;
@@ -505,7 +506,7 @@ ul#myposts li time b {  font-size:13px;line-height;10px;font-family:courier;posi
                              width:100%;
                              background-image:linear-gradient(to bottom, #f8f8f7 55%, white);
                              position:absolute;
-                             top:50px;
+                             top:0px;
                              bottom:0;
                              left:0;
                              right:0; }
@@ -548,7 +549,7 @@ ul#myposts li time b {  font-size:13px;line-height;10px;font-family:courier;posi
                             resize:none;
                             outline: none !important;
                             font-size:16px;
-                            width:100%;
+                            width:96%;
                             margin:0 2%;
                             min-height:90px;
                             padding:5px 0 0px 56px;
