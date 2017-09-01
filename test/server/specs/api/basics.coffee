@@ -104,7 +104,7 @@ module.exports = ->
         expect(r1[1].time <= r1[2].time).to.be.true
         expect(r1[0].user.name).inc('Jonathon')
         expect(r1[2].user.name).inc('Genie')
-        expect(r1[1].user.name).inc('Andy')
+        expect(r1[1].user.name).inc('And')
         expect(r1[0]._id).eqId(post._id)
         GET "/chats/readpost/#{r1[1]._id}", { status: 403 }, (e1) =>
           expect(e1.message).inc("reply to yourself")
@@ -132,7 +132,7 @@ module.exports = ->
       GET "/posts", (r1) ->
         expect(r1.length).to.equal(3)
         expect(r1[0].user.name).inc('Jonathon')
-        expect(r1[1].user.name).inc('Andy')
+        expect(r1[1].user.name).inc(ag.name)
         GET "/chats/readpost/#{post._id}", (r2) =>
           expect(r2._id).to.be.undefined
           expect(r2.history.length).to.equal(1)

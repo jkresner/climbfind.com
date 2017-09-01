@@ -15,7 +15,7 @@
     <i class="glyphicon glyphicon-phone {{push}}" aria-hidden="true"></i>
     {{/with}}
   </li>--}}
-{{#each r.subscriptions}} 
+{{#each r.subscriptions}}
   <li>
     <a href="/notifications/{{_id}}">
       <img src="{{place.avatar}}" />
@@ -27,11 +27,15 @@
 {{/each}}
 </ul>
 {{#if r.subscriptions}}{{else}}
-<p>After you post to a location, you can configure your notification settings here.</p>
+<p>Notification settings for the places you've posted to, will appear here.
+</p>
+<p>Post a <a href="/partner-call"><b>partner call</b></a> to get started.</p>
 {{/if}}
   </div>
 
   <div id="feed">
+
+{{#if r.subscriptions}}
   <h4>Posts by you</h4>
   <ul id="myposts">
 {{#each r.posts}}
@@ -42,6 +46,7 @@
     </li>
 {{/each}}
   </ul>
+{{/if}}
   </div>
 
 

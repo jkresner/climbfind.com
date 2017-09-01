@@ -61,9 +61,3 @@ module.exports = (app, mw, {redirects}) =>
     .get('/apple-touch-*', (req, res) => res.redirect(301, req.originalUrl.replace('touch-','')))
     .get(/^(\/apple-icon-).*(-precomposed\.png)$/, (req, res) => res.redirect(301, req.originalUrl.replace('-precomposed','')))
     .get(/( |(%20))$/, (req, res) => res.redirect(301, req.originalUrl.replace(/( |(%20))*$/,'')))
-
-    .use(mw.$.session)
-    .use(mw.$.authd)
-
-    .get('/ses/:link/:comm', mw.$.logic('comm.logOpen'),
-      (req, res) => res.redirect(req.locals.r.url))

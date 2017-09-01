@@ -23,9 +23,18 @@ module.exports = (app, mw) =>
   view =>
 
     function(req, res, next) {
-      if (view == "home") project.posts(req, 'r.posts')
-      if (view == "account") project.posts(req, 'r.posts')
       if (view == "chat") project.chat(req, 'r')
+      if (view == "account") project.posts(req, 'r.posts')
+      if (view == "home") project.posts(req, 'r.posts')
+
+      // if (view == "home") {
+      //   req.locals.country = Object.keys(cache.places.country)
+      //      .map(name => {
+      //        let areas = cache.places.country[name]
+      //           .map(id => ({ name: cache.places.area[id].name.replace(`, ${name}`,'') }))
+      //        return { name, areas, count: areas.length }
+      //      })
+      // }
 
       if (view == "love" || view == "home")
         req.locals.htmlHead = {

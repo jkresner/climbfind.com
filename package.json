@@ -1,7 +1,7 @@
 {
   "name": "climbfind.com",
   "description": "Find climbing partners",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "author": "jkresner",
   "engines": {
@@ -13,7 +13,7 @@
     "test": "cmd/test"
   },
   "dependencies": {
-    "honeycombjs": "0.9.1"
+    "honeycombjs": "0.9.2"
   },
   "devDependencies": {
     "screamjs": "0.7.1"

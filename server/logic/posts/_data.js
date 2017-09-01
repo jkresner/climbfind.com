@@ -25,10 +25,10 @@ const Opts = {
           join: { placeId: '_id name',
                   userId: '_id name photos' } },
 
-  list: { sort: { time: 1, _id: -1 },
+  list: { sort: { _id: 1 },  // time: 1,
           select: `_id time tz.id type climbing message userId placeId`,
           join: { placeId: 'name shortName logo avatar' , userId: '_id name photos' },
-          limit: 25 }
+          limit: 30 }
 }
 
 
@@ -51,9 +51,7 @@ const Projections = ({select,util},{chain,view}) => ({
   param: d => chain(d, 'user'),
 
   user: p => p.user.avatar ? p :
-    // assign(p, { user: chain(p.user, 'auth.avatar') }),
-    assign(p, { user: assign(p.user, {avatar:p.user.photos[0].value}) }),
-
+    assign(p, { user: chain(p.user, 'auth.avatar') }),
 
   unix: r => assign(r, { time: moment(r.time).unix() }),
   item: r => chain(r, 'unix', 'user', view.item),
@@ -64,7 +62,7 @@ const Projections = ({select,util},{chain,view}) => ({
     var now = moment().startOf('day').unix()
     var upcoming = posts.filter(p => p.time >= now)
     var past = posts.filter(p => p.time < now)
-    past.reverse()
+    // past.reverse()
     return view.list(_.union(upcoming, past))
   },
 

@@ -11,7 +11,7 @@ module.exports = ->
 
   DESCRIBE "200 Static", ->
     IT "/favicon.ico", -> okStatus(200, /image/)()
-    IT "/robots.txt", -> okStatus(200, /text\/plain/)()
+    IT "/robots.txt", -> okStatus(200, /text\/plain/)("Disallow: /media/")
     IT "/sitemap.xml", -> okStatus(200, /application\/xml/)()
 
 
@@ -22,6 +22,15 @@ module.exports = ->
     IT "/index.php", -> OK()
     IT "/wp-json/wp/v2/users/", -> OK()
     IT "/wp-includes/wlwmanifest.xml", -> OK()
+    IT "/rutss96954.txt", -> OK()
+
+
+  DESCRIBE "403", ->
+
+    IT.skip "[HEAD] /", ->
+      PAGE "/", { status:403, method: 'head' }, (resp) ->
+        expect(resp).to.be.undefined
+        DONE()
 
 
   DESCRIBE "410", ->

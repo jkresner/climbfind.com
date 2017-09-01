@@ -88,19 +88,35 @@ const Projections = ({select,util,id},{chain,view}) => ({
       { by: { _id: s._id, ses: s.email, push: s.push } }),
 
 
-  chat_to: d =>
-    d.users.filter(u => !_.idsEqual(u._id, d.history[0].userId))
+  chat_to: d => {
+    return d.users.filter(u => !_.idsEqual(u._id, d.history[0].userId))
       .map(u => assign(chain(u, 'auth.comm'), {
         by: _.select(chain(u.settings, 'settings.defaults').notify.messages, 'email push') }))
-      .map(u => assign(u, {by: { ses: u.by.email, push: u.by.push }})),
+      .map(u => assign(u, {by: { ses: u.by.email, push: u.by.push }}))
+  },
 
 
   user_welcome: d =>
     ({ user: select(d, '_id name') }),
 
 
+  climbing: d => {
+    var types = d.climbing
+    var len = types.length
+    var boulder = types.indexOf('boulder') > -1
+    var tr = types.indexOf('tr') > -1
+    var lead = types.indexOf('lead') > -1
+
+    var str = ""
+    if (tr) str += `Top Rope`
+    if (lead) str += `${tr?(boulder?', ':' or '):''}Lead Climb`
+    if (boulder) str += `${tr||lead?' or ':''}Boulder`
+
+    return assign(d, {climbing:str})
+  },
+
   post_notify: d => {
-    var post = chain(d, 'posts.user', 'posts.place', 'posts.localDay', view.posts_notify)
+    var post = chain(d, 'posts.user', 'posts.place', 'posts.localDay', 'climbing', view.posts_notify)
     return { post }
   },
 

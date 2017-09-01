@@ -57,5 +57,5 @@ module.exports = =>
     DB.removeDocs 'user', {'auth.fb.id':'444405405104'}, ->
       logic.exec 'facebook', profile, tokens, (e, r) ->
         expect(e).to.be.null
-        expect(r.name).to.equal('Andy Grass')
+        expect(r.name).to.equal('Andrew Grosser')
         DONE()
