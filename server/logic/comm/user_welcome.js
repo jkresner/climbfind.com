@@ -15,7 +15,7 @@ module.exports = (DAL, {Project,Query,Opts}, DRY) => ({
       COMM.toUser(Project.to(r)).by({ses:1}).send(type, data, (e1, m) => {
         if (e) return done(e)
 
-        doc.sent[m.to._id] = [{ key:m.key, msgId: m.messageId, to: m.messageTo }]
+        doc.sent[m.to._id] = [{ _id: m._id, key:m.key, msgId: m.messageId, to: m.messageTo }]
         assign(doc, {data})
         raw.push()
 

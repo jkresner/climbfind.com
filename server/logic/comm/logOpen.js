@@ -1,25 +1,33 @@
 module.exports = ({User,Comm}, {Project,Query,Opts}, DRY) => ({
 
 
-  exec(_sid, link, done) {
-    var {user,url} = this
-    var by = url.split('/')[1]
+  validate() {},
+
+
+  exec(url, done) {
+    var cb = e => done(e, {})
+    var [path,key] = url.split('c=')
+    var [_sid,sentId] = (key||'').split(':')
+    if (!_sid || !sentId) return cb()
+
     var query = { _sid }
-    query[`data.url.${link}.${by}`] = { $exists: true }
     Comm.getByQuery(query, (e,r) => {
-      if (e || !r) return done(e, r)
-      var key = `${r.type}:${by}`
+      if (e || !r) return cb(e)
+      var openId = null
       var {sent} = r
-      for (var m of sent[user._id]) {
-        if (m.key == key) {
-          m.ct = m.ct || []
-          if (!_.find(m.ct, click => click.link == link))
-            m.ct.push({_id: Comm.newId(), link })
+      for (var uId in sent) {
+        for (var m of sent[uId]) {
+          if (_.idsEqual(m._id, sentId)) {
+            openId = Comm.newId()
+            m.open = m.open || []
+            m.open.push({_id:openId})
+          }
         }
       }
-      Comm.updateSet(r._id, {sent}, (e1, r1) =>
-        done(e1, { url: r.data.url[link].to })
-      )
+      if (openId)
+        Comm.updateSet(r._id, {sent}, (e1, r1) => cb(e1))
+      else
+        cb()
     })
   },
 

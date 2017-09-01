@@ -26,11 +26,11 @@ module.exports = ->
       expect(c.templates[0].type).to.equal('mail')
       expect(c.retry).to.be.undefined
       expect(Object.keys(c.sent).length).to.equal(1)
-      expect(c.sent[jk._id][0].to).inc(jk.name)
+      expect(c.sent[kk._id][0].to).inc(kk.name)
       expect(r.log.comm['welcome']).to.exist
       expect(r.log.last.action).to.equal('sys.welcome')
       expect(raw[0]).inc([
-        "Congrats"
+        "get started"
         "/ses/post/#{c._sid}"])
       honey.logic.comm.user_welcome.exec (e2, c2, r2, raw2) ->
         expect(e2).to.be.null
@@ -38,7 +38,7 @@ module.exports = ->
         expect(_.idsEqual(c._id,c2._id) is false).to.be.true
         expect(c2.templates.length).to.equal(1)
         expect(Object.keys(c2.sent).length).to.equal(1)
-        expect(c2.sent[kk._id][0].to).inc(kk.name)
+        # expect(c2.sent[ag._id][0].to).inc(ag.name)
         expect(r2.log.comm['welcome']).to.exist
         DONE()
 
@@ -61,8 +61,8 @@ module.exports = ->
       expect(sent[0][0].to).inc(gk.name)
       expect(sent[1][0].to).inc(ag.name)
       expect(raw.length).to.equal(2)
-      expect(raw[0]).inc(['Hi Andy,',"](http://localhost:4444/ses/reply/#{comm._sid})"])
-      expect(raw[1]).inc(['Hi Genie,',"](http://localhost:4444/ses/reply/#{comm._sid})"])
+      expect(raw[0]).inc(['Andrew,',"](http://localhost:4444/ses/reply/#{comm._sid})"])
+      expect(raw[1]).inc(['Genie,',"](http://localhost:4444/ses/reply/#{comm._sid})"])
       honey.logic.comm.post_notify.exec (e2, comm2, r2, raw2) ->
         expect(_.idsEqual(r._id, r2._id) is false).to.be.true
         notify2 = comm2
@@ -79,7 +79,7 @@ module.exports = ->
           expect(comm3.retry).to.be.undefined
           expect(Object.keys(comm3.sent).length).to.equal(1)
           expect(comm3.sent[gk._id][0].to).inc(gk.name)
-          expect(raw3[0]).inc(['Hi Genie,',"](http://localhost:4444/ses/reply/#{comm3._sid})"])
+          expect(raw3[0]).inc(['Genie,',"](http://localhost:4444/ses/reply/#{comm3._sid})"])
           DONE()
 
 

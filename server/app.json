@@ -50,7 +50,7 @@
     "ctx": {
       "ud": {
         "ban":                 "AhrefsBot|Baiduspider|BuckyOHare|Buzzbot|CCBot|cf-news|coccoc|cognitiveseo|CloudFlare-Always|datasift.com|dataprovider.com|Domain Re-Animator|DotBot|EmailMarketingRobot|Feedly|Genieo|GrapeshotCrawler|GurujiBot|HaosouSpider|Hubspotistellabot|linkdexbot|ltx71|Mediatoolkitbot|MegaIndex|MetaURI|MJ12bot|Nutch|oai-finder|OpenLinkProfiler|panscient.com|Pingdom|Priceonomics|QuerySeekerSpider|R6_CommentReader|rogerbot|scraper|Screaming Frog|ScoutJet|Searchmetrics|SemrushBot|Sentinurl|SeznamBot|Sgrunt|ShowyouBot|SMTBot|Sogou|Turnitin|uk_lddc_bot|WPScan|YisouSpider",
-        "libs":                "WinHttpRequest"
+        "libs":                "WinHttpRequest|Phantom"
       }
     },
     "session": {
@@ -69,10 +69,17 @@
   },
   "routes": {
     "mod":                     { "on": true },
-    "redirects":               { "on": true }
+    "redirects":               { "on": true },
+    "track":                   { "on": true,
+      "comm": {
+        "transports":          "ses",
+        "static":              { "dir": "comm" }
+      }
+    }
   },
   "templates": {
     "dirs": {
+      "comm":                  "template/comm",
       "helpers":               "template/helper",
       "partials":              "template/partial",
       "views":                 "template/view,template/view/mod"

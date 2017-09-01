@@ -24,6 +24,7 @@ asSchema({
     // to:           [{type: Id, ref: 'Subscription'  }],
     // {
     //   [{
+    //      _id      [{ type: Id, required }],
     //      key      [{ type: String, required }],
     //      msgId:   [{ type: String, required }],
     //      ct:      []

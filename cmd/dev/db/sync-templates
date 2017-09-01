@@ -1,0 +1,16 @@
+# cmd/db/sync-templates candidate.10.mongolayer.com:10971 PWD
+#!/bin/sh
+DB='app74189495'
+CYAN='\033[0;36m'
+NC='\033[0m'
+CMD="${CYAN}CMD/sync-tmpl: ${NC}";
+printf "${CMD}rm ~/mongo/${DB}\n"
+rm -rf ~/mongo/${DB}
+printf "${CMD}Dump ${DB}.templates\n"
+mongodump -h $1 -d ${DB} -u heroku -p $2 -o ~/mongo -c templates
+printf "${CMD}Restore cf_dev.templates\n"
+mongorestore --drop --db cf_dev ~/mongo/${DB}
+printf "${CMD}Update cf_test seed data templates.bson\n"
+cp ~/mongo/${DB}/templates.bson test/data/bson/templates.bson
+printf "${CMD}Run comm specs\n"
+cmd/test -s -o comm

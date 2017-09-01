@@ -4,12 +4,14 @@ var data = {
       "post" : {
         "ses" : "https://www.climbfind.com/ses/post/31c6ppmdjb",
         "to" : "/partner-call"
-      }
+      },
+      "img": { "logo_ses": "/ses/logo.jpg" }
     },
     "user" : {
       "name" : "Andrew Grosser",
       "_id" : "5989fb3d8b672e00049baddb"
-    }
+    },
+    "to": { first: "Andrew" }
   },
   chat_message: {
     "url" : {
@@ -41,7 +43,8 @@ var data = {
       "reply" : {
         "ses" : "https://www.climbfind.com/ses/reply/31c6prynm6",
         "to" : "/reply/5989fb818b672e00049bade0"
-      }
+      },
+      "img": { "logo_ses": "/ses/logo.jpg" }
     },
     "post" : {
       "place" : {
@@ -53,9 +56,10 @@ var data = {
         "name" : "Andrew Grosser"
       },
       "day" : "09 Aug",
-      "climbing" : ["tr","lead","boulder"],
+      "climbing" : "Top Rope or Lead Climb",
       "_id" : "5989fb818b672e00049bade0"
-    }
+    },
+    "to": { first: "Andy" }
   }
 }
 

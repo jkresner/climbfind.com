@@ -5,7 +5,7 @@ module.exports = (DAL, Data, DRY) => ({
 
     DAL.Comm.getManyByQuery({}, {select:'_id type sent retry'}, (e, comms) => {
 
-      var stats = { comm: comms.length, sent: 0, ct: 0 }
+      var stats = { comm: comms.length, sent: 0, ct: 0, open: 0 }
       var r = {}
       var users = {}
 
@@ -24,11 +24,18 @@ module.exports = (DAL, Data, DRY) => ({
           for (var msg of c.sent[u]) {
             var m = {to:msg.to.replace(/\>/,'').replace(/\</,'<br />')}
             stats.sent++;
-            if (msg.ct && msg.ct.length > 0) {
+            if ((msg.ct||[]).length > 0) {
               for (var click of msg.ct) {
                 var wait = moment.duration(moment(honey.util.BsonId.toDate(click._id)).diff(day)/1000,'seconds').humanize()
                 m.ct = `<b>${click.link}</b> ${wait}`
                 stats.ct++
+              }
+            }
+            if ((msg.open||[]).length > 0) {
+              for (var open of msg.open) {
+                var wait = moment.duration(moment(honey.util.BsonId.toDate(open._id)).diff(day)/1000,'seconds').humanize()
+                m.opem = `<i>open ${wait}</i>`
+                stats.open++
               }
             }
             s.sent.push(m)

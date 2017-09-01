@@ -22,12 +22,9 @@ Users: {{users}}, CT: {{ct}}
 {{#each this}}
   <li><time>{{day}}</time>
 {{#if retry}}<label class="label label-danger">{{{ JSON retry }}} retry</label>{{/if}}
-{{#each sent}}
-    {{#if ct}}<label class="success">{{{to}}}</label><div>{{{ct}}}</div>
-    {{else}}<label>{{{to}}}</label>{{/if}}
-{{/each}}
+{{#each sent}}<label{{#if ct}} class="success"{{/if}}>{{{to}}}</label><div>{{open}}{{{ct}}}</div>{{/each}}
   </li>
-{{/each}}  
+{{/each}}
 </ul>
 {{/with}}
 
@@ -38,12 +35,9 @@ Users: {{users}}, CT: {{ct}}
 {{#each this}}
   <li><time>{{day}}</time>
 {{#if retry}}<label class="label label-danger">{{{ JSON retry }}} retry</label>{{/if}}
-{{#each sent}}
-    {{#if ct}}<label class="success">{{{to}}}</label><div>{{{ct}}}</div>
-    {{else}}<label>{{{to}}}</label>{{/if}}
-{{/each}}
+{{#each sent}}<label{{#if ct}} class="success"{{/if}}>{{{to}}}</label><div>{{open}}{{{ct}}}</div>{{/each}}
   </li>
-{{/each}}  
+{{/each}}
 </ul>
 {{/with}}
 
@@ -54,11 +48,8 @@ Users: {{users}}, CT: {{ct}}
 {{#each this}}
   <li><time>{{day}}</time>
 {{#if retry}}<label class="label label-danger">{{{ JSON retry }}} retry</label>{{/if}}
-{{#each sent}}
-    {{#if ct}}<label class="success">{{{to}}}</label><div>{{{ct}}}</div>
-    {{else}}<label>{{{to}}}</label>{{/if}}
-{{/each}}
+{{#each sent}}<label{{#if ct}} class="success"{{/if}}>{{{to}}}</label><div>{{open}}{{{ct}}}</div>{{/each}}
   </li>
-{{/each}}  
+{{/each}}
 </ul>
 {{/with}}

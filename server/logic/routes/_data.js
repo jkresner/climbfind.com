@@ -13,6 +13,9 @@ const Projections = ({select},{chain}) => ({
     post: {
       to: `/partner-call`,
       ses: `${config.http.host}/ses/post/${_sid}`
+    },
+    img: {
+      logo_ses: `${config.http.host}/ses/logo.jpg?c=${_sid}:`
     }
   }),
 
@@ -35,6 +38,9 @@ const Projections = ({select},{chain}) => ({
     settings: {
       to: `/account`,
       ses: `${config.http.host}/ses/settings/${_sid}`
+    },
+    img: {
+      logo_ses: `${config.http.host}/ses/logo.jpg?c=${_sid}:`
     }
   })
 
