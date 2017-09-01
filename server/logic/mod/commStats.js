@@ -34,7 +34,7 @@ module.exports = (DAL, Data, DRY) => ({
             if ((msg.open||[]).length > 0) {
               for (var open of msg.open) {
                 var wait = moment.duration(moment(honey.util.BsonId.toDate(open._id)).diff(day)/1000,'seconds').humanize()
-                m.opem = `<i>open ${wait}</i>`
+                m.open = `<i>open ${wait}</i>`
                 stats.open++
               }
             }

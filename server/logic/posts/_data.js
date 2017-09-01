@@ -25,10 +25,10 @@ const Opts = {
           join: { placeId: '_id name',
                   userId: '_id name photos' } },
 
-  list: { sort: { _id: 1 },  // time: 1,
+  list: { sort: { _id: -1 },  // time: 1,
           select: `_id time tz.id type climbing message userId placeId`,
-          join: { placeId: 'name shortName logo avatar' , userId: '_id name photos' },
-          limit: 30 }
+          join: { placeId: 'name shortName logo avatar', userId: '_id name photos' },
+          limit: 25 }
 }
 
 

@@ -5,6 +5,7 @@ ul label { display:block;font-weight:normal;letter-spacing:-0.4px;margin-bottom:
 .success { color:green; }
 time { font-size:9px;color:black; }
 b { font-family:courier }
+i { color:blue; }
 </style>
 
 
@@ -22,7 +23,7 @@ Users: {{users}}, CT: {{ct}}
 {{#each this}}
   <li><time>{{day}}</time>
 {{#if retry}}<label class="label label-danger">{{{ JSON retry }}} retry</label>{{/if}}
-{{#each sent}}<label{{#if ct}} class="success"{{/if}}>{{{to}}}</label><div>{{open}}{{{ct}}}</div>{{/each}}
+{{#each sent}}<label{{#if ct}} class="success"{{/if}}>{{{to}}}</label><div>{{{open}}}{{{ct}}}</div>{{/each}}
   </li>
 {{/each}}
 </ul>
@@ -35,7 +36,7 @@ Users: {{users}}, CT: {{ct}}
 {{#each this}}
   <li><time>{{day}}</time>
 {{#if retry}}<label class="label label-danger">{{{ JSON retry }}} retry</label>{{/if}}
-{{#each sent}}<label{{#if ct}} class="success"{{/if}}>{{{to}}}</label><div>{{open}}{{{ct}}}</div>{{/each}}
+{{#each sent}}<label{{#if ct}} class="success"{{/if}}>{{{to}}}</label><div>{{{open}}}{{{ct}}}</div>{{/each}}
   </li>
 {{/each}}
 </ul>
@@ -48,7 +49,7 @@ Users: {{users}}, CT: {{ct}}
 {{#each this}}
   <li><time>{{day}}</time>
 {{#if retry}}<label class="label label-danger">{{{ JSON retry }}} retry</label>{{/if}}
-{{#each sent}}<label{{#if ct}} class="success"{{/if}}>{{{to}}}</label><div>{{open}}{{{ct}}}</div>{{/each}}
+{{#each sent}}<label{{#if ct}} class="success"{{/if}}>{{{to}}}</label><div>{{{open}}}{{{ct}}}</div>{{/each}}
   </li>
 {{/each}}
 </ul>

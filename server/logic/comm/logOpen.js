@@ -15,6 +15,7 @@ module.exports = ({User,Comm}, {Project,Query,Opts}, DRY) => ({
       if (e || !r) return cb(e)
       var openId = null
       var {sent} = r
+      $log('Open: ', url, sent)
       for (var uId in sent) {
         for (var m of sent[uId]) {
           if (_.idsEqual(m._id, sentId)) {
