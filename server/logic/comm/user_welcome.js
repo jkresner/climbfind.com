@@ -8,7 +8,6 @@ module.exports = (DAL, {Project,Query,Opts}, DRY) => ({
 
     DAL.User.getByQuery(Query[type], Opts[type], (e, r) => {
       if (e || !r) return done(e, r)
-
       var data = Project[type](r)
       data.url = Project.url({type, data, _sid:doc._sid})
 
@@ -20,10 +19,10 @@ module.exports = (DAL, {Project,Query,Opts}, DRY) => ({
         raw.push()
 
         DAL.Comm.create(doc, (e2, comm) => {
-          var log = DRY.sys.logAct(r, `sys.welcome`)
+          let log = DRY.sys.logAct(r, `sys.welcome`)
           log.comm = assign(log.comm||{},{'welcome': comm._id})
           DAL.User.updateSet(r._id, {log}, {select:'_id'}, (e3, r3) => {
-            done(e3, comm, r, [m.text])
+            done(e3, comm, assign(r3,{log}), [m.text])
           })
         })
       })

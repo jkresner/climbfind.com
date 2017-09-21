@@ -1,14 +1,14 @@
 const env          = process.env.ENV || 'dev'
 const Honey        = require('honeycombjs')
 let config         = Honey.Configure(__dirname, env, true)
-
+config.log.it.modl.connect = 'magenta'
 
 function ready(e)   {
 
 
   console.log(e
-    ? 'app  WORKER fail: '.red + e.message
-    : 'app  WORKER started\t\t      '.green)
+    ? `app  WORKER fail: `.red + e.message
+    : `${'app'.dim}  WORKER ${'ready'.green}\t\t      `.magenta)
 
 
   var jobs = {}

@@ -3,6 +3,7 @@ module.exports = (app, mw) =>
 
   honey.Router('pages', {type: 'html'})
 
+    .use(mw.$.nobot)
     .use(mw.$.session)
     .use(mw.$.trackVisit)
 

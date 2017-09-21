@@ -6,5 +6,5 @@ module.exports = (app, mw) =>
       required:   true,
       dest:       `params.${name}`,
       project:    honey.projector[`${name}s`].Project.param,
-      queryOpts:  honey.projector[`${name}s`].Opts.item
+      queryOpts:  honey.projector[`${name}s`].Opts.param
     })

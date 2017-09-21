@@ -7,11 +7,11 @@ module.exports = {
 
 
   date: post => {
-    var today = moment.tz(post.tz.id).startOf('day').unix()
+    let today = moment.tz(post.tz.id).startOf('day').unix()
     if ((post.time >= today) || post.me) {
-      var t = moment.unix(post.time).tz(post.tz.id)
-      var climbing = ""
-      for (var type of post.climbing) climbing += `<b>${cMap[type]}</b> or `
+      let t = moment.unix(post.time).tz(post.tz.id)
+      let climbing = ""
+      for (let type of post.climbing) climbing += `<b>${cMap[type]}</b> or `
       climbing = climbing.replace(/ or $/, '')
       return `<time>${t.format('MMM')} <i class="fa fa-calendar-o" aria-hidden="true"><b>${t.format('DD')}</b></i></time> <em>${climbing} on <b>${t.format('ddd')}</b></em> `
     }

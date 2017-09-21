@@ -1,4 +1,4 @@
-module.exports = ({ Id, Enum, Location, Meta, Touch },
+module.exports = ({ Id, Enum, Log, Act },
   { asSchema, required, sparse, unique }) => {
 
 
@@ -48,9 +48,9 @@ return asSchema({
 
   raw:             googleRaw,
 
-  log:             { type: Meta },
-  approved:        { type: Touch },
-  deleted:         { type: Touch },
+  log:             { type: Log },
+  approved:        { type: Act },
+  deleted:         { type: Act },
 
 })
 

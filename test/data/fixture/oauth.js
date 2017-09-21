@@ -107,6 +107,17 @@ module.exports = {
     picture: { data: { is_silhouette: true } }
   },
 
+  emailnull: {
+    id: '85931225101',
+    name: 'Missing Email',
+    last_name: 'Email',
+    first_name: 'Missing',
+    gender: 'female',
+    link: 'https://www.facebook.com/app_scoped_user_id/85931225101/',
+    email: null,
+    picture: { "data" : { "width" : 480, "url" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p480x480/17499121_10154748932218371_2755853884919224902_n.jpg?oh=9cf6b57ba5238b2b980010bc3df1ffe2&oe=59EB6862", "is_silhouette" : false, "height" : 480 } }
+  },
+
   bk: {
     "id" : "503753370",
     "name" : "Benny Kong",
@@ -128,6 +139,17 @@ module.exports = {
     "email" : "reubenwells21@hotmail.com",
     "picture" : { "data" : { "width" : 480, "height" : 480, "is_silhouette" : false, "url" : "https://scontent.xx.fbcdn.net/v/t1.0-1/p480x480/10801663_10153126506284623_5320913541048511228_n.jpg?oh=fdb7a6c1467732f44b10f94a8ff0680d&oe=59EADB97" } },
     "tokens" : { "cf" : { "token" : "EAADSJoJQ0sdf" } }
+  },
+
+  jj: {
+    "id" : "10159152194495444",
+    "name" : "Jeff Jenks",
+    "last_name" : "Jenks",
+    "first_name" : "Jeff",
+    "link" : "https://www.facebook.com/app_scoped_user_id/10159151194395483/",
+    "email" : "jensjeff@tmail.com",
+    "picture" : { "data" : { "width" : 479, "url" : "https://scontent.xx.fbcdn.net/v/t1.0-1/14046126_10157294903795483_3937691101103923360_n.jpg?oh=ecd2df086738357c04192adb52326945&oe=5A2F3725", "is_silhouette" : false, "height" : 479 } },
+    "tokens" : { "cf" : { "token" : "EAADDDJ" } }
   }
 
 }

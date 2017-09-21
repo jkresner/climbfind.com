@@ -1,4 +1,4 @@
-module.exports = ({ Id, Enum, Meta},
+module.exports = ({ Id, Enum, Log },
   { asSchema, required, sparse, index }) => {
 
 
@@ -24,7 +24,7 @@ var message = asSchema({
 return asSchema({
   users:           { type: [userRef], required },
   history:         { type: [message], required },
-  log:             { type: Meta }
+  log:             { type: Log }
 })
 
 

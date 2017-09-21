@@ -32,7 +32,7 @@ const Opts = {
 }
 
 
-const Projections = ({select,util},{chain,view}) => ({
+const Projections = ({copy,select,util},{chain,view}) => ({
 
   place: d => {
     if (d.placeId && !d.place) {
@@ -58,11 +58,10 @@ const Projections = ({select,util},{chain,view}) => ({
 
 
   list: d => {
-    var posts = chain(d.posts, 'unix', 'user')
-    var now = moment().startOf('day').unix()
-    var upcoming = posts.filter(p => p.time >= now)
-    var past = posts.filter(p => p.time < now)
-    // past.reverse()
+    let posts = chain(copy(d.posts), 'unix', 'user')
+    let now = moment().startOf('day').unix()
+    let upcoming = posts.filter(p => p.time >= now)
+    let past = posts.filter(p => p.time < now)
     return view.list(_.union(upcoming, past))
   },
 

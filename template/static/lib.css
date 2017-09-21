@@ -1769,9 +1769,7 @@ body > header a {
 body > header > a {
   margin: 1px 0px 0px 25px;
   padding: 2px 24px 2px 0px;
-  background: url('http://localhost:8000/img/header/logo.png') no-repeat;
-  background-position: 5px center;
-  background-size: 90px 26px;
+  background:none;
   width: 140px;
   height: 38px;
   float: left;

@@ -9,160 +9,31 @@
       body { width:100%;padding:0;margin:0;font-size:14px;font-family:sans-serif }
       header { height:40px;background-color: #f9f2f4; }
       header > div { vertical-align: middle;display:block;text-align:center; }
-      header > div > a i { width:26px;height:30px;display:inline-block;
-       border:solid 2px black;
-       border-left:solid 8px black;
-       border-radius:6px;
-       margin:2px auto;
-       background-image:url('/climb-partner-96.png');
-       background-repeat:no-repeat;
-       background-size:contain;
-      }
-      header var {
-        position:absolute;
-        top:12px;
-        right:15px;
-        text-decoration: none;
-        font-style: normal;
-        font-weight: bold;
-        color: #dd4b39;
-      }      
-      a {
-        color: #f50;
-        text-decoration: none;
-      }
-      a:hover {
-        color: #FF3F00;
-      }
-      main {
-        max-width:100%;
-        margin:20px auto;        
-        vertical-align: middle;
-        display: block;
-        padding:0px 5px 40px 5px;
-      }
-      h1 {
-        font-size: 22px;
-        font-family: courier;
-        letter-spacing: -1px;
-        line-height: 26px;
-        color: #dd4b39;
-        font-weight: 400;
-      }
-      h2 {
-        color: #7e7f7f;
-        font-size: 26px;
-        font-weight: 300;
-        margin: 0 0 20px 0;
-      }
-      pre {
-        max-width: 100%;
-        padding: 6px 10px 10px 10px;
-        background-color: black;
-        color: lightgreen;
-        letter-spacing: -1px;
-        font-size: 13px;
-        overflow-x: scroll;
-      }
-      section#report {
-        border-top: solid 2px #d3d3d3;
-        margin: 30px 0px;
-        padding: 20px 2px;
-        text-align: center;
-      }
-      section#report p {
-        margin: 30px;
-      }
-      footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #f2f9fc;
-        color: #232323;
-        height:30px;
-        padding-top: 4px;
-        text-align: center;
-        vertical-align: middle;
-      }
-      footer ul {
-        padding: 0px;
-        margin: auto;
-        vertical-align: middle;
-        font-size:1em;
-      }
-      footer ul li {
-        margin-right: 20px;
-        height:30px;
-        line-height:30px;
-        vertical-align: middle;
-        display:inline-block;
-        padding:0px 0 2px 0;
-      }
+      header > div > a i { width:26px;height:30px;display:inline-block;border:solid 2px black;border-left:solid 8px black;
+       border-radius:6px;margin:2px auto;background-image:url('/climb-partner-96.png');background-repeat:no-repeat;background-size:contain;}
+      header var {position:absolute;top:12px;right:15px;text-decoration: none;font-style: normal;font-weight: bold;color: #dd4b39; }
+      a { color: #f50;text-decoration: none; }
+      a:hover { color: #FF3F00; }
+      main {max-width:100%;margin:20px auto;vertical-align: middle;display: block;padding:0px 5px 40px 5px; }
+      h1 {font-size: 22px;font-family: courier;letter-spacing: -1px;line-height: 26px;color: #dd4b39;font-weight: 400;}
+      pre {max-width: 100%;padding: 6px 10px 10px 10px;background-color: black;color: lightgreen;letter-spacing: -1px;font-size: 13px;overflow-x: scroll;}
+      footer {position: fixed;bottom: 0;left: 0;right: 0;background: #f2f9fc;color: #232323;height:30px;padding-top: 4px;text-align: center;vertical-align: middle; }
+      footer ul {padding: 0px;margin: auto;vertical-align: middle;font-size:1em; }
+      footer ul li {margin-right: 20px;height:30px;line-height:30px;vertical-align: middle;display:inline-block;padding:0px 0 2px 0; }
       @media only screen and (max-width: 630px) {
-        main {
-          max-width: 96%;
-          margin: 20px auto 0 auto;
-          padding-bottom: 0;
-        }
-        h1 {
-          line-height: 20px;
-          font-size: 20px;
-          text-align: center;
-        }
-        h2 {
-          font-size: 16px;
-          font-weight: 500;
-        }
-        section#report {
-          padding: 20px 0 30px 0;
-          position: fixed;
-          botttom: 0;
-          width: 100%;
-          background: #E6F7F4;
-        }
-        section#report p {
-          display:none;
-        }
+        main { max-width: 96%;margin: 20px auto 0 auto;padding-bottom: 0; }
+        h1 { line-height: 20px; font-size: 20px; text-align: center; }
       }
     </style>
   </head>
 <body>
-
-  <header>
-    <div>
-      <a href="/" tile="Find rock climbing partners" target="_self"><i></i></a>
-    </div>
-    <var>{{error.status}}</var>
-  </header>
-
+  <header><div><a href="/" tile="Find rock climbing partners" target="_self"><i></i></a></div><var>{{error.status}}</var></header>
   <main>
     <section id="error">
-      <h1>{{error.message}}</h1>
-
-
-{{#if quiet}}
-  {{else}}
-    {{#if error.stack}}<pre>{{error.stack}}</pre>{{/if}}
-{{/if}}
+      <h1>{{error.message}}</h1>{{#if quiet}}{{else}}{{#if error.stack}}
+      <pre>{{error.stack}}      </pre>{{/if}}{{/if}}
     </section>
-  </main>
-
-
-{{#if about}}
-  <footer>
-    <ul>
-{{#if about.name}}
-      <li class="nm">
-        <span class="name">{{about.name}}</span>
-        {{#if about.version}}<span class="version">v{{about.version}}</span>{{/if}}</li>
-{{/if}}{{#if about.author}}
-      <li class="cp">&copy; 2017 {{about.author}}{{#if about.contact}}
-        <a href="{{about.contact.url}}" target="_blank" class="ctc">Contact</a></li>
-{{/if}}{{/if}}
-    </ul>
-  </footer>
-{{/if}}
-
+  </main>{{#if about}}
+  <footer><ul>{{#if about.name}}<li class="nm"><span class="name">{{about.name}}</span>{{#if about.version}}<span class="version">v{{about.version}}</span>{{/if}}</li>{{/if}}{{#if about.author}}<li class="cp">&copy; 2017 {{about.author}}{{#if about.contact}}<a href="{{about.contact.url}}" target="_blank" class="ctc">Contact</a></li>{{/if}}{{/if}}</ul></footer>{{/if}}
 </body>
 </html>

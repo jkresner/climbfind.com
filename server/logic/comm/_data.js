@@ -33,7 +33,9 @@ const Projections = ({select,util,id},{chain,view}) => ({
 
   doc: type => {
     var _id = id.new()
-    var _sid = util.BsonId.toCompare(_id).toString(36)
+    var _sid = (parseInt(_id.toString().slice(0, 12), 16)
+                +parseInt(_id.toString().slice(12, 24), 16))
+                .toString(36)
     var doc = chain({_id,_sid,type,sent:{}},'templates')
     doc.transports = {}
     for (var template of doc.templates) {

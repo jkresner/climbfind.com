@@ -1,4 +1,4 @@
-  module.exports = ({ Id, Enum, Location, Meta, Touch },
+  module.exports = ({ Id, Enum, Log },
   { asSchema, required, lowercase, sparse, unique, index }) =>
 
 

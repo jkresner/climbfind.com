@@ -18,7 +18,10 @@ module.exports = (DAL, Data, DRY) => ({
           avatar:u.photos[0].value})
       }
 
-      cb(null, {stats:Object.values(stats)})
+      var vals = Object.values(stats)
+      vals.reverse()
+
+      cb(null, {stats:vals})
 
     })
 

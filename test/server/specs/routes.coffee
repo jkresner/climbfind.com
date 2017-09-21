@@ -19,7 +19,14 @@ module.exports = ->
 
     before -> OK = okStatus 200, /text\/html/
 
+    IT "/Admin", -> OK()
+    IT "/administrator/", -> OK()
+    IT "/adm/ltld", -> OK()
+    IT "/_admin/", -> OK()
+    IT "/CMS", -> OK()
+    IT "/cms/admin", -> OK()
     IT "/index.php", -> OK()
+    IT "/Login/To%20view%20a%20profile", -> OK()
     IT "/wp-json/wp/v2/users/", -> OK()
     IT "/wp-includes/wlwmanifest.xml", -> OK()
     IT "/rutss96954.txt", -> OK()
@@ -27,7 +34,7 @@ module.exports = ->
 
   DESCRIBE "403", ->
 
-    IT.skip "[HEAD] /", ->
+    IT "[HEAD] /", ->
       PAGE "/", { status:403, method: 'head' }, (resp) ->
         expect(resp).to.be.undefined
         DONE()
@@ -37,11 +44,13 @@ module.exports = ->
 
     before -> OK = okStatus 410, /text\/plain/
 
+    IT "/assets/modules/evogallery/js/uploadify/uploadify.css", -> OK()
     IT "/Certificate", -> OK()
     IT "/images/climbing-partner.png", -> OK()
     IT "/moderators-project", -> OK()
     IT "/page-not-found.htm", -> OK()
     IT "/post/e0adf3b8-88b3-4f74-8f28-631566924dd4", -> OK()
+    IT "/Posts/DeleteComment/", -> OK()
 
 
   DESCRIBE "302", ->
@@ -51,6 +60,7 @@ module.exports = ->
     IT "/glossary", -> OK()
     IT "/climbing-partners", -> OK()
     IT "/partners", -> OK()
+    IT "/people-looking-for-climbing-partners/london-united-kingdom/westway-sports-centre", -> OK()
     IT "/world-rock-climbing-database", -> OK()
     IT "/-world-rock-climbing-map", -> OK()
 
@@ -62,12 +72,17 @@ module.exports = ->
     IT "/CFFeed/NewPostPlace", -> OK()
     IT "/ClimberProfiles/Me", -> OK()
     IT "/clubs", -> OK()
+    IT "/join", -> OK()
+    IT "/Media/Detail/76515b72-7129-4b95-a45b-fc3380fcbadf", -> OK()
+    IT "/Media/OpinionNew", -> OK()
+    IT "/rock-climbing-social-network", -> OK()
 
 
   DESCRIBE "301 (Rewrites)", ->
 
     before -> OK = okStatus 301, /text\/plain/
 
+    IT "/%0D", -> OK /Redirecting to \/$/
     IT "/%20", -> OK /Redirecting to \/$/
     IT "/%20%20%20", -> OK /Redirecting to \/$/
     IT "/apple-icon-32x32-precomposed.png", -> OK "Redirecting to /apple-icon-32x32.png"

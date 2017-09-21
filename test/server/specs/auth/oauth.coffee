@@ -10,52 +10,56 @@ module.exports = =>
     expect(DAL.user).not.null
     expect(DRY).not.null
     expect(Data).not.null
-    logic = honey.logic.auth[honey.cfg('auth.oauth.facebook.logic')]
-    expect(logic.validate).not.null
-    expect(logic.exec).not.null
-    expect(logic.project).not.null
+    logic = honey.logic.auth[honey.cfg('auth.oauth.facebook.logic')].chain
 
 
   IT "[401] missing token", ->
-    logic.exec 'facebook', {email:'bah'}, {}, (e) ->
-      expect(e.status).to.equal(401)
+    logic.call {}, null, 'facebook', {email:'bah'}, {}, (e) ->
+      expect(e.status).to.equal(403)
       expect(e.message).inc("Facebook token required")
       DONE()
 
 
   IT "[401] missing facebook id", ->
-    logic.exec 'facebook', {email:'bah'}, tokens, (e) ->
-      expect(e.status).to.equal(401)
+    logic.call {}, null, 'facebook', {email:'bah'}, tokens, (e) ->
+      expect(e.status).to.equal(403)
       expect(e.message).inc("Facebook id required")
       DONE()
 
 
-  IT "[401] silhouette profile pic ", ->
+  IT "[401] silhouette profile pic", ->
     profile = FIXTURE.oauth.silhouette
-    logic.exec 'facebook', profile, tokens, (e) ->
-      expect(e.status).to.equal(401)
+    logic.call {}, null, 'facebook', profile, tokens, (e) ->
+      expect(e.status).to.equal(403)
       expect(e.message).inc("Facebook profile picture required")
       DONE()
 
 
+  IT "[401] missing email", ->
+    LOGIN 'emailnull', {accept:/html/,status:401}, (html) ->
+      expect(html).inc("Facebook email required")
+      DONE()
+
+
   IT "[401] switching facebook accounts", ->
+    {jk,ag}  = FIXTURE.users
     profile1 = FIXTURE.oauth.jk
     profile2 = FIXTURE.oauth.ag
-    logic.exec 'facebook', profile1, tokens, (e, r) ->
+    logic.call {user:jk}, jk, 'facebook', profile1, tokens, (e, r) ->
       expect(e).to.be.null
       expect(r.name).to.equal('Jonathon Kresner')
       expect(r.emails.length > 0).to.be.true
-      logic.exec.call {user:r}, 'facebook', profile2, tokens, (e2, r2) ->
-        expect(e2.status).to.equal(401)
+      logic.call {user:jk}, jk, 'facebook', profile2, tokens, (e2, r2) ->
+        expect(e2.status).to.equal(403)
         expect(e2.message).inc("disallowed")
         expect(r2).to.be.undefined
         DONE()
 
 
   IT "Signup on first OAuth", ->
-    profile = FIXTURE.oauth.ag
-    DB.removeDocs 'user', {'auth.fb.id':'444405405104'}, ->
-      logic.exec 'facebook', profile, tokens, (e, r) ->
+    profile = FIXTURE.oauth.jj
+    DB.removeDocs 'user', {'auth.fb.id':profile.id}, ->
+      logic.call {}, null, 'facebook', profile, tokens, (e, r) ->
         expect(e).to.be.null
-        expect(r.name).to.equal('Andrew Grosser')
+        expect(r.name).to.equal('Jeff Jenks')
         DONE()

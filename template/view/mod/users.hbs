@@ -1,8 +1,13 @@
 <style type="text/css">
-ul { padding:20px;background:#d3f3f3 }
-ul img { max-width:100px;display:block;margin:2px auto; }
-ul li { background:white;font-size:11px;text-align:center;width:120px;margin:1px; }
-ul label { display:block; }
+div.container { padding:10px 0 }
+ul { padding:10px;background:#f9f2f4 }
+ul li { font-size:10px;text-align:center;width:120px;margin:1px;padding:0; }
+ul li a { position:relative;width:120px;display:block;height:120px; }
+ul img { width:120px;display:block;margin:0; }
+ul time { width:40px;position:absolute;top:0;left:0;
+  background:white;opacity:0.8;z-index:1 }
+ul label { display:block;position:absolute;bottom:0;left:0;right:0;
+  background:white!important;opacity:0.8;z-index:1;font-weight:normal; }
 </style>
 
 {{#each r.stats}}

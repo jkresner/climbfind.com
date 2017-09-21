@@ -1,13 +1,7 @@
 <h2>Goals</h2>
-<h3>JK /Personal - finds partners</h3>
-{{#each r.jk}}
-<h5><var>{{posts.length}}</var><dfn>{{shortName}}</dfn></h5>
-{{#each posts}}  
-<h6><time>{{create}}</time>{{place}}<var>{{view}}/{{reply}}</var> <code>view/reply</code></h6>
-{{/each}}
-{{/each}}
+
 <h3>Liquidity</h3>
-<h4><var>15</var><code>post</code>/ <dfn>gym</dfn></h4>  
+<h4><var>15</var><code>post</code>/ <dfn>gym</dfn></h4>
 <h4><var>100</var><code>notify</code>/ <dfn>post</dfn></h4>
 <h4><var>10</var><code>view</code>/ <dfn>post</dfn></h4>
 <h4><var>2</var><code>reply</code>/ <dfn>post</dfn></h4>
@@ -20,8 +14,16 @@
 {{/each}}
 <h3>Conversion</h3>
 <h4><var>10%</var><dfn>visit</dfn>=><code>login</code>conversion </h4>
-<h5><var>{{r.visits.total}} {{r.visits.bounce}}/{{r.visits.login}}</var><dfn>visit</dfn>=> <code>bounce/login</code></h5>    
-<h5><var>{{r.visits.coversion}}%</var>conversion</h5>      
-<h4><var>10%</var><dfn>users</dfn>=><code> messaging</code> / week </h4>  
-<h5><var>{{r.users.total}}/{{r.users.messaged}}</var><dfn>users</dfn> <code>messaged</code></h5>  
+<h5><var>{{r.visits.total}} {{r.visits.bounce}}/{{r.visits.login}}</var><dfn>visit</dfn>=> <code>bounce/login</code></h5>
+<h5><var>{{r.visits.coversion}}%</var>conversion</h5>
+<h4><var>10%</var><dfn>users</dfn>=><code> messaging</code> / week </h4>
+<h5><var>{{r.users.total}}/{{r.users.messaged}}</var><dfn>users</dfn> <code>messaged</code></h5>
 
+
+<h3>JK /Personal - finds partners</h3>
+{{#each r.jk}}
+<h5><var>{{posts.length}}</var><dfn>{{shortName}}</dfn></h5>
+{{#each posts}}
+<h6><time>{{create}}</time>{{place}}<var>{{view}}/{{reply}}</var> <code>view/reply</code></h6>
+{{/each}}
+{{/each}}

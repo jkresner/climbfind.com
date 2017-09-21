@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="{{#if noindex }}no{{/if}}index, nofollow">
   <meta name="robots" content="index, nofollow">
-  <meta property="og:locale" content="en_US"/>{{#if htmlHead}}{{#with htmlHead}}{{#if ogType }}<meta property="og:type" content="{{ogType}}"/>{{/if}}{{#if ogTitle }}<meta property="og:title" content="{{ogTitle}}"/>{{/if}}{{#if ogDescription }}<meta property="og:description" content="{{ogDescription}}"/>{{/if}}{{#if ogImage }}<meta property="og:image" content="{{ogImage}}"/>{{/if}}{{#if ogUrl }}<meta property="og:url" content="{{ogUrl}}"/>{{/if}}{{#if canonical }}
-  <link rel="canonical" href="{{ canonical }}" />{{/if}}{{/with}}{{/if}}
   <link rel="stylesheet" href="/libs.css" />
-  <link rel="stylesheet" href="/lib.css" />  
+  <link rel="stylesheet" href="/lib.css" />
   <link rel="stylesheet" href="/app3.css" />
+  <meta property="og:locale" content="en_US"/>{{#if htmlHead}}{{#with htmlHead}}{{#if ogType }}<meta property="og:type" content="{{ogType}}"/>{{/if}}{{#if ogTitle }}<meta property="og:title" content="{{ogTitle}}"/>{{/if}}{{#if ogDescription }}<meta property="og:description" content="{{ogDescription}}"/>{{/if}}{{#if ogImage }}<meta property="og:image" content="{{ogImage}}"/>{{/if}}{{#if ogUrl }}<meta property="og:url" content="{{ogUrl}}"/>{{/if}}{{#if canonical }}
+  <link rel="canonical" href="{{ canonical }}" />{{/if}}{{#if apple}}
   <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -19,14 +19,14 @@
   <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
   <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
   <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">{{/if}}{{#if android}}
   <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="/manifest.json">{{/if}}{{#if ms}}
   <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">{{/if}}{{/with}}{{/if}}
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <meta name="theme-color" content="#ffffff">
   <base href="/" />
 </head>
@@ -37,7 +37,7 @@
     <ul>
       <li><a id="f-home" class="ion-ios-list" href="/" target="_self"></a></li><li><a id="f-inbox" class="ion-chatboxes" href="/messages" target="_self"></a></li><li><a id="f-post" class="ion-compose" href="/partner-call" target="_self"></a></li><li><a id="f-love" class="ion-heart" href="/love" target="_self"></a></li><li><a id="f-account" class="ion-person" href="/account" target="_self"></a></li>
     </ul>
-  </nav>  
+  </nav>
 {{/if}}
 
 {{{body}}}
@@ -54,9 +54,9 @@
 </script>
 {{/if}}
 
-<script type="text/javascript"> 
+<script type="text/javascript">
   if (document.getElementById('f-{{view}}'))
-    document.getElementById('f-{{view}}').className += " active";      
+    document.getElementById('f-{{view}}').className += " active";
 
   if (window.location.hash && window.location.hash == '#_=_') {
     if (window.history && history.pushState) {
@@ -68,7 +68,7 @@
       document.body.scrollLeft = scroll.left;
     }
   }
-</script>  
+</script>
 
 </body>
 </html>

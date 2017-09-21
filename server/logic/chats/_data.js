@@ -46,7 +46,6 @@ const Projections = ({select,util,id},{chain,view}) => ({
 
 
   inbox: d => {
-
     d.chats.map(t => assign(t, {
       'with': t.users.filter(u => !_.idsEqual(d.me._id,u._id)),
       'unread': t.users.filter(u => _.idsEqual(d.me._id,u._id))[0].unread,
@@ -54,7 +53,6 @@ const Projections = ({select,util,id},{chain,view}) => ({
     })).forEach(c => c.title = c.with[0].name)
 
     var r = chain(d.chats, 'history', 'last', view.inbox)
-    r.sort()
     r.filter(c => _.idsEqual(c.last.user._id, d.me._id))
      .forEach(c => c.last.text = "You: " + c.last.text)
 

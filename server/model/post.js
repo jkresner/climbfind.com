@@ -1,4 +1,4 @@
-module.exports = ({ Id, Enum, Location, Meta, Touch },
+module.exports = ({ Id, Enum, Location, Log, Act },
   { asSchema, required, lowercase, sparse }) =>
 
 asSchema({
@@ -10,8 +10,8 @@ asSchema({
   placeId:        { type: Id, ref: 'Place', required },
   message:        { type: String, required },
 
-  log:            { type: Meta },
-  deleted:        { type: Touch },
+  log:            { type: Log },
+  deleted:        { type: Act },
 
   // comm: {
     // notify:       { type: Id, ref: 'Comm', sparse },

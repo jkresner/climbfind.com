@@ -17,8 +17,8 @@ module.exports = (DAL, Data, DRY) => ({
   },
 
   exec(data, place, cb) {
-    var user = this.user
-    var localDayStart = moment.tz(place.geo.tz).startOf('day')
+    let user = this.user
+    let localDayStart = moment.tz(place.geo.tz).startOf('day')
     data.userId = user._id
     data.placeId = place._id
     data.log = DRY.logAct(null, 'create', user)

@@ -1,4 +1,4 @@
-module.exports = ({ Id, Enum, Meta },
+module.exports = ({ Id, Enum, Log },
   { asSchema, required }) =>
 
 asSchema({
@@ -17,7 +17,7 @@ asSchema({
   //   token:        { type: String }
   // },
 
-  log:            { type: Meta }
+  log:            { type: Log }
 
 })
 

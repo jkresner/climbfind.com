@@ -1,20 +1,15 @@
-var mute = new RegExp(honey.cfg('log.errors.mute'))
-
 module.exports = (app, mw) =>
 
   mw.res.error({
-    render: { view: 'error', layout:false, about: config.about },
-    verbose: !!(process.env.LOG_VERBOSE || honey.cfg('log.verbose')),
-    quiet: process.env.LOG_QUIET || /prod/i.test(config.env),
-    renderCustom: function(e, req, res) {
-      if (mute.test(e.message))
-        return res.status(200).send('')
-
-      return false
+    ignore: new RegExp(honey.cfg('log.errors.ignore')),
+    render: {
+      // custom: function(e, req, res) {
+      //   if (ignore.test(e.message))
+      //     return res.status(200).send('')
+      // },
+      opts: { about: config.about, layout: false },
     },
     onError: function(req, e) {
-      if (mute.test(e.message)) return
-
       try {
         let msg = e.message.replace(/ /g,'').replace('contact@climbfind.com','')
         let name = e.status || (msg.length > 24 ? msg.substring(0,24) : msg)
@@ -23,8 +18,8 @@ module.exports = (app, mw) =>
 
         if (/prod/i.test(config.env))
           analytics.issue(ctx, name, 'error', assign(data, e.honey||{}))
-        else if (e.honey)
-          $log('error data'.red, honey.log.op(e.honey))
+        // else if (e.honey)
+          // $log('error data'.red, honey.log.op(e.honey))
 
         COMM.error(e, { req, subject:`{CF} ${e.message}` })
       }
@@ -33,3 +28,5 @@ module.exports = (app, mw) =>
       }
     }
   })
+
+

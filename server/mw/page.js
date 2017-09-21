@@ -1,6 +1,6 @@
 var project = {
   posts: (req, getter) => {
-    var posts = _.get(req.locals, getter)
+    let posts = _.get(req.locals, getter)
     posts.forEach(p => p.me = req.user ? _.idsEqual(p.user._id, req.user._id) : false)
     req.locals.feed = {}
     if (posts.length > 0)
@@ -36,8 +36,9 @@ module.exports = (app, mw) =>
       //      })
       // }
 
-      if (view == "love" || view == "home")
-        req.locals.htmlHead = {
+      if (view == "love" || view == "home") {
+
+        let htmlHead = {
           // ogType: ''
           ogTitle: 'Climbfind climbing partner community',
           ogDescription: 'Find climbing partners at your local climbing gym and weekend climbing & hiking trips outdoors',
@@ -45,6 +46,12 @@ module.exports = (app, mw) =>
           ogUrl: 'https://www.climbfind.com/',
           canonical: 'https://www.climbfind.com/'
         }
+        if (/apple/i.test(req.ctx.ud)) htmlHead.apple = true
+        if (/android/.test(req.ctx.ud)) htmlHead.android = true
+        if (/ms/.test(req.ctx.ud)) htmlHead.ms = true
+
+        req.locals.htmlHead = htmlHead
+      }
 
       return mw.res.page(view, { layout:'layout', view })(req, res, next)
     }

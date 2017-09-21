@@ -13,12 +13,11 @@ module.exports = ({User,Comm}, {Project,Query,Opts}, DRY) => ({
     var query = { _sid }
     Comm.getByQuery(query, (e,r) => {
       if (e || !r) return cb(e)
-      var openId = null
-      var {sent} = r
-      $log('Open: ', url, sent)
+      let openId = null
+      let {sent} = r
       for (var uId in sent) {
         for (var m of sent[uId]) {
-          if (_.idsEqual(m._id, sentId)) {
+          if (m._id && _.idsEqual(m._id, sentId)) {
             openId = Comm.newId()
             m.open = m.open || []
             m.open.push({_id:openId})

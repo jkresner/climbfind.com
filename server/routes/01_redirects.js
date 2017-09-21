@@ -6,12 +6,13 @@ module.exports = (app, mw, {redirects}) =>
 
 
     //-- 410 Gone
-    .get(['/certificate',
+    .get(['/assets/*',
+          '/certificate',
           '/images/*',
           '/mobile',
           '/moderator*',
           '/opinion*',
-          '/post/*',
+          '/post*',
           '/page-not-found.htm',
           '/team',
           '/thumb.ashx*'
@@ -21,9 +22,9 @@ module.exports = (app, mw, {redirects}) =>
     //-- 302 urls possibly one day might reuse
     .get(['/Climbing-Grade-Comparison-Chart-Converter',
           '/climbing-partners',
+          '*-climbing-partners*',
           '/Glossary',
           '/partners',
-          '/search-for-rock-climbing-partners',
           '/world-climbing-map',
            /world-rock-climbing/i
       ], (req, res) => res.redirect('/'))
@@ -40,10 +41,8 @@ module.exports = (app, mw, {redirects}) =>
           '/clubs',
           '/indoor-climbing-*',
           '/Feature-Article/*',
-          '/Media/Add/*',
-          '/media/indoor-climbing-*',
-          '/media/outdoor-climbing-*',
-          '/media/rock-climbing-*',
+          '/join',
+          '/media/*',
           '/my-partner-call-subscriptions',
           '/my-climbing-feed',
           '/new-partner-call/*',
@@ -52,7 +51,8 @@ module.exports = (app, mw, {redirects}) =>
           '/places',
           '/places/indoor-rock-climbing-gyms/*',
           '/places/outdoor-rock-climbing/*',
-          '/rock-climbing-*'
+          '/rock-climbing-*',
+          '/%0D'
       ], (req, res) => res.redirect(301, '/'))
 
 

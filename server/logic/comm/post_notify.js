@@ -17,7 +17,7 @@ module.exports = ({Post,Subscription,Comm}, {Query,Opts,Project}, DRY) => ({
       if (e && (!r || r.length == 0)) return done(e)
 
       r.forEach(m => sent[m.to._id] = (sent[m.to._id]||[])
-        .concat([{ key:m.key, subId: m.to.by._id, msgId: m.messageId, to: m.messageTo }]))
+        .concat([{ _id: m._id, key:m.key, subId: m.to.by._id, msgId: m.messageId, to: m.messageTo }]))
 
       if (r.length == 0)
         doc = { type, data:{post:{_id:post._id}} }

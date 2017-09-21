@@ -8,14 +8,16 @@ kk = null
 module.exports = ->
 
   IT "posts by new users", ->
-    LOGIN 'jk', ->
+    LOGIN 'jk', (sJk) ->
+      jk = sJk
+      expectLog 'User', jk._id, 'signup login', 'welcome'
       POST "/posts/#{mc._id}", FIXTURE.uniq('post.sixpm.message'), (p1) ->
         post = p1
         LOGIN 'kk', ->
           POST "/posts/#{bb._id}", FIXTURE.uniq('post.teamup.message'), (p2) ->
             LOGIN 'ag', ->
               POST "/posts/#{mc._id}", FIXTURE.uniq('post.anylevel.message'), (p3) ->
-                LOGIN 'gk', ->
+                IN 100, -> LOGIN 'gk', ->
                   POST "/posts/#{mc._id}", FIXTURE.uniq('post.wkend.message'), (p5) ->
                     LOGIN 'jh', ->
                       POST "/posts/#{spot._id}", FIXTURE.uniq('post.comp.message'), (p5) ->
@@ -38,6 +40,7 @@ module.exports = ->
   IT "subscriptions settings update", ->
     LOGIN 'jk', (s) ->
       jk = s
+      expectLog 'User', jk._id, 'signup login login', 'welcome'
       expect(s.avatar).to.exist
       POST "/posts/#{pgsf._id}", FIXTURE.uniq('post.comeback.message'), (p) ->
         expectLog('Post', p._id, 'create')
@@ -67,6 +70,7 @@ module.exports = ->
                   expect(r4[0].outdoor is "on").to.be.true
                   expect(r4[0].beat).to.equal('weekly')
                   expect(r4[1].place.name).equal(pgsf.name)
+                  expectLog 'User', jk._id, 'signup login login', 'welcome'
                   GET "/posts", (r5) ->
                     expect(r5.length).to.equal(3)
                     expect(r5[0].place.name).inc(pgsf.name)
@@ -100,12 +104,10 @@ module.exports = ->
       ag = sAg
       GET "/posts", (r1) ->
         expect(r1.length).to.equal(3)
-        expect(r1[0].time <= r1[1].time).to.be.true
-        expect(r1[1].time <= r1[2].time).to.be.true
-        expect(r1[0].user.name).inc('Jonathon')
-        expect(r1[2].user.name).inc('Genie')
+        expect(r1[0].user.name).inc('Genie')
         expect(r1[1].user.name).inc('And')
-        expect(r1[0]._id).eqId(post._id)
+        expect(r1[2].user.name).inc('Jonathon')
+        expect(r1[2]._id).eqId(post._id)
         GET "/chats/readpost/#{r1[1]._id}", { status: 403 }, (e1) =>
           expect(e1.message).inc("reply to yourself")
           GET "/chats/readpost/#{post._id}", (r2) =>
@@ -131,7 +133,7 @@ module.exports = ->
       gk = sGk
       GET "/posts", (r1) ->
         expect(r1.length).to.equal(3)
-        expect(r1[0].user.name).inc('Jonathon')
+        expect(r1[2].user.name).inc('Jonathon')
         expect(r1[1].user.name).inc(ag.name)
         GET "/chats/readpost/#{post._id}", (r2) =>
           expect(r2._id).to.be.undefined
