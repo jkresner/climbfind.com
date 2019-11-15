@@ -70,7 +70,6 @@ module.exports = (DAL, Data, DRY) => ({
 
         if (c.type == 'post_notify' && c.data.post.place) {
           s.place = c.data.post.place.shortName.substr(0,15)
-          $log('post_notify:s', s, c.sent)
           r[c.type].push(s)
         }
         else if (c.type != 'post_notify')

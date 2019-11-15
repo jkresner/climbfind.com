@@ -28,7 +28,7 @@ const Opts = {
   list: { sort: { _id: -1 },  // time: 1,
           select: `_id time tz.id type climbing message userId placeId`,
           join: { placeId: 'name shortName logo avatar', userId: '_id name photos' },
-          limit: 25 }
+          limit: 27 }
 }
 
 
@@ -36,7 +36,7 @@ const Projections = ({copy,select,util},{chain,view}) => ({
 
   place: d => {
     if (d.placeId && !d.place) {
-      d.place = cache.places.indoor[d.placeId]
+      d.place = CAL.places.indoor[d.placeId]
       delete d.placeId
     }
     return d

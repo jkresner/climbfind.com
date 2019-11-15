@@ -29,19 +29,19 @@ module.exports = {
 
 
   postcity: x => {
-    var opts = Object.keys(cache.places.area)
-      .filter(id => cache.places.area[id].linked.length > 0)
+    var opts = Object.keys(CAL.places.area)
+      .filter(id => CAL.places.area[id].linked.length > 0)
       .map(id =>
-      `<option value="${id}">${cache.places.area[id].name}</option>`)
+      `<option value="${id}">${CAL.places.area[id].name}</option>`)
           .join('\n')
-    // $log('postcity'.green, opts, cache.places.area)
+    // $log('postcity'.green, opts, CAL.places.area)
     return `<option value=" " selected>-- select city --</option>\n${opts}`
   },
 
   postplaces: x => {
     return JSON.stringify({
-      indoor:cache.places.indoor,
-      area:cache.places.area
+      indoor:CAL.places.indoor,
+      area:CAL.places.area
     })
   },
 

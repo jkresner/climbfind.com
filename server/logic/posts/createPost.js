@@ -24,7 +24,8 @@ module.exports = (DAL, Data, DRY) => ({
     data.log = DRY.logAct(null, 'create', user)
     data.time = localDayStart.utc().add(data.day,'day').toDate()
     data.tz = { id: place.geo.tz, utc_offset:
-      moment.tz.zone('America/Los_Angeles').offset(localDayStart) }
+      moment.tz.zone('America/Los_Angeles').utcOffset(localDayStart) }
+      // moment.tz.zone('America/Los_Angeles').offset(localDayStart) }
 
     DAL.Post.getByQuery(Data.Query.existing(data), (e, existing) => {
       if (e||existing)
@@ -40,7 +41,7 @@ module.exports = (DAL, Data, DRY) => ({
           if (!e2 && !sub)
             DAL.Subscription.create(assign({log:data.log},q))
         })
-
+        // CAL.flush('latest')
         TRACK('post', this, r)
       })
     })

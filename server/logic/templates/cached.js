@@ -16,8 +16,8 @@ module.exports = ({Template}, {Project, Opts}, DRY) => ({
             return marked(this.text(data)) }.bind(compiled[tmpl.key])
       }
 
-      //-- ugly hack
-      cache['tmpl_precompile'] = precompiled
+      //-- ugly hacks
+      CAL['tmpl_precompile'] = precompiled
 
       cb(null, compiled)
     })

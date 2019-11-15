@@ -3,7 +3,8 @@
     "spec":               "yellow"
   },
   "mongo": {
-    "collections":        ["user","place","post","subscription","chat","comm","template","event","session","issue","route"],
+    "collections":        ["user","place","post","subscription","chat","comm","template",
+                           "event","session","issue","route"],
     "url":                "mongodb://localhost/cf_test",
     "seed": {
       "without":             "FIXTURE.places.bb",

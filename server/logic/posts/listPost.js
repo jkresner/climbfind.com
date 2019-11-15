@@ -5,7 +5,7 @@ module.exports = (DAL, {Query,Opts,Project}, DRY) => ({
     var latest = done => DAL.Post.getManyByQuery({}, Opts.list, done)
     var {user} = this
 
-    cache.get('latest', latest, (e, latest) => {
+    CAL.get('latest', latest, (e, latest) => {
       if (e || !user) return cb(e, {subscriptions:[],posts:latest})
 
       DAL.Subscription.getManyByQuery({userId:user._id}, (e, subscriptions) => {

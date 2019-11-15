@@ -20,7 +20,7 @@ module.exports = { Views, Opts, Query,
     list: d => chain(d, 'item'),
 
     item: d => {
-      d.place = cache.places.indoor[d.placeId]
+      d.place = CAL.places.indoor[d.placeId]
       d.email = d.email ? "on" : "off"
       d.push = d.push ? "on" : "off"
       d.indoor = d.indoor ? "on" : "off"

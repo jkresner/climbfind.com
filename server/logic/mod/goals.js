@@ -4,10 +4,10 @@ module.exports = (DAL, Data, DRY) => ({
   exec(cb) {
     var jkId = "597e2f52755541797ea3d8b7"
     var jk = {}
-    var placeIds = Object.keys(cache.places.indoor)
+    var placeIds = Object.keys(CAL.places.indoor)
     var hash = {}
     for (var id of placeIds)
-      hash[id] = assign(_.select(cache.places.indoor[id], '_id shortName'), {posts: []})
+      hash[id] = assign(_.select(CAL.places.indoor[id], '_id shortName'), {posts: []})
 
     DAL.Post.getManyByQuery({}, {select:'_id userId placeId log.history.action'}, (e0, posts) => {
       for (var p of posts) {
@@ -25,7 +25,7 @@ module.exports = (DAL, Data, DRY) => ({
 
         hash[p.placeId].posts.push(pStats)
         if (_.idsEqual(jkId,p.userId)) {
-          if (!jk[p.placeId]) jk[p.placeId] = assign(_.select(cache.places.indoor[p.placeId], '_id shortName'), {posts: []})
+          if (!jk[p.placeId]) jk[p.placeId] = assign(_.select(CAL.places.indoor[p.placeId], '_id shortName'), {posts: []})
           jk[p.placeId].posts.push(pStats)
         }
       }

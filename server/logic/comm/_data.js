@@ -62,7 +62,7 @@ const Projections = ({select,util,id},{chain,view}) => ({
 
   templates: d => {
     var r = []
-    var tmpls = cache['tmpl_precompile']
+    var tmpls = CAL['tmpl_precompile']
     for (var key in tmpls)
       key.indexOf(d.type) != 0 ? null
        : r.push(assign({ key }, _.select(tmpls[key], 'part type')))

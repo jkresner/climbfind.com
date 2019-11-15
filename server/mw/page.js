@@ -28,10 +28,10 @@ module.exports = (app, mw) =>
       if (view == "home") project.posts(req, 'r.posts')
 
       // if (view == "home") {
-      //   req.locals.country = Object.keys(cache.places.country)
+      //   req.locals.country = Object.keys(CAL.places.country)
       //      .map(name => {
-      //        let areas = cache.places.country[name]
-      //           .map(id => ({ name: cache.places.area[id].name.replace(`, ${name}`,'') }))
+      //        let areas = CAL.places.country[name]
+      //           .map(id => ({ name: CAL.places.area[id].name.replace(`, ${name}`,'') }))
       //        return { name, areas, count: areas.length }
       //      })
       // }

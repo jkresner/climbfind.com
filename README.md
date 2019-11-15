@@ -1,7 +1,11 @@
-# climbfind_2017
+# climbfind.com
+
+Social network for indoor rock climbers and finding belay partners.
+
+*A jkresner production - Copyright © 2019*
 
 ### Run it
-
+ 
 `cmd/dev/setup` install npm packages, other dependencies
 
 `cmd/dev/run` with `/server/app.dev.env` config
@@ -10,9 +14,9 @@
 
 `cmd/test` runs server api and batch worker tests
 
-coffee test/server/index.coffee
+`coffee test/server/index.coffee` alternatively
 
-### API
+### API (/api/*
 
 ### /mod/places
 

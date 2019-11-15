@@ -64,8 +64,9 @@
   "model": {
     "cache": {
       "on":                    true,
-      "require":               "templates:templates,places:places"
-    }
+      "require":               "templates,places"
+    },
+    "da":                      ["mongoose","mongo"]
   },
   "routes": {
     "mod":                     { "on": true },
