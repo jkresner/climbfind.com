@@ -1,10 +1,9 @@
 {
   "mongo": {
     "collections":        ["place"],
-    "url":                "mongodb://localhost/cf_dev",
-
+    "url":                "mongodb://localhost/cf_dev"
   },
   "paths": {
-    "fixtures":           "../data/fixture"
+    "fixtures":           "./data"
   }
 }

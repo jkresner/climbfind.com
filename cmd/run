@@ -1,3 +1,4 @@
 #!/bin/sh
+clear;
 node ./server/worker.js &
 node ./server/index.js

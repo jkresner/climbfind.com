@@ -1,2 +1,3 @@
 #!/bin/sh
+clear;
 nodemon ./server/index.js -w server -w template -e env,js,hbs --quiet
