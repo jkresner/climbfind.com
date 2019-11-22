@@ -4,5 +4,47 @@
   <p>to continue</p>
   <a class="fb-login-button ion-social-facebook" href="/auth/facebook/callback">
     <span>Login with facebook</span>
-  </a>  
+  </a>
+
+  <hr />
+  <p>Enter email to receive login link</p>
+  <form>
+    <fieldset>
+      <div class="email form-group">
+        <label for="email" hidden>Email</label>
+        <input id="email" type="text" autocomplete="off" name="email" placeholder="Enter email address">
+      </div>
+    </fieldset>
+    <a class="submit">Send login link</a>
+  </form>
 </div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+$(function() {
+  $('#email').val('jkresner@gmail.com')
+
+  function submit() {
+    if ($('a.submit').hasClass('disabled')) return false
+
+    var email = $("#email").val()
+    // console.log('email', email)
+    var data = {}
+    data.email = email
+    $.ajax({
+      type: "PUT",
+      data: data,
+      url: "/api/users/onetime",
+      success: function(r) { alert('email sent to '+ email) }
+    })
+  }
+
+  $('a.submit').click(submit)
+
+});
+</script>

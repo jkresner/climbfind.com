@@ -17,6 +17,11 @@
     },
     "password":                "{{undefine}}",
     "token": {
+      "onetime": {
+        "url":                 "ott",
+        "logic":               "onetime",
+        "expiresIn":           "1h"
+      },
       "jwt": {
         "secret":              "{{required}}"
       }

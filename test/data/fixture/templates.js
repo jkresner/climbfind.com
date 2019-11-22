@@ -48,4 +48,15 @@ module.exports = {
     }
   },
 
+  user_onetime_login: {
+    "_id" : ObjectId("5984a08da3bb5ac600000005"),
+    "type" : "mail",
+    "key" : "user_onetime_login:ses",
+    "description" : "Magic link to email address",
+    "part" : {
+        "subject" : "Login to Climbfind",
+        "text" : "Hi {{to.first}}, n\n- - -\n\nHere's your [magic login link]({{url_magic}})"
+    }
+  },
+
 }
