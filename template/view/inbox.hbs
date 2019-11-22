@@ -9,7 +9,7 @@
     <p>or reply to a post.</p>  
   {{else}}
     <ul id="inbox">
-  {{#each r}}
+  {{#each r.chats}}
     <li{{#if unread}} class="unread"{{/if}}>
       <a href="/messages/{{_id}}">{{#each with}}<img class="media-object" src="{{avatar}}" alt="{{name}}" />{{/each}}<time>{{ ago last._id }}</time><div><h3>{{ title }}</h3>{{ markup last.text }}</div></a></li>{{/each}}</ul>
   {{/if}}

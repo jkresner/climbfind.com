@@ -29,8 +29,8 @@ DB.ensureDocs 'User', [micht], (r) ->
               expect(r1.history[0].text).inc("Partner Call for **05 Aug @ Planet Granite San Francisco**")
               expect(r1.history[1].text).inc("hello love the site")
               GET '/chats/inbox', (r2) ->
-                expect(r2.length).to.equal(1)
-                expect(r2[0]).eqId(r1)
+                expect(r2.chats.length).to.equal(1)
+                expect(r2.chats[0]).eqId(r1)
                 data.text = "Ohhh yeah it's really cool thanks"
                 POST "/chats/message", data, {}, (r3) ->
                   # DB.docById('Chat', r3._id, (r3DB) -> OI('r3DB', r3DB))
@@ -38,6 +38,6 @@ DB.ensureDocs 'User', [micht], (r) ->
                   expect(r3.users.length).to.equal(2)
                   expect(r3.history.length).to.equal(3)
                   GET '/chats/inbox', (r4) ->
-                    expect(r2.length).to.equal(1)
-                    expect(r4[0]).eqId(r1)
+                    expect(r4.chats.length).to.equal(1)
+                    expect(r4.chats[0]).eqId(r1)
                     DONE()
