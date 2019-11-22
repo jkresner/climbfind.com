@@ -25,11 +25,13 @@ module.exports = ->
     IT "/_admin/", -> OK()
     IT "/CMS", -> OK()
     IT "/cms/admin", -> OK()
+    IT "/.env", -> OK()    
     IT "/index.php", -> OK()
     IT "/Login/To%20view%20a%20profile", -> OK()
     IT "/wp-json/wp/v2/users/", -> OK()
     IT "/wp-includes/wlwmanifest.xml", -> OK()
     IT "/rutss96954.txt", -> OK()
+    IT "/indoor-climb%E2%80%A6", -> OK()
 
 
   DESCRIBE "403", ->
