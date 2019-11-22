@@ -1,3 +1,6 @@
 #!/bin/sh
 clear;
-nodemon ./server/index.js -w server -w template -e env,js,hbs --quiet
+
+npx webpack --mode development --config ./cmd/build/wp.server.config.js --bail --hide-modules 
+
+nodemon server/index.js -w server -w ui -e env,js,hbs --quiet

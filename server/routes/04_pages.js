@@ -10,6 +10,9 @@ module.exports = (app, mw) =>
     .get('/', mw.$.pd('posts.listPost',{assign:'posts'}), mw.$.page('home'), mw.$.trackPage('home'))
     .get('/love', mw.$.page('love'))
 
+    .get('/app', mw.$.pd('posts.listPost',{assign:'posts'}), mw.$.pageReact('home'))
+    .get('/app/messages', mw.$.pd('chats.getInbox'), mw.$.pageReact('inbox'))
+    
     .use(mw.$.noindex)
 
     .get('/login', mw.$.page('login'))

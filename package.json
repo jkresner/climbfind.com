@@ -3,6 +3,8 @@
   "description": "Find climbing partners",
   "version": "0.0.6",
   "author": "jkresner",
+  "license": "UNLICENSED",
+  "repository": "https://github.com/jkresner/climbfind.com",
   "engines": {
     "node": "13.1.0",
     "npm": "6.21.1"
@@ -12,9 +14,33 @@
     "test": "cmd/test"
   },
   "dependencies": {
-    "honeycombjs": "0.9.7"
+    "@date-io/core": "1.3.11",
+    "@material-ui/core": "4.6.1",
+    "@material-ui/icons": "4.5.1",
+    "@material-ui/pickers": "3.2.8",
+    "honeycombjs": "0.9.7",
+    "marked": "^0.7.0",
+    "moment": "^2.24.0",
+    "react": "16.12.0",
+    "react-dom": "16.12.0"
   },
   "devDependencies": {
-    "screamjs": "0.8.2"
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "file-loader": "^4.2.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "react-hot-loader": "^4.12.18",
+    "screamjs": "0.8.2",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-node-externals": "^1.7.2"
   }
 }
