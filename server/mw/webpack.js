@@ -3,28 +3,31 @@
   github.com/webpack/webpack-dev-middleware
 
 */
-let dev = x => null
+let dev = () => null
 
 
 if (honey.cfg('env') == 'dev') { 
 
   const webpack       = require('webpack'),
-        HtmlPlugin    = require('html-webpack-plugin'),
-        wp_dev_mw     = require('webpack-dev-middleware'),
-        wp_hot_mw     = require('webpack-hot-middleware'),
-        wp_cfg        = require('../../cmd/build/wp.dev.config') 
+    HtmlPlugin        = require('html-webpack-plugin'),
+    wp_dev_mw         = require('webpack-dev-middleware'),
+    wp_hot_mw         = require('webpack-hot-middleware'),
+    wp_cfg            = require('../../cmd/build/wp.dev.config') 
   
   let html_cfg = {
-    template: wp_cfg.output.path+"/public/index.html",
-    filename: wp_cfg.output.path+"/index.dev.html" 
+    template: wp_cfg.context+'/index.html',
+    filename: wp_cfg.output.path+'/index.dev.html' 
   }
 
-  let plugins         = [new HtmlPlugin(html_cfg),
-                         new webpack.HotModuleReplacementPlugin(),
-                         new webpack.NoEmitOnErrorsPlugin()]
+  let plugins         = [
+    new HtmlPlugin(html_cfg),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  ]
+  
   let cfg             = assign({}, wp_cfg, {plugins})
 
-  const compiler = webpack(Object.assign({
+  const compiler = webpack(assign({
     // webpack options
   }, cfg))
   
@@ -32,17 +35,17 @@ if (honey.cfg('env') == 'dev') {
 
   let ops = { 
     wpk: {
-        // logLevel:          'silent',
-        // logTime: false,
-        // logger: null,
-        // noInfo:            true,
+      logLevel:          'silent',
+      logTime:           false,
+      // logger: null,
+      noInfo:            true,
       publicPath: publicPath,
-        // mimeTypes: null,
-        // reporter,
-        // stats: {
-        //   colors: true,
-        //   context: process.cwd() },
-        // watchOptions: { aggregateTimeout: 200, },
+      // mimeTypes: null,
+      // reporter,
+      // stats: {
+      //   colors: true,
+      //   context: process.cwd() },
+      // watchOptions: { aggregateTimeout: 200, },
       // writeToDisk: true,
       stats: {
         assets:          false,
@@ -55,7 +58,7 @@ if (honey.cfg('env') == 'dev') {
         entrypoints:     false,
         hash:            false,
         modules:         false,
-        // timings:         false,
+        timings:         false,
         version:         false
       }
     },

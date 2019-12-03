@@ -1,52 +1,51 @@
-const {resolve}         = require("path")
-const publicPath        = `/public/`
+const {resolve}         = require('path')
+const publicPath        = '/public/'
 const hmr               = `webpack-hot-middleware/client?reload=true&noInfo=true&path=${publicPath}hmr`
 
                         
 module.exports = {
-  
-  mode: "development",
-  //context,           // home dir for entry + rules.loader
 
+  mode: 'development',
+  context: resolve('ui'),  
   entry: {
     main: [      
-      resolve(`ui/index.js`),
+      './index.js',
       hmr
     ]
   },
   output: {
-    path: resolve("ui"),
-    publicPath: "/public/",
-    filename: "index.dev.js"
+    path: resolve('build'),
+    publicPath,
+    filename: 'index.dev.js'
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
-        options: { presets: [`@babel/env`,`@babel/react`] }
+        loader: 'babel-loader',
+        options: { presets: ['@babel/env','@babel/react'] }
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.html$/,
         use: [
           {
-            loader: "html-loader",
+            loader: 'html-loader',
             //options: { minimize: true }
           }
         ]
       },
       {
-       test: /\.(png|svg|jpg|gif)$/,
-       use: ['file-loader']
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['file-loader']
       },
     ]
   },
-  resolve: { extensions: ["*", ".js", ".jsx"] },
+  resolve: { extensions: ['*', '.js', '.jsx'] },
   // plugins: [
   //   new HtmlWebPackPlugin({
   //     template: resolve("ui/public/index.html"),
@@ -58,7 +57,8 @@ module.exports = {
   // ],
   target: 'web',
   devtool: '#source-map'
-};
+  
+}
 
 
 /*
@@ -105,7 +105,4 @@ module.exports = {
     warnings:              true,
     // warningsFilter:        RegExp
   }
-
 */
-
-
