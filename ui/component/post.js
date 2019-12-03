@@ -1,24 +1,17 @@
-import React, { useState }  from 'react';
-import themeStyles from '../theme';
-import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
-import { Avatar, Grid, List, ListItem, ListItemAvatar, ListItemText, 
-         InputLabel, FormControl, FormControlLabel, TextField,
-         Container, CssBaseline, MenuItem, Select } 
-             from '@material-ui/core';
+import React, { useState } from 'react'
+import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined'
+import themeStyles from '../theme'
 import { MaxHeightTextarea } from './input'
-
-// import Checkbox from '@material-ui/core/Checkbox';
-// import Link from '@material-ui/core/Link';
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-
+import { Avatar, Grid, List, ListItem, InputLabel, FormControl, Container, 
+  CssBaseline, MenuItem, Select } from '@material-ui/core'
 
 
 function SelectCity(props) {
   let css = props.css
   let places = props.places
   let cities = Object.keys(places.area)
-      .filter(id => props.places.area[id].linked.length > 0)
-      .map(id => <MenuItem key={id} value={id}>{props.places.area[id].name}</MenuItem>)
+    .filter(id => props.places.area[id].linked.length > 0)
+    .map(id => <MenuItem key={id} value={id}>{props.places.area[id].name}</MenuItem>)
 
   return <FormControl variant="outlined" className={css.formControl}>
     <InputLabel id="city-select-label"></InputLabel>
@@ -34,12 +27,13 @@ function SelectCity(props) {
   </FormControl>
 }
 
+
 function SelectPlace(props) {
   if (!props.city) return null
   let css = props.css
   let city = props.city
   let places = props.places.area[city].linked
-      .map(p =><MenuItem key={p._id} value={p._id}>{p.name}</MenuItem>)     
+    .map(p =><MenuItem key={p._id} value={p._id}>{p.name}</MenuItem>)     
 
   return <FormControl variant="outlined" className={css.formControl}>
     <InputLabel id="place-select-label"></InputLabel>
@@ -56,8 +50,8 @@ function SelectPlace(props) {
   </FormControl>
 }
 
+
 export function PostForm(props) {
-  console.log('PostForm', props)
   if (!props.data) return null
 
   let {css,user} = props
@@ -66,18 +60,15 @@ export function PostForm(props) {
   // let [climbing,setClimbing] = useState(null)
   // let [day,setDay] = useState(null)
   // let [message,setMessage] = useState(null)
-  // console.log('PostForm.places', places)
-  let handleCity = (e, {key}) => {
-     console.log('handleCity', e.target.value)
-     setCity(e.target.value)
-     if (place != '')
-       setPlace('')   
-   }
 
-   let handlePlace = (e, {key,value}) => {
-     console.log('handlePlace', e, value)
-     setPlace(e.target.value)
-   }
+  let handleCity = e => {
+    setCity(e.target.value)
+    if (place != '') setPlace('')   
+  }
+
+  let handlePlace = e => {
+    setPlace(e.target.value)
+  }
 
   // fetch(`/api/chats/read/${val._id}`)
   //     .then(res => res.json())
@@ -86,33 +77,31 @@ export function PostForm(props) {
   //       setChat(dat)
   //     })
   //     .catch(console.log) 
-  // console.log('cities', cities)
-  // console.log('city', city)
 
   return <Container component="main" maxWidth="xs" id="sup">
-  <CssBaseline />
-  <div className={css.paper}>
-    <form className={css.form} noValidate>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <SelectCity css={css} value={city} handleCity={handleCity} places={props.data.places} />
+    <CssBaseline />
+    <div className={css.paper}>
+      <form className={css.form} noValidate>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <SelectCity css={css} value={city} handleCity={handleCity} places={props.data.places} />
+          </Grid>
+          <Grid item xs={12}>
+            <SelectPlace css={css} value={place} city={city} handlePlace={handlePlace} places={props.data.places} />
+          </Grid>
+          <Grid item xs={12}>
+          </Grid>        
+          <Grid item xs={12}>
+            <InputLabel id="post-message-label">Message</InputLabel>     
+            <Avatar alt={user.name} src={user.avatar} className="usr"  />
+            <MaxHeightTextarea id="message" name="message"
+              css={css}
+              placeholder="What times, difficulty or other partner preferences can you share?" />
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <SelectPlace css={css} value={place} city={city} handlePlace={handlePlace} places={props.data.places} />
-        </Grid>
-        <Grid item xs={12}>
-        </Grid>        
-        <Grid item xs={12}>
-          <InputLabel id="post-message-label">Message</InputLabel>     
-          <Avatar alt={user.name} src={user.avatar} className="usr"  />
-          <MaxHeightTextarea id="message" name="message"
-            css={css}
-            placeholder="What times, difficulty or other partner preferences can you share?" />
-        </Grid>
-      </Grid>
-    </form>
-  </div>
-</Container>
+      </form>
+    </div>
+  </Container>
 }
 
 /*
@@ -140,20 +129,19 @@ export function PostForm(props) {
 </a>
 */
 
-export function PostTile(props) {
-  let {css} = props
-  let {_id,time,place,user,climbing,message} = props.data
+export function PostTile({css,data}) {
+  let {_id,time,place,user,climbing,message} = data
   
   let items = climbing.map( c => 
     <li key={_id+c}>
-      <img src={"/climb-"+(c == 'tr' ? 'toprope' : c)+".png"} />
-    </li>);
+      <img src={'/climb-'+(c == 'tr' ? 'toprope' : c)+'.png'} />
+    </li>)
 
   return (
     <ListItem xs={4}
-          key={_id} 
-          alignItems="flex-start"
-          className={css.postTile}
+      key={_id} 
+      alignItems="flex-start"
+      className={css.postTile}
     >
       <Avatar alt={user.name} src={user.avatar} className="usr"  />
       <h3>{user.name}</h3>
@@ -167,18 +155,18 @@ export function PostTile(props) {
         <img className="place" src={place.logo} alt={place.name} hidden={!place} />
       </footer>
     </ListItem>
-  );
+  )
 }
 
 
-export function PostList(props) {
-  if (!props.data) return null;
+export function PostList({data}) {
+  if (!data) return null
   
-  const css = themeStyles()
-  const items = props.data.posts
-                     .map(m => <PostTile key={m._id} css={css} data={m} />)
+  let css = themeStyles()
+  let items = data.posts
+    .map(m => <PostTile key={m._id} css={css} data={m} />)
 
   return (
     <List className="feed" spacing={1}>{items}</List>
-  );
+  )
 }

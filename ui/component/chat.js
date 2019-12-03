@@ -1,17 +1,17 @@
-import marked from 'marked';
-import moment from 'moment';
-import React, { useState }  from 'react';
-import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
-import MarkunreadMailboxIcon from '@material-ui/icons/MarkunreadMailbox';
-import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import themeStyles from '../theme';
-import { TextareaAutosize } from '@material-ui/core';
+import marked from 'marked'
+import moment from 'moment'
+import React, { useState } from 'react'
+import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined'
+import MarkunreadMailboxIcon from '@material-ui/icons/MarkunreadMailbox'
+import Avatar from '@material-ui/core/Avatar'
+import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import themeStyles from '../theme'
+import { TextareaAutosize } from '@material-ui/core'
 
 
 var MaxHeightTextarea = (props) => (
@@ -21,7 +21,7 @@ var MaxHeightTextarea = (props) => (
     required   
     autoFocus
     rowsMax={4}
-  />);
+  />)
 
 
 var TimeAgo = ({ago}) => (<time>{moment(ago).fromNow()}</time> )
@@ -29,18 +29,21 @@ var TimeAgo = ({ago}) => (<time>{moment(ago).fromNow()}</time> )
 
 var Message = ({id,me,time,text,name,avatar,css}) => (
   <ListItem divider
-      alignItems="flex-start"key={id} className={me ? 'me' : ''}>
+    key={id} 
+    alignItems="flex-start"
+    className={me ? 'me' : ''}
+  >
     <TimeAgo ago={time} />
     <Avatar alt={name} src={avatar} className={css.avatar}  />
     <div dangerouslySetInnerHTML={({__html:marked(text)})}/>
-  </ListItem>);
+  </ListItem>)
 
 
 export function Thread({data}) {
-  if (!data) return ('');
+  if (!data) return ('')
 
   const css = themeStyles()
-  const messages = data.history;
+  const messages = data.history
 
   const items = messages.map((m) => (<Message 
     css={css}
@@ -49,21 +52,21 @@ export function Thread({data}) {
     name={m.user.name}
     avatar={m.user.avatar} 
     time={m.time} />)
-  );
+  )
 
   return <React.Fragment>
-      <List id="chat">{items}</List>
-      <form className={css.form} noValidate>
-        <Grid container spacing={2}>
-          <Grid item xs={11}>
-            <MaxHeightTextarea id="message" name="message" autoComplete="msg" placeholder="Type message ..." />
-          </Grid>  
-          <Grid item xs={1}>
-            <IconButton variant="contained" type="submit" color="primary" aria-label="send"><EmailOutlinedIcon /></IconButton>
-          </Grid>  
+    <List id="chat">{items}</List>
+    <form className={css.form} noValidate>
+      <Grid container spacing={2}>
+        <Grid item xs={11}>
+          <MaxHeightTextarea id="message" name="message" autoComplete="msg" placeholder="Type message ..." />
         </Grid>  
-      </form>
-  </React.Fragment>;
+        <Grid item xs={1}>
+          <IconButton variant="contained" type="submit" color="primary" aria-label="send"><EmailOutlinedIcon /></IconButton>
+        </Grid>  
+      </Grid>  
+    </form>
+  </React.Fragment>
 }
 
 
@@ -73,25 +76,26 @@ function Chat(props) {
   let msg = { __html }
 
   return (<ListItem 
-      divider
-      alignItems="flex-start"
-      key={c._id} 
-      onClick={() => props.openChat(c)}
-      className={c.unread ? 'unread' : ''}>
+    divider
+    alignItems="flex-start"
+    key={c._id} 
+    onClick={() => props.openChat(c)}
+    className={c.unread ? 'unread' : ''}
+  >
     <ListItemAvatar>
       <Avatar alt={c.title} src={c.avatar} className={css.avatar}  />
     </ListItemAvatar>
     <ListItemText 
-        primary={c.title}
-        secondary={
-          <React.Fragment>            
-            <TimeAgo ago={c.last.time} />             
-          </React.Fragment>
-        }
+      primary={c.title}
+      secondary={
+        <React.Fragment>            
+          <TimeAgo ago={c.last.time} />             
+        </React.Fragment>
+      }
     />    
     <div dangerouslySetInnerHTML={msg} />  
     <MarkunreadMailboxIcon color="action" fontSize="large" />
-  </ListItem>);
+  </ListItem>)
 }
 
 /*
@@ -122,5 +126,5 @@ export function Inbox(props) {
   return (
     <List className={css.inbox}>
       {items}
-    </List>);
+    </List>)
 }
