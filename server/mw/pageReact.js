@@ -7,13 +7,14 @@ module.exports = (app, mw) => {
   return function(page) {
 
     return (req, res, next) => {        
-      let data = req.locals.r
+      let data = Object.assign({session:req.user}, req.locals.r || {})
+      data.places = CAL.places
+      
       // let component = ReactDOMServer.renderToString(UI.Component.Post.PostList({data}))
-
       res.type('html')
       res.write(app.locals.layoutHTML)
       // res.write(component)
-      res.write(`<script> window.__INITIAL__DATA__ = ${JSON.stringify(req.locals.r)}</script>`)
+      res.write(`<script> window.__INITIAL__DATA__ = ${JSON.stringify(data)}</script>`)
       res.write(`</body></html>`)
       res.end()
 

@@ -51,7 +51,7 @@ export function Thread({data}) {
     time={m.time} />)
   );
 
-  return <>
+  return <React.Fragment>
       <List id="chat">{items}</List>
       <form className={css.form} noValidate>
         <Grid container spacing={2}>
@@ -63,7 +63,7 @@ export function Thread({data}) {
           </Grid>  
         </Grid>  
       </form>
-  </>;
+  </React.Fragment>;
 }
 
 

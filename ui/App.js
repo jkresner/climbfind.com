@@ -22,8 +22,29 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import './App.css'
 
-import {PostList} from './component/post'
+import Like from './component/like'
+import {PostList,PostForm} from './component/post'
 import {Inbox,Thread} from './component/chat'
+
+function Post(props) {
+  if (!props.data) return null
+  
+  let {css} = props
+  console.log('Post.user', props.user)
+
+  return (
+  <React.Fragment>
+    <AppBar className={css.appTopNav}>
+      <Toolbar>
+        (<IconButton onClick={props.onBack} aria-label="back">
+            <ArrowBackIcon /> 
+         </IconButton>)
+        <label>Partner Call</label>
+      </Toolbar>
+    </AppBar>
+    <PostForm data={props.data} css={css} user={props.user} />
+  </React.Fragment>);
+}
 
 
 function Feed(props) {
@@ -55,11 +76,11 @@ function Messages({data,chat,setChat,css}) {
     </Toolbar>
   </AppBar>);
 
-  return (<Container>
+  return (<React.Fragment>
     {topNav}
     <Inbox data={data} openChat={openChat} hidden={!!chat} />
     <Thread data={chat} />
-  </Container>);
+  </React.Fragment>);
 }
 
 
@@ -93,10 +114,12 @@ function App(props) {
   const css = themeStyles()
   let pages = [`PARTNERS`,`MESSAGES`,`POST`,`LIKE`,`SETTINGS`]
 
-  let [page,setPage] = useState(0)
+  let [me,setMe] = useState(null)
+  let [page,setPage] = useState(2)
   let [feed,setFeed] = useState(null)
   let [inbox,setInbox] = useState(null)  
   let [chat,setChat] = useState(null)
+  let [post,setPost] = useState(null)
   let [settings,setSettings] = useState(null)
 
   let handleTab = (e, val) => setPage(val)  
@@ -105,15 +128,17 @@ function App(props) {
     if (window.__INITIAL__DATA__) {
       let data = window.__INITIAL__DATA__
       delete window.__INITIAL__DATA__    
+      if (data.session) { setMe(data.session) }
       if (data.posts) { setPage(0); setFeed(data) }
       if (data.chats) { setPage(1); setInbox(data) }
       if (data.settings) { setPage(4); setSettings(data) }
+      if (data.places) { setPost({places:data.places}) }
     }
   }, 50) 
 
   function fullMode() { return page===2||!!chat }
 
-  return (<>
+  return (<React.Fragment>
     <HideOnScroll {...props} hidden={fullMode()}>
       <AppBar className={css.appBar}>
         <Toolbar>
@@ -129,10 +154,10 @@ function App(props) {
         <Messages data={inbox} chat={chat} setChat={setChat} css={css} />
       </TabPanel>
       <TabPanel id="post" show={page===2}>
-        Post
+        <Post data={post} user={me} css={css} onBack={ (e) => handleTab(e, 0) } />
       </TabPanel>
       <TabPanel id="like" show={page===3}>
-        Like
+        <Like />
       </TabPanel>      
       <TabPanel id="profile" show={page===4}>
         Profile
@@ -150,7 +175,7 @@ function App(props) {
         <BottomNavigationAction label="Account" icon={<PersonAddIcon fontSize='large' />} />
       </BottomNavigation>
     </Paper>
-  </>);
+  </React.Fragment>);
 }
 
 
