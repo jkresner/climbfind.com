@@ -1,6 +1,6 @@
 module.exports = [
   
-  { _id: "597e2008dda0727873a576f9", name: 'Sydney, NSW, Australia', shortName: 'Sydney', tokens: 'Syd', tz: "Australia/Sydney", pid: "ChIJP3Sa8ziYEmsRUKgyFmh9AQM" },
+  { _id: "597e2008dda0727873a576f9", name: 'Sydney, , Australia', shortName: 'Sydney', tokens: 'Syd', tz: "Australia/Sydney", pid: "ChIJP3Sa8ziYEmsRUKgyFmh9AQM" },
   { _id: "597e2008dda0727873a576f3", name: 'Melbourne, VIC, Australia', shortName: 'Melbourne', tokens: 'Melb', tz: "Australia/Melbourne", pid: "ChIJ90260rVG1moRkM2MIXVWBAQ" },
   { _id: "597e2008dda0727873a576fc", name: 'San Francisco, CA, USA', shortName: 'San Francisco', tokens: 'SF', tz: "America/Los_Angeles", pid: "ChIJIQBpAG2ahYAR_6128GcTUEo" },
   { _id: "597e2008dda0727873a576ed", name: 'San Jose, CA, USA', shortName: 'San Jose', tokens: 'SJ', tz: "America/Los_Angeles", pid: "ChIJ9T_5iuTKj4ARe3GfygqMnbk" },
