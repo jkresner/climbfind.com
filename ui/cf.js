@@ -1,5 +1,6 @@
 import React, { useState }  from 'react'
-import themeStyles from './theme'
+import ReactDOM from 'react-dom'
+
 import { AppBar, Box, BottomNavigation, BottomNavigationAction, Container, 
   IconButton, Slide, Paper, Toolbar, Typography } from '@material-ui/core'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
@@ -9,10 +10,12 @@ import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined'
 import AddCommentIcon from '@material-ui/icons/AddComment'
 import PersonAddIcon from '@material-ui/icons/PersonAdd'
 import FavoriteIcon from '@material-ui/icons/Favorite'
+
+import './cf.css'
+import themeStyles from './theme'
 import Like from './component/like'
 import {PostList,PostForm} from './component/post'
 import {Inbox,Thread} from './component/chat'
-import './App.css'
 
 
 function Post({css,data,onBack,user}) {
@@ -167,3 +170,6 @@ function App(props) {
 
 
 export default App
+
+
+ReactDOM.render(<App />, document.getElementById('root'))

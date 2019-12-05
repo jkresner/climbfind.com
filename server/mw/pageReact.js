@@ -2,7 +2,7 @@ module.exports = (app, mw) => {
   
   // React = require('react'),
   // ReactDOMServer = require('react-dom/server')
-  // UI = require('../../build/index.server')
+  // UI = require('../../build/cf.server')
 
   return function(page) {
 

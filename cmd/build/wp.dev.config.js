@@ -1,6 +1,7 @@
-const {resolve}         = require('path')
-const publicPath        = '/public/'
-const hmr               = `webpack-hot-middleware/client?reload=true&noInfo=true&path=${publicPath}hmr`
+let {resolve}  = require('path')
+let publicPath = '/public/'
+let hmr        = 'webpack-hot-middleware/client?' +
+   `reload=true&noInfo=true&path=${publicPath}hmr`
 
                         
 module.exports = {
@@ -9,14 +10,14 @@ module.exports = {
   context: resolve('ui'),  
   entry: {
     main: [      
-      './index.js',
+      './cf.js',
       hmr
     ]
   },
   output: {
     path: resolve('build'),
     publicPath,
-    filename: 'index.dev.js'
+    filename: 'cf.dev.js'
   },
   module: {
     rules: [
@@ -46,15 +47,6 @@ module.exports = {
     ]
   },
   resolve: { extensions: ['*', '.js', '.jsx'] },
-  // plugins: [
-  //   new HtmlWebPackPlugin({
-  //     template: resolve("ui/public/index.html"),
-  //     filename: "./index.html",
-  //     // excludeChunks: [ 'server' ]
-  //   }),
-  //   new webpack.HotModuleReplacementPlugin(),
-  //   new webpack.NoEmitOnErrorsPlugin()
-  // ],
   target: 'web',
   devtool: '#source-map'
   

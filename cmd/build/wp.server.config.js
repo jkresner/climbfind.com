@@ -1,23 +1,24 @@
-const {resolve} = require('path'),
+const {resolve} = require('path'), 
+  publicPath    = '/public/',
   nodeExternals = require('webpack-node-externals')
 
 
 module.exports = (env, argv) => ({
 
   entry: {
-    server: resolve('ui/index')
+    server: resolve('ui/cf')
   },
   output: {
     path: resolve('build'),
-    // publicPath: '/',
-    filename: 'index.server.js',
-    libraryTarget: 'commonjs',
+    publicPath,
+    filename: 'cf.server.js',
+    libraryTarget: 'commonjs'
   },
   mode: argv.mode,
   target: 'node',
   node: {
     __dirname: false,   
-    __filename: false,  
+    __filename: false
   },
   externals: [
     nodeExternals()

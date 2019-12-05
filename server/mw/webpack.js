@@ -8,16 +8,15 @@ let dev = () => null
 
 if (honey.cfg('env') == 'dev') { 
 
-  const webpack       = require('webpack'),
-    HtmlPlugin        = require('html-webpack-plugin'),
+  const HtmlPlugin    = require('html-webpack-plugin'),
+    webpack           = require('webpack'),
     wp_dev_mw         = require('webpack-dev-middleware'),
     wp_hot_mw         = require('webpack-hot-middleware'),
     wp_cfg            = require('../../cmd/build/wp.dev.config') 
   
-  let html_cfg = {
-    template: wp_cfg.context+'/index.html',
-    filename: wp_cfg.output.path+'/index.dev.html' 
-  }
+  let html_cfg        = {}
+  html_cfg.template   = wp_cfg.context+'/index.html',
+  html_cfg.filename   = wp_cfg.output.path+'/index.html' 
 
   let plugins         = [
     new HtmlPlugin(html_cfg),
@@ -32,21 +31,20 @@ if (honey.cfg('env') == 'dev') {
   }, cfg))
   
   let {publicPath} = cfg.output
-
   let ops = { 
     wpk: {
       logLevel:          'silent',
       logTime:           false,
       // logger: null,
       noInfo:            true,
-      publicPath: publicPath,
+      publicPath,
       // mimeTypes: null,
       // reporter,
       // stats: {
       //   colors: true,
       //   context: process.cwd() },
       // watchOptions: { aggregateTimeout: 200, },
-      // writeToDisk: true,
+      // writeToDisk:    true,
       stats: {
         assets:          false,
         builtAt:         false,
@@ -73,7 +71,6 @@ if (honey.cfg('env') == 'dev') {
     app
       .use(wp_dev_mw(compiler, ops.wpk))
       .use((req, res, next) => {
-        // $log('used.webpage.mw'.magenta)
         if (app.locals.layoutHTML) return next()
         
         compiler.outputFileSystem.readFile(html_cfg.filename, (e, html) => {
