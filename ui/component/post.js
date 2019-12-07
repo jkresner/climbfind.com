@@ -2,8 +2,25 @@ import React, { useState } from 'react'
 import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined'
 import themeStyles from '../theme'
 import { MaxHeightTextarea } from './input'
-import { Avatar, Grid, List, ListItem, InputLabel, FormControl, Container, 
+import { Avatar, Checkbox, Grid, IconButton, List, ListItem, InputLabel, 
+  FormControl, FormControlLabel, FormGroup, Container, 
   CssBaseline, MenuItem, Select } from '@material-ui/core'
+
+
+const clone = (orig, alter) => Object.assign({}, orig, alter||{}) 
+
+
+//value=tr
+//iconImg=toprope.png
+function CheckboxClimbing(props) {
+  return <FormControlLabel 
+    label={props.label}
+    className={'climb-'+props.value}
+    labelPlacement="bottom"
+    control={<Checkbox value={props.value} checked={props.checked} onChange={props.onChange}
+      icon={<IconButton><img src={'/climb-'+props.iconImg} /></IconButton>} />}
+  />
+}
 
 
 function SelectCity(props) {
@@ -16,6 +33,7 @@ function SelectCity(props) {
   return <FormControl variant="outlined" className={css.formControl}>
     <InputLabel id="city-select-label"></InputLabel>
     <Select id="city" name="city"
+      fullWidth={true}
       displayEmpty
       value={props.value}
       labelId="city-select-label"                    
@@ -38,7 +56,8 @@ function SelectPlace(props) {
   return <FormControl variant="outlined" className={css.formControl}>
     <InputLabel id="place-select-label"></InputLabel>
     <Select id="place" name="place"
-      autoWidth
+      autoWidth={true}
+      fullWidth={true}
       displayEmpty
       value={props.value}
       labelId="place-select-label"                    
@@ -55,21 +74,67 @@ export function PostForm(props) {
   if (!props.data) return null
 
   let {css,user} = props
-  let [city,setCity] = useState('')
-  let [place,setPlace] = useState('')
-  // let [climbing,setClimbing] = useState(null)
+  let {places} = props.data
+
+  // let [post,setPost] = useState(props.data.post||{})
+  let [vd,setVD] = useState({
+    hide: {place:0,climbing:1,day:1,msg:1},
+    fv: {
+      cityId: '597e2008dda0727873a576fc',
+      placeId: '',
+      logo: '',
+      climbing: {boulder:false,lead:false,tr:false}
+    }
+  })
+  // let [hide,setHide] = useState()
+  // let [fv,setFv] = useState()
+
+  console.log('PostForm.render.setVD', vd.fv, vd.hide)  
+  
+  // let [city,setCity] = useState()
+  // let [place,setPlace] = useState('')
+  // let [climbing,setClimbing] = useState({})
   // let [day,setDay] = useState(null)
   // let [message,setMessage] = useState(null)
 
   let handleCity = e => {
-    setCity(e.target.value)
-    if (place != '') setPlace('')   
+    let ups = { cityId:e.target.value, placeId:'', logo:'' }
+    let fv = clone(vd.fv, ups)
+    setVD(clone(vd, {fv}))
   }
 
   let handlePlace = e => {
-    setPlace(e.target.value)
+    let placeId = e.target.value
+    let {logo} = places.indoor[placeId]
+    let fv = clone(vd.fv, {placeId,logo})
+    let hide = clone(vd.hide, {place:1,climbing:0})
+    setVD(clone(vd,{fv,hide}))
+    // let p = placeData.indoor[e.target.value]
+    // setPost(iMute(post,{place:p,logo:p.logo}))
   }
 
+  let handleClimbing = e => {
+    let type = e.target.value
+    let climbing = clone(vd.fv.climbing, {[type]:e.target.checked})    
+    let hasClimbing = climbing.lead || climbing.tr || climbing.boulder
+    let fv = clone(vd.fv, {climbing})
+    let hide = clone(vd.hide, {day:!hasClimbing})
+    setVD(clone(vd,{fv,hide}))
+  }
+
+  /*  const handleChange = name => event => {
+    // TODO review syntax
+    setState({ ...state, [name]: event.target.checked });
+  }; */ 
+
+  function cheat() {
+    if (!vd.fv.placeId) {
+      console.log('cheat.handlePlace')
+      // setFv(iMute(fv, {cityId:'597e2008dda0727873a576fc'}))
+      handlePlace({target:{value:'597e2073dba1187878dcbb20'}})
+    }
+  }  
+  setTimeout(cheat, 40)  
   // fetch(`/api/chats/read/${val._id}`)
   //     .then(res => res.json())
   //     .then(r => {
@@ -78,29 +143,41 @@ export function PostForm(props) {
   //     })
   //     .catch(console.log) 
 
-  return <Container component="main" maxWidth="xs" id="sup">
+  return <Container component="main" maxWidth="sm" id="sup" className={css.paper}>
     <CssBaseline />
-    <div className={css.paper}>
-      <form className={css.form} noValidate>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <SelectCity css={css} value={city} handleCity={handleCity} places={props.data.places} />
-          </Grid>
-          <Grid item xs={12}>
-            <SelectPlace css={css} value={place} city={city} handlePlace={handlePlace} places={props.data.places} />
-          </Grid>
-          <Grid item xs={12}>
-          </Grid>        
-          <Grid item xs={12}>
-            <InputLabel id="post-message-label">Message</InputLabel>     
-            <Avatar alt={user.name} src={user.avatar} className="usr"  />
-            <MaxHeightTextarea id="message" name="message"
-              css={css}
-              placeholder="What times, difficulty or other partner preferences can you share?" />
-          </Grid>
+    <form className={css.form} noValidate>
+      <Grid container spacing={2}>
+        <Grid item xs={12} hidden={vd.hide.place}>
+          <SelectCity css={css} value={vd.fv.cityId} handleCity={handleCity} places={places} />
         </Grid>
-      </form>
-    </div>
+        <Grid item xs={12} hidden={vd.hide.place}>
+          <SelectPlace css={css} value={vd.fv.placeId} city={vd.fv.cityId} handlePlace={handlePlace} places={places} />
+        </Grid>
+        <Grid item xs={12} hidden={vd.hide.climbing}>
+          <div className="logo"><img src={vd.fv.logo} /></div>
+        </Grid>
+        <Grid item xs={12} hidden={vd.hide.climbing}>
+          <FormGroup className="climbing" data-toggle="buttons">                        
+            <CheckboxClimbing label="Top rope" onChange={handleClimbing}
+              value="tr" iconImg="toprope.png" checked={vd.fv.climbing.tr} />
+            <CheckboxClimbing label="Lead climb" onChange={handleClimbing}
+              value="lead" iconImg="lead.png" checked={vd.fv.climbing.lead} />
+            <CheckboxClimbing label="Boulder" onChange={handleClimbing}
+              value="boulder" iconImg="boulder.png" checked={vd.fv.climbing.boulder} />
+          </FormGroup>
+        </Grid>        
+        <Grid item xs={12} hidden={vd.hide.day}>
+          <InputLabel id="day-select-label">Day</InputLabel>
+        </Grid>
+        <Grid item xs={12} hidden={vd.hide.msg}>
+          <InputLabel id="post-message-label">Message</InputLabel>     
+          <Avatar alt={user.name} src={user.avatar} className="usr"  />
+          <MaxHeightTextarea id="message" name="message"
+            css={css}
+            placeholder="What times, difficulty or other partner preferences can you share?" />
+        </Grid>
+      </Grid>
+    </form>
   </Container>
 }
 

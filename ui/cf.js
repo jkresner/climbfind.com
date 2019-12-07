@@ -23,10 +23,10 @@ function Post({css,data,onBack,user}) {
 
   return (<React.Fragment>
     <AppBar className={css.appTopNav}>
-      <Toolbar>(
-        <IconButton onClick={onBack} aria-label="back">
-          <ArrowBackIcon /> 
-        </IconButton>)
+      <Toolbar>
+        <IconButton onClick={onBack} aria-label="back" size="small">
+          Cancel
+        </IconButton>
         <label>Partner Call</label>
       </Toolbar>
     </AppBar>
@@ -103,25 +103,26 @@ function App(props) {
   const css = themeStyles()
   let pages = ['PARTNERS','MESSAGES','POST','LIKE','SETTINGS']
 
-  let [me,setMe] = useState(null)
-  let [page,setPage] = useState(2)
-  let [feed,setFeed] = useState(null)
-  let [inbox,setInbox] = useState(null)  
-  let [chat,setChat] = useState(null)
-  let [post,setPost] = useState(null)
-  let [settings,setSettings] = useState(null)
+  let [me,setMe] = useState(null),
+    [page,setPage] = useState(2),
+    [feed,setFeed] = useState(null),
+    [inbox,setInbox] = useState(null),
+    [chat,setChat] = useState(null),
+    [post,setPost] = useState(null),
+    [settings,setSettings] = useState(null)
 
   let handleTab = (e, val) => setPage(val)  
 
   setTimeout(function() {
     if (window.__INITIAL__DATA__) {
-      let data = window.__INITIAL__DATA__
+      let {places,session,posts,chats,settings} = window.__INITIAL__DATA__
       delete window.__INITIAL__DATA__    
-      if (data.session) { setMe(data.session) }
-      if (data.posts) { setPage(0); setFeed(data) }
-      if (data.chats) { setPage(1); setInbox(data) }
-      if (data.settings) { setPage(4); setSettings(data) }
-      if (data.places) { setPost({places:data.places}) }
+      // console.log('data.places', data.places)
+      if (session) { setMe(session) }
+      if (posts) { setPage(0); setFeed({posts,places}) }
+      if (chats) { setPage(1); setInbox({chats}) }
+      if (places) { setPost({places}) }
+      if (settings) { setPage(4); setSettings({settings,places}) }
     }
   }, 50) 
 
@@ -136,19 +137,19 @@ function App(props) {
       </AppBar>
     </HideOnScroll>
     <Container className={css.tabPanel}>
-      <TabPanel id="feed" show={page===0}>
-        <Feed data={feed} />
+      <TabPanel show={page===0} id="feed">
+        <Feed css={css} data={feed} />
       </TabPanel>
-      <TabPanel id="message" show={page===1}>
-        <Messages data={inbox} chat={chat} setChat={setChat} css={css} />
+      <TabPanel show={page===1} id="message">
+        <Messages css={css} data={inbox} chat={chat} setChat={setChat} />
       </TabPanel>
-      <TabPanel id="post" show={page===2}>
-        <Post data={post} user={me} css={css} onBack={ (e) => handleTab(e, 0) } />
+      <TabPanel show={page===2} id="post">
+        <Post css={css} data={post} user={me} onBack={ e => handleTab(e, 0) } />
       </TabPanel>
-      <TabPanel id="like" show={page===3}>
-        <Like />
+      <TabPanel show={page===3} id="like">
+        <Like css={css} />
       </TabPanel>      
-      <TabPanel id="profile" show={page===4}>
+      <TabPanel show={page===4} id="profile">
         Profile
       </TabPanel>
     </Container>
