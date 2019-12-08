@@ -53,6 +53,8 @@ module.exports = ->
     IT "/page-not-found.htm", -> OK()
     IT "/post/e0adf3b8-88b3-4f74-8f28-631566924dd4", -> OK()
     IT "/Posts/DeleteComment/", -> OK()
+    IT "/PartnerCalls/Reply/003c9737-fe09-4cba-a957-2dd5d8522aaa", -> OK()
+    IT "/Moderate/EditIndoorPlace/216", -> OK()
 
 
   DESCRIBE "302", ->
