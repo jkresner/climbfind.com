@@ -18,6 +18,7 @@ module.exports = {
         "Atomics": "readonly",
         "CAL": "readonly",
         "honey": "readonly",
+        "moment": "readonly",        
         "SharedArrayBuffer": "readonly"
     },
     "parserOptions": {
@@ -28,7 +29,8 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "react-hooks"
     ],
     "rules": {
         "indent": [
@@ -49,6 +51,12 @@ module.exports = {
         ],
         "react/prop-types": [
             "off"
+        ],
+        "react-hooks/rules-of-hooks": [
+            "error"
+        ],
+        "react-hooks/exhaustive-deps": [ 
+            "warn"
         ]
     }
 };
