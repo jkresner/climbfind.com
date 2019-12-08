@@ -1,31 +1,63 @@
+html {
+  font-size:90%; /* 62.5% of 16px = 10px */
+}
+
+#tabpanel-post form textarea {       border:none;
+                            resize:none;
+                            outline: none !important;
+                            font-size:16px;
+                            width:96%;
+                            margin:0 2%;
+                            min-height:90px;
+                            padding:5px 0 0px 56px;
+                            color:black }
+
+#tabpanel-post form textarea::placeholder {
+  color:#c8d6d3;
+}
+
+form .climbing,
+form .days {                   text-align:center;
+                               display:block }
 form .climbing label:hover,
-form  ul#days li:hover {        cursor:pointer;
-                                border-color:#fc9754;
-                                opacity:0.8;
-                                color:#232323; }   
-form .climbing label  {       width:28%;
-                               max-width:80px;
+form .days label:hover {       cursor:pointer;
+                               border-color:#fc9754;
+                               opacity:0.8;
+                               color:#232323; }
+form .climbing label,
+form .days label  {            width:13%;
+                               height:15%;
+                               padding:1%;
+                               margin:1px;
                                vertical-align:top;
+                               color:#7e7f7f;
+                               border:solid 2px #fed1b4;
+                               border-radius:4px;
+                               opacity:0.55; 
                                text-align:center;
+}
+form .days label  {            }
+form .days label b  {          display:block; }
+form .climbing label  {        width:28%;
+                               display:inline-block;
+                               max-width:80px;
                                text-transform:uppercase;
                                letter-spacing:-0.2px;
-                               font-size:0.65em;
+                               font-size:0.3em;
                                font-weight:bold;
-                               color:#7e7f7f;
                                box-shadow:none;
                                background:white;
                                padding:3px 2px;
                                margin:1px 2%;
-                               border:solid 2px #fed1b4;
-                               border-radius:4px;
-                               opacity:0.55; }
-form .climbing label img { display:block;
-                             height:36px;
-                             width:36px;
-                             margin:4px auto 6px auto }
-form .climbing input { position: absolute;
-                              clip: rect(0,0,0,0);
-                              pointer-events: none; }
+                             }
+form .climbing label img {     display:block;
+                               height:36px;
+                               width:36px;
+                               margin:4px auto 1px auto }
+form label.active {            color:#232323;
+                               opacity:1;
+                               border-color:#fc9754;
+                               background:#f69c55; }
 
 
 form .logo {       text-align:center; }

@@ -1,72 +1,29 @@
 import React, { useState } from 'react'
 import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined'
 import themeStyles from '../theme'
-import { MaxHeightTextarea } from './input'
-import { Avatar, Checkbox, Grid, IconButton, List, ListItem, InputLabel, 
-  FormControl, FormControlLabel, FormGroup, Container, 
-  CssBaseline, MenuItem, Select } from '@material-ui/core'
+import { SelectCity, SelectPlace, SelectDay, MaxHeightTextarea } from './input'
+import { Avatar, Button, Checkbox, Grid, IconButton, List, ListItem, InputLabel, 
+  FormControlLabel, FormGroup, Container, CssBaseline } from '@material-ui/core'
 
 
 const clone = (orig, alter) => Object.assign({}, orig, alter||{}) 
 
 
-//value=tr
-//iconImg=toprope.png
 function CheckboxClimbing(props) {
+  let icon = <IconButton><img src={'/climb-'+props.iconImg} /></IconButton> 
+  let className = `climb-${props.value}` + (props.checked?' active':'')
+
   return <FormControlLabel 
     label={props.label}
-    className={'climb-'+props.value}
+    className={className}
     labelPlacement="bottom"
-    control={<Checkbox value={props.value} checked={props.checked} onChange={props.onChange}
-      icon={<IconButton><img src={'/climb-'+props.iconImg} /></IconButton>} />}
+    control={<Checkbox
+      value={props.value} 
+      checked={props.checked} 
+      onChange={props.onChange}
+      checkedIcon={icon}
+      icon={icon} />}
   />
-}
-
-
-function SelectCity(props) {
-  let css = props.css
-  let places = props.places
-  let cities = Object.keys(places.area)
-    .filter(id => props.places.area[id].linked.length > 0)
-    .map(id => <MenuItem key={id} value={id}>{props.places.area[id].name}</MenuItem>)
-
-  return <FormControl variant="outlined" className={css.formControl}>
-    <InputLabel id="city-select-label"></InputLabel>
-    <Select id="city" name="city"
-      fullWidth={true}
-      displayEmpty
-      value={props.value}
-      labelId="city-select-label"                    
-      onChange={props.handleCity}
-    >
-      <MenuItem key='select_city' value=""><em>-- select city --</em></MenuItem>
-      {cities}
-    </Select>            
-  </FormControl>
-}
-
-
-function SelectPlace(props) {
-  if (!props.city) return null
-  let css = props.css
-  let city = props.city
-  let places = props.places.area[city].linked
-    .map(p =><MenuItem key={p._id} value={p._id}>{p.name}</MenuItem>)     
-
-  return <FormControl variant="outlined" className={css.formControl}>
-    <InputLabel id="place-select-label"></InputLabel>
-    <Select id="place" name="place"
-      autoWidth={true}
-      fullWidth={true}
-      displayEmpty
-      value={props.value}
-      labelId="place-select-label"                    
-      onChange={props.handlePlace}
-    >
-      <MenuItem key='select_place' value="">-- select climbing gym --</MenuItem>
-      {places}
-    </Select>
-  </FormControl>
 }
 
 
@@ -74,46 +31,44 @@ export function PostForm(props) {
   if (!props.data) return null
 
   let {css,user} = props
-  let {places} = props.data
+  let {places,cities} = props.data
 
-  // let [post,setPost] = useState(props.data.post||{})
+  let __sanfan = '597e2008dda0727873a576fc',
+    __miscliff = '597e2073dba1187878dcbb20'
+  
   let [vd,setVD] = useState({
     hide: {place:0,climbing:1,day:1,msg:1},
+    fd: { places: places.area[__sanfan].linked },
     fv: {
-      cityId: '597e2008dda0727873a576fc',
+      type: 'indoor',
+      cityId: __sanfan,
+      day: '',
       placeId: '',
       logo: '',
-      climbing: {boulder:false,lead:false,tr:false}
+      message: 'testing partner call',
+      climbing: {boulder:true,lead:false,tr:false}
     }
   })
-  // let [hide,setHide] = useState()
-  // let [fv,setFv] = useState()
+  // let [post,setPost] = useState(props.data.post||{})
 
-  console.log('PostForm.render.setVD', vd.fv, vd.hide)  
-  
-  // let [city,setCity] = useState()
-  // let [place,setPlace] = useState('')
-  // let [climbing,setClimbing] = useState({})
-  // let [day,setDay] = useState(null)
-  // let [message,setMessage] = useState(null)
+  console.log('PostForm.render.setVD', vd.fv, user)  
 
-  let handleCity = e => {
+  let onChangeCity = e => {
     let ups = { cityId:e.target.value, placeId:'', logo:'' }
     let fv = clone(vd.fv, ups)
-    setVD(clone(vd, {fv}))
+    let fd = clone(vd.fd, {places: places.area[ups.cityId].linked })
+    setVD(clone(vd, {fv,fd}))
   }
 
-  let handlePlace = e => {
+  let onChangePlace = e => {
     let placeId = e.target.value
     let {logo} = places.indoor[placeId]
     let fv = clone(vd.fv, {placeId,logo})
-    let hide = clone(vd.hide, {place:1,climbing:0})
+    let hide = clone(vd.hide, {place:1,climbing:0,day:0})
     setVD(clone(vd,{fv,hide}))
-    // let p = placeData.indoor[e.target.value]
-    // setPost(iMute(post,{place:p,logo:p.logo}))
   }
 
-  let handleClimbing = e => {
+  let onChangeClimbing = e => {
     let type = e.target.value
     let climbing = clone(vd.fv.climbing, {[type]:e.target.checked})    
     let hasClimbing = climbing.lead || climbing.tr || climbing.boulder
@@ -122,59 +77,79 @@ export function PostForm(props) {
     setVD(clone(vd,{fv,hide}))
   }
 
-  /*  const handleChange = name => event => {
-    // TODO review syntax
-    setState({ ...state, [name]: event.target.checked });
-  }; */ 
+  let onChangeDay = e => {
+    console.log('onChangeDay.target', e.target.value)
+    let fv = clone(vd.fv, {day:e.target.value})
+    let hide = clone(vd.hide, {day:1,climbing:1,msg:0})
+    setVD(clone(vd,{fv,hide}))
+  }
+
+  let onSubmit = () => {    
+    let data = clone(vd.fv, {climbing:[]})
+    Object.keys(vd.fv.climbing)
+      .forEach(c => vd.fv.climbing[c] ? data.climbing.push(c) : 0)
+    
+    console.log('data', data, vd.fv.climbing)
+    fetch(`/api/posts/${vd.fv.placeId}`, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(r => {
+        // console.log('ok', r)
+        window.location = '/app/account'
+        //       let dat = Object.assign({title},r)
+        //       setChat(dat)
+      })
+      .catch(console.log) 
+  }
 
   function cheat() {
     if (!vd.fv.placeId) {
       console.log('cheat.handlePlace')
       // setFv(iMute(fv, {cityId:'597e2008dda0727873a576fc'}))
-      handlePlace({target:{value:'597e2073dba1187878dcbb20'}})
+      onChangePlace({target:{value:__miscliff}})
+      // onChangeClimbing({target:{value:'tr'}})      
     }
   }  
-  setTimeout(cheat, 40)  
-  // fetch(`/api/chats/read/${val._id}`)
-  //     .then(res => res.json())
-  //     .then(r => {
-  //       let dat = Object.assign({title},r)
-  //       setChat(dat)
-  //     })
-  //     .catch(console.log) 
+  cheat()
+  // setTimeout(cheat, 40)  
 
   return <Container component="main" maxWidth="sm" id="sup" className={css.paper}>
     <CssBaseline />
     <form className={css.form} noValidate>
       <Grid container spacing={2}>
-        <Grid item xs={12} hidden={vd.hide.place}>
-          <SelectCity css={css} value={vd.fv.cityId} handleCity={handleCity} places={places} />
+        <Grid item xs={12} hidden={vd.hide.msg}>
+          <InputLabel id="post-message-label"></InputLabel>     
+          <Avatar alt={user.name} src={user.avatar} className="usr"  />
+          <MaxHeightTextarea id="message" name="message"
+            value={vd.fv.message}
+            css={css}
+            placeholder="What times, difficulty or other partner preferences can you share?" />
+          <Button onClick={onSubmit}>Submit</Button>
         </Grid>
         <Grid item xs={12} hidden={vd.hide.place}>
-          <SelectPlace css={css} value={vd.fv.placeId} city={vd.fv.cityId} handlePlace={handlePlace} places={places} />
+          <SelectCity css={css} value={vd.fv.cityId} onChange={onChangeCity} cities={cities} />
+        </Grid>
+        <Grid item xs={12} hidden={vd.hide.place}>
+          <SelectPlace css={css} value={vd.fv.placeId} onChange={onChangePlace} places={vd.fd.places} />
         </Grid>
         <Grid item xs={12} hidden={vd.hide.climbing}>
           <div className="logo"><img src={vd.fv.logo} /></div>
         </Grid>
         <Grid item xs={12} hidden={vd.hide.climbing}>
-          <FormGroup className="climbing" data-toggle="buttons">                        
-            <CheckboxClimbing label="Top rope" onChange={handleClimbing}
+          <FormGroup className="climbing" data-toggle="buttons" row>
+            <CheckboxClimbing label="Top rope" onChange={onChangeClimbing}
               value="tr" iconImg="toprope.png" checked={vd.fv.climbing.tr} />
-            <CheckboxClimbing label="Lead climb" onChange={handleClimbing}
+            <CheckboxClimbing label="Lead climb" onChange={onChangeClimbing}
               value="lead" iconImg="lead.png" checked={vd.fv.climbing.lead} />
-            <CheckboxClimbing label="Boulder" onChange={handleClimbing}
+            <CheckboxClimbing label="Boulder" onChange={onChangeClimbing}
               value="boulder" iconImg="boulder.png" checked={vd.fv.climbing.boulder} />
           </FormGroup>
         </Grid>        
         <Grid item xs={12} hidden={vd.hide.day}>
-          <InputLabel id="day-select-label">Day</InputLabel>
-        </Grid>
-        <Grid item xs={12} hidden={vd.hide.msg}>
-          <InputLabel id="post-message-label">Message</InputLabel>     
-          <Avatar alt={user.name} src={user.avatar} className="usr"  />
-          <MaxHeightTextarea id="message" name="message"
-            css={css}
-            placeholder="What times, difficulty or other partner preferences can you share?" />
+          <SelectDay value={vd.fv.day} onChange={onChangeDay} />
         </Grid>
       </Grid>
     </form>

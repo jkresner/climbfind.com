@@ -15,10 +15,8 @@
     "test": "cmd/test"
   },
   "dependencies": {
-    "@date-io/core": "1.3.11",
     "@material-ui/core": "4.6.1",
     "@material-ui/icons": "4.5.1",
-    "@material-ui/pickers": "3.2.8",
     "honeycombjs": "0.9.7",
     "marked": "^0.7.0",
     "moment": "^2.24.0",

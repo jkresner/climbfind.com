@@ -1,6 +1,5 @@
 import React, { useState }  from 'react'
 import ReactDOM from 'react-dom'
-
 import { AppBar, Box, BottomNavigation, BottomNavigationAction, Container, 
   IconButton, Slide, Paper, Toolbar, Typography } from '@material-ui/core'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
@@ -20,6 +19,10 @@ import {Inbox,Thread} from './component/chat'
 
 function Post({css,data,onBack,user}) {
   if (!data) return null
+
+  data.cities = Object.keys(data.places.area)
+    .filter(id => data.places.area[id].linked.length > 0)
+    .map(id => data.places.area[id])
 
   return (<React.Fragment>
     <AppBar className={css.appTopNav}>
@@ -75,7 +78,7 @@ function Messages({data,chat,setChat,css}) {
 
 
 
-function TabPanel({ children, id, show, ...other }) { 
+function TabPanel({ children, id, show }) { 
   return !show ? null : (<Typography
     component="div"
     role="tabpanel"

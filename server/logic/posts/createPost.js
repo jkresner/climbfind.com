@@ -3,7 +3,7 @@ module.exports = (DAL, Data, DRY) => ({
   validate(user, p, place) {
     if (!p.type) return 'Type required'
     if (!p.message) return 'Message required'
-    if (!p.climbing || !(p.climbing.length > 0)) return 'Climbing types [bouldering, top rope, lead] required'
+    if (!p.climbing || !(p.climbing.length > 0)) return 'Climbing types [boulder, top rope, lead] required'
     for (var t of p.climbing) {
       if (honey.model.Enum.CLIMBING.indexOf(t) == -1)
         return `Climbing type ${t} invalid`
