@@ -17,27 +17,6 @@ import {PostList,PostForm} from './component/post'
 import {Inbox,Thread} from './component/chat'
 
 
-function Post({css,data,onBack,user}) {
-  if (!data) return null
-
-  data.cities = Object.keys(data.places.area)
-    .filter(id => data.places.area[id].linked.length > 0)
-    .map(id => data.places.area[id])
-
-  return (<React.Fragment>
-    <AppBar className={css.appTopNav}>
-      <Toolbar>
-        <IconButton onClick={onBack} aria-label="back" size="small">
-          Cancel
-        </IconButton>
-        <label>Partner Call</label>
-      </Toolbar>
-    </AppBar>
-    <PostForm data={data} css={css} user={user} />
-  </React.Fragment>)
-}
-
-
 function Feed(props) {
   if (!props.data) return null
   return (<PostList data={props.data} />)
@@ -73,6 +52,27 @@ function Messages({data,chat,setChat,css}) {
     {topNav}
     <Inbox data={data} openChat={openChat} hidden={!!chat} />
     <Thread data={chat} />
+  </React.Fragment>)
+}
+
+
+function Post({css,data,onBack,user}) {
+  if (!data) return null
+
+  data.cities = Object.keys(data.places.area)
+    .filter(id => data.places.area[id].linked.length > 0)
+    .map(id => data.places.area[id])
+
+  return (<React.Fragment>
+    <AppBar className={css.appTopNav}>
+      <Toolbar>
+        <IconButton onClick={onBack} aria-label="back" size="small">
+          Cancel
+        </IconButton>
+        <label>Partner Call</label>
+      </Toolbar>
+    </AppBar>
+    <PostForm data={data} css={css} user={user} />
   </React.Fragment>)
 }
 
@@ -156,19 +156,18 @@ function App(props) {
         Profile
       </TabPanel>
     </Container>
-    <Paper square className={css.footer} hidden={fullMode()}>
-      <BottomNavigation
-        className={css.bottomNav}
-        value={page}
-        onChange={handleTab}
-      >
-        <BottomNavigationAction label="Partners" icon={<ListAltIcon fontSize='large' />} />
-        <BottomNavigationAction label="Messages" icon={<EmailOutlinedIcon fontSize='large' />} />
-        <BottomNavigationAction label="Post" icon={<AddCommentIcon fontSize='large' />} />
-        <BottomNavigationAction label="Like" icon={<FavoriteIcon fontSize='large' />} />
-        <BottomNavigationAction label="Account" icon={<PersonAddIcon fontSize='large' />} />
-      </BottomNavigation>
-    </Paper>
+    <BottomNavigation hidden={fullMode()}
+      component="footer"
+      className={css.bottomNav}
+      value={page}
+      onChange={handleTab}
+    >
+      <BottomNavigationAction label="Partners" icon={<ListAltIcon fontSize='large' />} />
+      <BottomNavigationAction label="Messages" icon={<EmailOutlinedIcon fontSize='large' />} />
+      <BottomNavigationAction label="Post" icon={<AddCommentIcon fontSize='large' />} />
+      <BottomNavigationAction label="Like" icon={<FavoriteIcon fontSize='large' />} />
+      <BottomNavigationAction label="Account" icon={<PersonAddIcon fontSize='large' />} />
+    </BottomNavigation>
   </React.Fragment>)
 }
 

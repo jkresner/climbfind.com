@@ -65,9 +65,6 @@ const themeStyles = makeStyles( theme => ({
     width: 60,
     height: 60,
   },
-  bottomAction: {
-
-  },
   bottomNav: {
     zIndex: 5,
     paddingBottom: theme.spacing(1),
@@ -77,10 +74,7 @@ const themeStyles = makeStyles( theme => ({
     borderTopWidth: 1,
     // '& button:hover span': { 
     //  color: theme.palette.secondary.main }
-  },
-  footer: {
     position: 'fixed',
-    backgroundColor: 'black',
     bottom: 0,
     left: 0,
     right: 0
