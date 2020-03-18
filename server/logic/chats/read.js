@@ -2,17 +2,17 @@ module.exports = ({Chat}, {Query,Opts,Project}, DRY) => ({
 
 
   validate(user, chat) {
-    var me = _.find(chat.users, u => ID.eq(u._id, user._id))
+    let me = _.find(chat.users, u => ID.eq(u._id, user._id))
     if (!me) return `You[${user._id}] are not a participant of chat[${chat._id}]`
   },
 
 
   exec(original, cb) {
-    var me = this.user
-    var {users} = original
-    var log = null
+    let me = this.user
+    let log = null
+    let {users} = original
 
-    for (var u of users) {
+    for (let u of users) {
       if (ID.eq(u._id, me._id)) {
         if (u.unread)
           log = DRY.logAct(original, 'read', me)
@@ -20,8 +20,9 @@ module.exports = ({Chat}, {Query,Opts,Project}, DRY) => ({
       }
     }
 
-    var ups = {users}
+    let ups = {users}
     if (log) assign(ups,{log})
+    
     Chat.updateSet(original._id, ups, (e,r) =>
       cb(e, { me, chat: assign(r, {users}) }))
   },

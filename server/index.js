@@ -1,12 +1,12 @@
-// process.env.ENV    = 'prod'
-var env            = process.env.ENV || 'dev'
-var configure      = require('honeycombjs').Configure
-var config         = configure(__dirname, env, true)
-config.http.port   = process.env.PORT || config.http.port
+let honey            = require('honeycombjs')
+let env              = process.env.ENV||'dev'
+let config           = honey.Configure(__dirname, env)
+let label            = `${'app'.dim}  WEB ${env.yellow} `
 
-var done = e => {
-  console.log(e
-    ? 'app  WEB fail: '.red + e.message
-    : `${'app'.dim}  WEB ${'ready'.green}\t\t      `.blue + `${config.http.host}`)
-}
-var app = require('./app.js')({config,done})
+
+let done = e => console.log(e
+  ? `${label} ERR:\t    `.red + e.message
+  : `${label} \t\t      `.green + config.http.host)
+
+
+global.app = require('./app.js')({config,done})

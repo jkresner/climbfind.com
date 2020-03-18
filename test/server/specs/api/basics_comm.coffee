@@ -58,8 +58,12 @@ module.exports = ->
       expect(comm.retry).to.be.undefined
       expect(Object.keys(comm.sent).length).to.equal(2)
       sent = Object.values(comm.sent)
+
       expect(sent[0][0].to).inc(gk.name)
       expect(sent[1][0].to).inc(ag.name)
+      # expect(sent[1][0].to).inc(gk.name)
+      # expect(sent[0][0].to).inc(ag.name)
+
       expect(raw.length).to.equal(2)
       expect(raw[0]).inc(['Andrew,',"](http://localhost:4444/ses/reply/#{comm._sid})"])
       expect(raw[1]).inc(['Genie,',"](http://localhost:4444/ses/reply/#{comm._sid})"])

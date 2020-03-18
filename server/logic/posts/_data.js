@@ -19,20 +19,21 @@ const Opts = {
 
   item: { select: `_id time type climbing message userId placeId tz log`,
           join: { placeId: 'name shortName logo avatar',
-                  userId: '_id name photos' } },
+                  userId: '_id name avatar emails photos' } },
 
   param: { select: `_id time type climbing message userId placeId tz log`,
           join: { placeId: '_id name',
-                  userId: '_id name photos' } },
+                  userId: '_id name avatar emails photos' } },
 
   list: { sort: { _id: -1 },  // time: 1,
           select: `_id time tz.id type climbing message userId placeId`,
-          join: { placeId: 'name shortName logo avatar', userId: '_id name photos' },
+          join: { placeId: 'name shortName logo avatar', 
+                  userId: '_id name avatar emails photos' },
           limit: 27 }
 }
 
 
-const Projections = ({copy,select,util},{chain,view}) => ({
+const Projections = ({copy,select,util,md5},{chain,view}) => ({
 
   place: d => {
     if (d.placeId && !d.place) {
@@ -50,8 +51,13 @@ const Projections = ({copy,select,util},{chain,view}) => ({
 
   param: d => chain(d, 'user'),
 
-  user: p => p.user.avatar ? p :
-    assign(p, { user: chain(p.user, 'auth.avatar') }),
+  user: p => { 
+    if (!p.user.avatar && p.user.emails) {
+      let email = _.find(p.user.emails, o => o.primary)
+      p.user.avatar = `https://0.gravatar.com/avatar/${md5(email.value)}`
+    }
+    return p
+  },
 
   unix: r => assign(r, { time: moment(r.time).unix() }),
   item: r => chain(r, 'unix', 'user', view.item),

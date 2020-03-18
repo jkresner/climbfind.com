@@ -7,44 +7,47 @@ module.exports = ({Chat,Post}, {Query,Opts,Project}, DRY) => ({
     if (!chat && !post)
       return `Message thread required`
     if (chat) {
-      var me = _.find(chat.users, u=> _.idsEqual(u._id,user._id))
+      let me = _.find(chat.users, u => ID.eq(u._id,user._id))
       if (!me) return `You[${user._id}] are not a participant of chat[${chat._id}]`
     }
   },
 
 
   exec(chat, text, post, done) {
-    var me = this.user
-    var msg = { text, userId: me._id }
+    let me = this.user
+    let msg = { text, userId: me._id }
 
-    var cb = (e,r) => {
+    let cb = (e,r) => {
       done(e,{me,chat:r})
-      TRACK('chat.message', this, r)
+      if (!e) TRACK('chat.message', this, r)
     }
 
-    var save = r => {
-      r = r || chat
-      var log = DRY.logAct(r, 'message', me)
-      var users = (r||{}).users || [post.user, me]
+    let save = (e,r) => {
+      if (e) done(e)
+      chat = r || chat
+      
+      let log = DRY.logAct(chat, 'message', me)
+      let history = [msg].concat(((chat||{}).history || []))
+      let users = (chat||{}).users || [post.user, me]
       users.forEach(u => u.unread = !_.idsEqual(u._id,me._id))
-      var history = (r||{}).history || []
+
       if (post) {
-        var reply = _.find(history, m => _.idsEqual(m.postId||'', post._id))
+        let reply = _.find(history, m => _.idsEqual(m.postId||'', post._id))
         if (!reply) {
-          var text = `##### Partner Call for **${moment(post.time).tz(post.tz.id).format('DD MMM')} @ ${post.place.name}**\n\n${post.message}`
+          let text = `##### Partner Call for **${moment(post.time).tz(post.tz.id).format('DD MMM')} @ ${post.place.name}**\n\n${post.message}`
           history.unshift({ text, userId:post.user._id, postId:post._id })
           Post.updateSet(post._id, { log: DRY.logAct(post, 'reply', me) }, DRY.noop)
           TRACK('post.reply', this, post)
         }
       }
-      history.unshift(msg)
 
-      if (r) Chat.updateSet(r._id, { users, history, log }, cb)
+      if (chat) Chat.updateSet(chat._id, { users, history, log }, cb)
       else Chat.create({ users, history, log }, cb)
     }
 
-    chat ? save()
-         : Chat.getByQuery(Query.pair(post.user, me), (e,r)=>e?cb(e):save(r))
+    chat 
+      ? save()
+      : Chat.getByQuery(Query.pair(post.user, me), save)
   },
 
 

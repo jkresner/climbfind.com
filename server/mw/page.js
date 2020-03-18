@@ -15,6 +15,14 @@ var project = {
       if (_.idsEqual(m.user._id, req.user._id)) delete m.user.avatar
     }
   }
+  //, country: ()
+  //   req.locals.country = Object.keys(CAL.places.country)
+  //      .map(name => {
+  //        let areas = CAL.places.country[name]
+  //           .map(id => ({ name: CAL.places.area[id].name.replace(`, ${name}`,'') }))
+  //        return { name, areas, count: areas.length }
+  //      })
+  // }
 }
 
 
@@ -26,20 +34,11 @@ module.exports = (app, mw) =>
       if (view == "chat") project.chat(req, 'r')
       if (view == "account") project.posts(req, 'r.posts')
       if (view == "home") project.posts(req, 'r.posts')
-
-      // if (view == "home") {
-      //   req.locals.country = Object.keys(CAL.places.country)
-      //      .map(name => {
-      //        let areas = CAL.places.country[name]
-      //           .map(id => ({ name: CAL.places.area[id].name.replace(`, ${name}`,'') }))
-      //        return { name, areas, count: areas.length }
-      //      })
-      // }
+      // if (view == "home") project.country(req)
 
       if (view == "love" || view == "home") {
 
         let htmlHead = {
-          // ogType: ''
           ogTitle: 'Climbfind climbing partner community',
           ogDescription: 'Find climbing partners at your local climbing gym and weekend climbing & hiking trips outdoors',
           ogImage: 'https://www.climbfind.com/img/og2x.png',
